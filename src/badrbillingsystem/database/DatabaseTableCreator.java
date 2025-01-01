@@ -15,7 +15,7 @@ public class DatabaseTableCreator {
         String sql = "CREATE TABLE  IF NOT EXISTS tbCustomer (\n" +
                             "	id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                             "	name VARCHAR(100) UNIQUE, \n" +
-                            "	phone VARCHAR(100) UNIQUE\n" +
+                            "	phone VARCHAR(100)\n" +
                             ") ;";
         
         try {
