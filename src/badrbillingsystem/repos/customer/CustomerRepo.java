@@ -22,7 +22,8 @@ public class CustomerRepo implements ICustomerRepo{
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, customer.getName());
             ps.setString(2, customer.getPhone());
-            status = ps.execute();
+            int flag = ps.executeUpdate();
+            if (flag == 1) status = true;
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, e.toString());
@@ -40,7 +41,8 @@ public class CustomerRepo implements ICustomerRepo{
             ps.setString(1, newCustomer.getName());
             ps.setString(2, newCustomer.getPhone());
             ps.setLong(3, newCustomer.getId());
-            status = ps.execute();
+            int flag = ps.executeUpdate();
+            if (flag == 1) status = true;
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, e.toString());
@@ -56,7 +58,8 @@ public class CustomerRepo implements ICustomerRepo{
             Connection con = DBConnection.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setLong(1, id);
-            status = ps.execute();
+            int flag = ps.executeUpdate();
+            if (flag == 1) status = true;
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, e.toString());
