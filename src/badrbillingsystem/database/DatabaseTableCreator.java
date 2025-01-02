@@ -18,6 +18,7 @@ public class DatabaseTableCreator {
         createUsersTable();
         insertAdminUser();
         createCompanyInfoTable();
+        createSalesInvoiceHeaderTable();
     }
     
     private static void createCutomersTable(){
@@ -100,6 +101,28 @@ public class DatabaseTableCreator {
                             "	PHONE VARCHAR(50),\n" +
                             "	ADDRESS VARCHAR(100)\n" +
                             ");";
+        try {
+            Connection con = DBConnection.getConnection();
+            Statement st = con.createStatement();
+            st.execute(sql);
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.toString());
+        }
+    }
+
+    private static void createSalesInvoiceHeaderTable() {
+        String sql = "CREATE TABLE IF NOT EXISTS TB_SALES_INVOICE_HEADER (\n" +
+                                "ID INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+                                "CUSTOMER_ID INTEGER,\n" +
+                                "USER_ID INTEGER,\n" +
+                                "DISCOUNT DOUBLE,\n" +
+                                "TAX DOUBLE,\n" +
+                                "TOTAL DOUBLE,\n" +
+                                "INVOICE_DATE VARCHAR(50)\n" +
+                                "\n" +
+                                ");";
+        
         try {
             Connection con = DBConnection.getConnection();
             Statement st = con.createStatement();

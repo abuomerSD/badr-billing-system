@@ -4,10 +4,12 @@ import badrbillingsystem.database.DatabaseTableCreator;
 import badrbillingsystem.models.CompanyInfo;
 import badrbillingsystem.models.Customer;
 import badrbillingsystem.models.Product;
+import badrbillingsystem.models.SalesInvoiceHeader;
 import badrbillingsystem.models.User;
 import badrbillingsystem.repos.companyinfo.CompanyInfoRepo;
 import badrbillingsystem.repos.customer.CustomerRepo;
 import badrbillingsystem.repos.product.ProductRepo;
+import badrbillingsystem.repos.salesinvoiceheader.SalesInvoiceHeaderRepo;
 import badrbillingsystem.repos.user.UserRepo;
 import badrbillingsystem.ui.Home;
 import java.util.ArrayList;
@@ -19,40 +21,35 @@ public class Main {
         DatabaseTableCreator.createTables();
 //        Home home = new Home();
 //        home.show();
+        
+        SalesInvoiceHeaderRepo repo = new SalesInvoiceHeaderRepo();
+        
+//        SalesInvoiceHeader header = new SalesInvoiceHeader();
+//        header.setCustomerId(1);
+//        header.setUserId(2);
+//        header.setDate("2-1-2025");
+//        header.setDiscount(500);
+//        header.setTax(200);
+//        header.setTotal(10000);
+//        repo.save(header);
 
-        CompanyInfoRepo repo = new CompanyInfoRepo();
+//        SalesInvoiceHeader header = repo.findById(1);
+//        System.out.println(header);
+//        SalesInvoiceHeader header = new SalesInvoiceHeader();
+//        header.setCustomerId(10);
+//        header.setUserId(20);
+//        header.setDate("20-1-2025");
+//        header.setDiscount(2000);
+//        header.setTax(1000);
+//        header.setTotal(100000);
+//        header.setId(1);
+//        repo.update(header);
 
+        repo.delete(1);
         
-//        CompanyInfo c1 = new CompanyInfo();
-//        c1.setAddress("address1");
-//        c1.setLogo("logo1");
-//        c1.setName("name1");
-//        c1.setPhone("phone1");
-//        
-//        repo.save(c1);
-//        
-//        CompanyInfo c2 = new CompanyInfo();
-//        c2.setAddress("address2");
-//        c2.setLogo("logo2");
-//        c2.setName("name2");
-//        c2.setPhone("phone2");
-//        System.out.println(repo.save(c1));
-        
-//        CompanyInfo c1 = new CompanyInfo();
-//        c1.setId(1);
-//        c1.setAddress("address1 u");
-//        c1.setLogo("logo1 u");
-//        c1.setName("name1 u");
-//        c1.setPhone("phone1 u");
-//        
-//        repo.update(c1);
-        CompanyInfo c = repo.findByName("name du");
-        System.out.println(c);
-        
-        ArrayList<CompanyInfo> list = repo.findBySearchWords("1 u");
+        ArrayList<SalesInvoiceHeader> list = repo.findAll();
         System.out.println(list);
-        
-        
+
     
     }
     
