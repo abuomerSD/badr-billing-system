@@ -1,8 +1,12 @@
 
 package badrbillingsystem.database;
 
+import badrbillingsystem.models.User;
+import badrbillingsystem.repos.user.UserRepo;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 
@@ -69,6 +73,21 @@ public class DatabaseTableCreator {
     }
 
     private static void insertAdminUser() {
+        UserRepo repo = new UserRepo();
+        ArrayList<User> list = repo.findAll();
         
+        if(list.size() > 0 ) return;
+        
+        try {
+            Connection con = DBConnection.getConnection();
+            Statement st = con.createStatement();
+            User u = new User();
+            u.setUsername("admin");
+            u.setPassword("12345");
+            repo.save(u);
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.toString());
+        }
     }
 }
