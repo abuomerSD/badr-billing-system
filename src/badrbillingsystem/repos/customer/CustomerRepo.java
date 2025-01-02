@@ -89,8 +89,20 @@ public class CustomerRepo implements ICustomerRepo{
 
     @Override
     public Customer findByName(String name) {
+        String sql = "SELECT * FROM tbCustomer WHERE name = ?";
         Customer customer = new Customer();
-        System.out.println("not impl");
+        try {
+            Connection con = DBConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, name);
+            ResultSet rs = ps.executeQuery();
+            customer.setId(rs.getLong("id"));
+            customer.setPhone(rs.getString("phone"));
+            customer.setName(name);
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.toString());
+        }
         return customer;
     }
 

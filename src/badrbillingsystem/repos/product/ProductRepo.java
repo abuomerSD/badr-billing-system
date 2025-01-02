@@ -88,17 +88,68 @@ public class ProductRepo implements IProductRepo{
 
     @Override
     public Product findByName(String name) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sql = "SELECT * FROM tbProduct WHERE name = ?;";
+        Product p = new Product();
+        try {
+            Connection con = DBConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, name);
+            ResultSet rs = ps.executeQuery();
+            p.setName(name);
+            p.setId(rs.getLong("id"));
+            p.setImage(rs.getString("image"));
+            p.setPrice(rs.getDouble("price"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.toString());
+        }
+        return p;
     }
 
     @Override
     public ArrayList<Product> findAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sql = "SELECT * FROM tbProduct";
+        ArrayList<Product> list = new ArrayList<>();
+        try {
+            Connection con = DBConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+                Product p = new Product();
+                p.setId(rs.getLong("id"));
+                p.setImage(rs.getString("image"));
+                p.setName(rs.getString("name"));
+                p.setPrice(rs.getDouble("price"));
+                list.add(p);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.toString());
+        }
+        return list;
     }
 
     @Override
     public ArrayList<Product> findBySearchWords(String searchWords) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sql = "SELECT * FROM tbProduct WHERE Name LIKE '%" + searchWords +"%'";
+        ArrayList<Product> list = new ArrayList<>();
+        try {
+            Connection con = DBConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+                Product p = new Product();
+                p.setId(rs.getLong("id"));
+                p.setImage(rs.getString("image"));
+                p.setName(rs.getString("name"));
+                p.setPrice(rs.getDouble("price"));
+                list.add(p);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.toString());
+        }
+        return list;
     }
     
     
