@@ -17,6 +17,7 @@ public class DatabaseTableCreator {
         createProductsTable();
         createUsersTable();
         insertAdminUser();
+        createCompanyInfoTable();
     }
     
     private static void createCutomersTable(){
@@ -85,6 +86,24 @@ public class DatabaseTableCreator {
             u.setUsername("admin");
             u.setPassword("12345");
             repo.save(u);
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.toString());
+        }
+    }
+
+    private static void createCompanyInfoTable() {
+        String sql = "CREATE TABLE IF NOT EXISTS TB_COMPANY_INFO(\n" +
+                            "	ID INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+                            "	NAME VARCHAR(100),\n" +
+                            "	LOGO VARCHAR(100),\n" +
+                            "	PHONE VARCHAR(50),\n" +
+                            "	ADDRESS VARCHAR(100)\n" +
+                            ");";
+        try {
+            Connection con = DBConnection.getConnection();
+            Statement st = con.createStatement();
+            st.execute(sql);
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, e.toString());
