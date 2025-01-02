@@ -19,6 +19,7 @@ public class DatabaseTableCreator {
         insertAdminUser();
         createCompanyInfoTable();
         createSalesInvoiceHeaderTable();
+        createSalesInvoiceDetailsTable();
     }
     
     private static void createCutomersTable(){
@@ -121,6 +122,26 @@ public class DatabaseTableCreator {
                                 "TOTAL DOUBLE,\n" +
                                 "INVOICE_DATE VARCHAR(50)\n" +
                                 "\n" +
+                                ");";
+        
+        try {
+            Connection con = DBConnection.getConnection();
+            Statement st = con.createStatement();
+            st.execute(sql);
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.toString());
+        }
+    }
+
+    private static void createSalesInvoiceDetailsTable() {
+        String sql = "CREATE TABLE IF NOT EXISTS TB_SALES_INVOICE_DETAILS (\n" +
+                                "HEADER_ID INTEGER,\n" +
+                                "PRODUCT_ID INTEGER,\n" +
+                                "QUANTITY DOUBLE,\n" +
+                                "PRICE DOUBLE,\n" +
+                                "ITEM_TOTAL DOUBLE,\n" +
+                                "DETAILS VARCHAR(100)\n" +
                                 ");";
         
         try {
