@@ -11,13 +11,15 @@ public class DatabaseTableCreator {
     public static void createTables() {
         createCutomersTable();
         createProductsTable();
+        createUsersTable();
+        insertAdminUser();
     }
     
     private static void createCutomersTable(){
-        String sql = "CREATE TABLE  IF NOT EXISTS tbCustomer (\n" +
-                            "	id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
-                            "	name VARCHAR(100) UNIQUE, \n" +
-                            "	phone VARCHAR(100)\n" +
+        String sql = "CREATE TABLE  IF NOT EXISTS TB_CUSTOMER (\n" +
+                            "	ID INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+                            "	NAME VARCHAR(100) UNIQUE, \n" +
+                            "	PHONE VARCHAR(100)\n" +
                             ") ;";
         
         try {
@@ -31,11 +33,11 @@ public class DatabaseTableCreator {
     }
     
     private static void createProductsTable() {
-        String sql = "CREATE TABLE IF NOT EXISTS tbProduct (\n" +
-                            "	id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
-                            "	name VARCHAR(100) UNIQUE,\n" +
-                            "	price DOUBLE, \n" +
-                            "	image VARCHAR(100)\n" +
+        String sql = "CREATE TABLE IF NOT EXISTS TB_PRODUCT (\n" +
+                            "	ID INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+                            "	NAME VARCHAR(100) UNIQUE,\n" +
+                            "	PRICE DOUBLE, \n" +
+                            "	IMAGE VARCHAR(100)\n" +
                             ");";
         
         try {
@@ -46,6 +48,27 @@ public class DatabaseTableCreator {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, e.toString());
         }
+        
+    }
+
+    private static void createUsersTable() {
+        String sql = "CREATE TABLE IF NOT EXISTS TB_USER (\n" +
+                            "	ID INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+                            "	USERNAME VARCHAR(30) UNIQUE,\n" +
+                            "	PASSWORD VARCHAR(50)\n" +
+                            ");";
+        
+        try {
+            Connection con = DBConnection.getConnection();
+            Statement st = con.createStatement();
+            st.execute(sql);
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.toString());
+        }
+    }
+
+    private static void insertAdminUser() {
         
     }
 }

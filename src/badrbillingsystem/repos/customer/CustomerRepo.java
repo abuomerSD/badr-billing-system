@@ -15,7 +15,7 @@ public class CustomerRepo implements ICustomerRepo{
 
     @Override
     public boolean save(Customer customer) {
-        String sql = "INSERT INTO tbCustomer (name, phone) VALUES (?,?)";
+        String sql = "INSERT INTO TB_CUSTOMER (NAME, PHONE) VALUES (?,?)";
         boolean status = false;
         try {
             Connection con = DBConnection.getConnection();
@@ -33,7 +33,7 @@ public class CustomerRepo implements ICustomerRepo{
 
     @Override
     public boolean update(Customer newCustomer) {
-        String sql = "UPDATE tbCustomer SET name = ?, phone = ? WHERE id  = ?";
+        String sql = "UPDATE TB_CUSTOMER SET NAME = ?, PHONE = ? WHERE ID  = ?";
         boolean status = false;
         try {
             Connection con = DBConnection.getConnection();
@@ -52,7 +52,7 @@ public class CustomerRepo implements ICustomerRepo{
 
     @Override
     public boolean delete(long id) {
-        String sql = "DELETE FROM tbCustomer WHERE id = ?";
+        String sql = "DELETE FROM TB_CUSTOMER WHERE ID = ?";
         boolean status = false;
         try {
             Connection con = DBConnection.getConnection();
@@ -69,15 +69,15 @@ public class CustomerRepo implements ICustomerRepo{
 
     @Override
     public Customer findById(long id) {
-        String sql = "SELECT * FROM tbCustomer WHERE id = " + id + ";";
+        String sql = "SELECT * FROM TB_CUSTOMER WHERE ID = " + id + ";";
         Customer customer = new Customer();
         try {
             Connection con = DBConnection.getConnection();
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(sql);
             
-            customer.setName(rs.getString("name"));
-            customer.setPhone(rs.getString("phone"));
+            customer.setName(rs.getString("NAME"));
+            customer.setPhone(rs.getString("PHONE"));
             customer.setId(id);
             
         } catch (Exception e) {
@@ -89,15 +89,15 @@ public class CustomerRepo implements ICustomerRepo{
 
     @Override
     public Customer findByName(String name) {
-        String sql = "SELECT * FROM tbCustomer WHERE name = ?";
+        String sql = "SELECT * FROM TB_CUSTOMER WHERE NAME = ?";
         Customer customer = new Customer();
         try {
             Connection con = DBConnection.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, name);
             ResultSet rs = ps.executeQuery();
-            customer.setId(rs.getLong("id"));
-            customer.setPhone(rs.getString("phone"));
+            customer.setId(rs.getLong("ID"));
+            customer.setPhone(rs.getString("PHONE"));
             customer.setName(name);
         } catch (Exception e) {
             e.printStackTrace();
@@ -108,7 +108,7 @@ public class CustomerRepo implements ICustomerRepo{
 
     @Override
     public ArrayList<Customer> findAll() {
-        String sql = "SELECT * FROM tbCustomer";
+        String sql = "SELECT * FROM TB_CUSTOMER";
         ArrayList<Customer> list = new ArrayList<>();
         try {
             Connection con = DBConnection.getConnection();
@@ -116,9 +116,9 @@ public class CustomerRepo implements ICustomerRepo{
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {                
                 Customer c = new Customer();
-                c.setId(rs.getInt("id"));
-                c.setName(rs.getString("name"));
-                c.setPhone(rs.getString("phone"));
+                c.setId(rs.getInt("ID"));
+                c.setName(rs.getString("NAME"));
+                c.setPhone(rs.getString("PHONE"));
                 list.add(c);
             }
         } catch (Exception e) {
@@ -132,7 +132,7 @@ public class CustomerRepo implements ICustomerRepo{
     public ArrayList<Customer> findBySearchWords(String searchWords) {
         ArrayList<Customer> list = new ArrayList<>();
         
-        String sql = "SELECT * FROM tbCustomer WHERE Name LIKE '%" + searchWords +"%'";
+        String sql = "SELECT * FROM TB_CUSTOMER WHERE NAME LIKE '%" + searchWords +"%'";
         
         try {
             Connection con = DBConnection.getConnection();
@@ -143,9 +143,9 @@ public class CustomerRepo implements ICustomerRepo{
             
             while(rs.next()) {
                 Customer c = new Customer();
-                c.setId(rs.getLong("id"));
-                c.setName(rs.getString("name"));
-                c.setPhone(rs.getString("phone"));
+                c.setId(rs.getLong("ID"));
+                c.setName(rs.getString("NAME"));
+                c.setPhone(rs.getString("PHONE"));
                 
                 list.add(c);
                         
