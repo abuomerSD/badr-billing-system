@@ -20,6 +20,7 @@ public class DatabaseTableCreator {
         createCompanyInfoTable();
         createSalesInvoiceHeaderTable();
         createSalesInvoiceDetailsTable();
+        createProductMovementTable();
     }
     
     private static void createCutomersTable(){
@@ -142,6 +143,25 @@ public class DatabaseTableCreator {
                                 "PRICE DOUBLE,\n" +
                                 "ITEM_TOTAL DOUBLE,\n" +
                                 "DETAILS VARCHAR(100)\n" +
+                                ");";
+        
+        try {
+            Connection con = DBConnection.getConnection();
+            Statement st = con.createStatement();
+            st.execute(sql);
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.toString());
+        }
+    }
+
+    private static void createProductMovementTable() {
+        String sql = "CREATE TABLE IF NOT EXISTS TB_PRODUCT_MOVEMENT(\n" +
+                                "PRODUCT_ID INTEGER,\n" +
+                                "SALES_INVOICE_ID INTEGER,\n" +
+                                "RETURN_INVOICE_ID INTEGER,\n" +
+                                "SALES_QUANTITY DOUBLE,\n" +
+                                "RETURN_QUANTITY DOUBLE\n" +
                                 ");";
         
         try {
