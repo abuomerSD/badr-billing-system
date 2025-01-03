@@ -21,6 +21,8 @@ public class DatabaseTableCreator {
         createSalesInvoiceHeaderTable();
         createSalesInvoiceDetailsTable();
         createProductMovementTable();
+        createReturnDocumentHeaderTable();
+        createReturnDocumentDetailsTable();
     }
     
     private static void createCutomersTable(){
@@ -162,6 +164,42 @@ public class DatabaseTableCreator {
                                 "RETURN_INVOICE_ID INTEGER,\n" +
                                 "SALES_QUANTITY DOUBLE,\n" +
                                 "RETURN_QUANTITY DOUBLE,\n" +
+                                "DETAILS VARCHAR(100)\n" +
+                                ");";
+        
+        try {
+            Connection con = DBConnection.getConnection();
+            Statement st = con.createStatement();
+            st.execute(sql);
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.toString());
+        }
+    }
+
+    private static void createReturnDocumentHeaderTable() {
+        String sql = "CREATE TABLE IF NOT EXISTS TB_RETURN_DOCUMENT_HEADER(\n" +
+                                "ID INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+                                "SALES_INVOICE_ID INTEGER,\n" +
+                                "DETAILS VARCHAR(100),\n" +
+                                "DOCUMENT_DATE VARCHAR(50)\n" +
+                                ");";
+        
+        try {
+            Connection con = DBConnection.getConnection();
+            Statement st = con.createStatement();
+            st.execute(sql);
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.toString());
+        }
+    }
+
+    private static void createReturnDocumentDetailsTable() {
+        String sql = "CREATE TABLE IF NOT EXISTS TB_RETURN_DOCUMENT_DETAILS(\n" +
+                                "HEADER_ID INTEGER,\n" +
+                                "PRODUCT_ID INTEGER,\n" +
+                                "QUANTITY DOUBLE,\n" +
                                 "DETAILS VARCHAR(100)\n" +
                                 ");";
         
