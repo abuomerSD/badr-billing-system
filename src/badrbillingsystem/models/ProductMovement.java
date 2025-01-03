@@ -7,16 +7,18 @@ public class ProductMovement {
     private long returnInvoiceId;
     private double salesQuantity;
     private double returnQuantity;
+    private String details;
 
     public ProductMovement() {
     }
 
-    public ProductMovement(long productId, long salesInvoiceId, long returnInvoiceId, double salesQuantity, double returnQuantity) {
+    public ProductMovement(long productId, long salesInvoiceId, long returnInvoiceId, double salesQuantity, double returnQuantity, String details) {
         this.productId = productId;
         this.salesInvoiceId = salesInvoiceId;
         this.returnInvoiceId = returnInvoiceId;
         this.salesQuantity = salesQuantity;
         this.returnQuantity = returnQuantity;
+        this.details = details;
     }
 
     public long getProductId() {
@@ -59,10 +61,20 @@ public class ProductMovement {
         this.returnQuantity = returnQuantity;
     }
 
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
     @Override
     public String toString() {
-        return "ProductMovement{" + "productId=" + productId + ", salesInvoiceId=" + salesInvoiceId + ", returnInvoiceId=" + returnInvoiceId + ", salesQuantity=" + salesQuantity + ", returnQuantity=" + returnQuantity + '}';
+        return "ProductMovement{" + "productId=" + productId + ", salesInvoiceId=" + salesInvoiceId + ", returnInvoiceId=" + returnInvoiceId + ", salesQuantity=" + salesQuantity + ", returnQuantity=" + returnQuantity + ", details=" + details + '}';
     }
+
+    
     
     
 

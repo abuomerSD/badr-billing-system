@@ -13,7 +13,7 @@ public class ProductMovementRepo implements IProductMovementRepo{
 
     @Override
     public boolean save(ProductMovement productMovement) {
-        String sql = "INSERT INTO TB_PRODUCT_MOVEMENT (PRODUCT_ID,SALES_INVOICE_ID,RETURN_INVOICE_ID,SALES_QUANTITY,RETURN_QUANTITY) VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO TB_PRODUCT_MOVEMENT (PRODUCT_ID,SALES_INVOICE_ID,RETURN_INVOICE_ID,SALES_QUANTITY,RETURN_QUANTITY,DETAILS) VALUES (?,?,?,?,?,?)";
         boolean status = false;
         try {
             Connection con = DBConnection.getConnection();
@@ -23,6 +23,7 @@ public class ProductMovementRepo implements IProductMovementRepo{
             ps.setLong(3, productMovement.getReturnInvoiceId());
             ps.setDouble(4, productMovement.getSalesQuantity());
             ps.setDouble(5, productMovement.getReturnQuantity());
+            ps.setString(6, productMovement.getDetails());
             int flag = ps.executeUpdate();
             if(flag == 1) status = true;
         } catch (Exception e) {
@@ -34,14 +35,15 @@ public class ProductMovementRepo implements IProductMovementRepo{
 
     @Override
     public boolean updateBySalesInvoiceId(ProductMovement newProductMovement, long invoiceId) {
-        String sql = "UPDATE TB_PRODUCT_MOVEMENT SET SALES_QUANTITY=? WHERE PRODUCT_ID=? AND SALES_INVOICE_ID=?";
+        String sql = "UPDATE TB_PRODUCT_MOVEMENT SET SALES_QUANTITY=?,DETAILS=? WHERE PRODUCT_ID=? AND SALES_INVOICE_ID=?";
         boolean status = false;
         try {
             Connection con = DBConnection.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);            
             ps.setDouble(1, newProductMovement.getSalesQuantity());
-            ps.setLong(2, newProductMovement.getProductId());
-            ps.setLong(3, newProductMovement.getSalesInvoiceId());
+            ps.setString(2, newProductMovement.getDetails());
+            ps.setLong(3, newProductMovement.getProductId());
+            ps.setLong(4, newProductMovement.getSalesInvoiceId());
             int flag = ps.executeUpdate();
             if(flag == 1) status = true;
         } catch (Exception e) {
@@ -53,14 +55,15 @@ public class ProductMovementRepo implements IProductMovementRepo{
     
     @Override
     public boolean updateByReturnInvoiceId(ProductMovement newProductMovement, long invoiceId) {
-        String sql = "UPDATE TB_PRODUCT_MOVEMENT SET RETURN_QUANTITY=? WHERE PRODUCT_ID=? AND RETURN_INVOICE_ID=?";
+        String sql = "UPDATE TB_PRODUCT_MOVEMENT SET RETURN_QUANTITY=?,DETAILS=? WHERE PRODUCT_ID=? AND RETURN_INVOICE_ID=?";
         boolean status = false;
         try {
             Connection con = DBConnection.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);  
             ps.setDouble(1, newProductMovement.getReturnQuantity());
-            ps.setLong(2, newProductMovement.getProductId());
-            ps.setLong(3, newProductMovement.getReturnInvoiceId());    
+            ps.setString(2, newProductMovement.getDetails());
+            ps.setLong(3, newProductMovement.getProductId());
+            ps.setLong(4, newProductMovement.getReturnInvoiceId());    
             int flag = ps.executeUpdate();
             if(flag == 1) status = true;
         } catch (Exception e) {
@@ -122,6 +125,7 @@ public class ProductMovementRepo implements IProductMovementRepo{
                 p.setReturnQuantity(rs.getDouble("RETURN_QUANTITY"));
                 p.setSalesInvoiceId(rs.getLong("SALES_INVOICE_ID"));
                 p.setSalesQuantity(rs.getDouble("SALES_QUANTITY"));
+                p.setDetails(rs.getString("DETAILS"));
                 list.add(p);
             }
         } catch (Exception e) {

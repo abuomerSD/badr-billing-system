@@ -161,7 +161,8 @@ public class DatabaseTableCreator {
                                 "SALES_INVOICE_ID INTEGER,\n" +
                                 "RETURN_INVOICE_ID INTEGER,\n" +
                                 "SALES_QUANTITY DOUBLE,\n" +
-                                "RETURN_QUANTITY DOUBLE\n" +
+                                "RETURN_QUANTITY DOUBLE,\n" +
+                                "DETAILS VARCHAR(100)\n" +
                                 ");";
         
         try {
