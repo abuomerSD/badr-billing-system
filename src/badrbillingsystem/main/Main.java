@@ -1,10 +1,9 @@
 package badrbillingsystem.main;
 
 import badrbillingsystem.database.DatabaseTableCreator;
-import badrbillingsystem.models.ProductMovement;
+import badrbillingsystem.models.ReturnDocumentDetails;
 import badrbillingsystem.models.ReturnDocumentHeader;
-import badrbillingsystem.repos.productmovement.ProductMovementRepo;
-import badrbillingsystem.repos.returndocumentheader.ReturnDocumentHeaderRepo;
+import badrbillingsystem.repos.returndocumentdetails.ReturnDocumentDetailsRepo;
 import java.util.ArrayList;
 
 
@@ -15,34 +14,32 @@ public class Main {
 //        Home home = new Home();
 //        home.show();
 
-        ReturnDocumentHeaderRepo repo = new ReturnDocumentHeaderRepo();
+        ReturnDocumentDetailsRepo repo = new ReturnDocumentDetailsRepo();
         
-//        ReturnDocumentHeader header = new ReturnDocumentHeader();
-//        header.setId(1);
-//        header.setDate("1-1-2025");
-//        header.setDetails("details 1");
-//        header.setSalesInvoiceId(2025010001);
-//        repo.save(header);
-//        
-//        ReturnDocumentHeader header2 = new ReturnDocumentHeader();
-//        header2.setId(1);
-//        header2.setDate("3-1-2025");
-//        header2.setDetails("details 2");
-//        header2.setSalesInvoiceId(2025010002);
-//        repo.save(header2);
+//         ReturnDocumentDetails d1 = new ReturnDocumentDetails();
+//         d1.setDetails("details");
+//         d1.setHeaderId(1);
+//         d1.setProductId(100);
+//         d1.setQuantity(10);
+//         repo.save(d1);
+//         
+//         ReturnDocumentDetails d2 = new ReturnDocumentDetails();
+//         d2.setDetails("details2");
+//         d2.setHeaderId(1);
+//         d2.setProductId(1002);
+//         d2.setQuantity(102);
+//         repo.save(d2);
 
-//        ReturnDocumentHeader header = new ReturnDocumentHeader();
-//        header.setId(1);
-//        header.setDate("1-1-2026");
-//        header.setDetails("details 1 u");
-//        header.setSalesInvoiceId(2025011);
-//        System.out.println(repo.update(header));
+//            ReturnDocumentDetails d2 = new ReturnDocumentDetails();
+//         d2.setDetails("details2 202");
+//         d2.setHeaderId(1);
+//         d2.setProductId(1002);
+//         d2.setQuantity(202);
+//         repo.update(d2, 1002);
+         
+//        System.out.println(repo.delete(1, 1002));
 
-//        System.out.println(repo.delete(1));
-
-//        System.out.println(repo.findById(2));
-        
-        ArrayList<ReturnDocumentHeader> list = repo.findAll();
+        ArrayList<ReturnDocumentDetails> list = repo.findAllByHeaderId(1);
         System.out.println(list);
     
     }
