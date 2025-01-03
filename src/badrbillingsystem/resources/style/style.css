@@ -1,0 +1,109 @@
+@font-face {
+    font-family: 'Cairo';
+    src: url('/badrbillingsystem/resources/fonts/Cairo-VariableFont_slnt,wght.ttf');
+}
+
+@font-face {
+    font-family: 'almarai';
+    src: url('/badrbillingsystem/resources/fonts/Almarai-Bold.ttf');
+}
+
+.sidebar-button {
+    -fx-font-family: 'almarai';
+    -fx-background-color: #3A3960;
+    -fx-font-size: 20;
+    -fx-text-fill: white;
+}
+
+.sidebar-button:hover {
+    -fx-font-family: 'almarai';
+    -fx-background-color: #5E686D;
+    -fx-font-size: 20;
+    -fx-text-fill: white;
+}
+
+.sidebar {
+    -fx-background-color: #3A3960;
+}
+
+.title {
+    -fx-font-family: 'almarai';
+    -fx-font-size: 20;
+}
+
+.textfeild-class {
+    -fx-font-family: 'almarai';
+    -fx-font-size: 14;
+}
+
+.label-class {
+    -fx-font-family: 'almarai';
+    -fx-font-size: 14;
+}
+
+.btn-save {
+    -fx-font-family: 'almarai';
+    -fx-font-size: 17;
+    -fx-background-color: #31511E;
+    -fx-text-fill: white;
+}
+
+.btn-edit {
+    -fx-font-family: 'almarai';
+    -fx-font-size: 17;
+    -fx-background-color: #37AFE1;
+    -fx-text-fill: white;
+}
+
+.btn-delete {
+    -fx-font-family: 'almarai';
+    -fx-font-size: 17;
+    -fx-background-color: #C62300;
+    -fx-text-fill: white;
+}
+
+/* button hover*/
+
+.btn-save:hover {
+    -fx-background-color: #859F3D;
+}
+
+.btn-edit:hover {
+    -fx-background-color: #4CC9FE;
+}
+
+.btn-delete:hover {
+    -fx-background-color: #F14A00;
+        
+}
+
+/*tableview*/
+
+.table-view .column-header,
+.table-view .column-header-background .filler {
+    -fx-background-color:  #3A3960; 
+    -fx-font-family: 'almarai';
+    -fx-font-size: 12;
+}
+.table-view .column-header .label{
+   -fx-text-fill: white;
+   -fx-font-weight: bold; 
+   -fx-alignment: CENTER_LEFT;
+   -fx-font-family: 'almarai';
+   -fx-font-size: 14;
+}
+.table-view .cell{
+   -fx-cell-size: 35;
+  -fx-alignment: center-left;
+  -fx-background-color: #29292D;
+  -fx-border-color: #29292D;
+  -fx-text-fill: lightgray;
+  -fx-alignment: CENTER_LEFT;
+   
+}
+.table-row-cell:selected {
+   -fx-background-color: whitesmoke; 
+   -fx-text-background-color:  #6622CC;
+   
+       
+}
