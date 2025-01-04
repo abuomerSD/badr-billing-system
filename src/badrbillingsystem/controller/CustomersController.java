@@ -174,7 +174,7 @@ public class CustomersController implements Initializable{
     private void updateCustomersTableData() {
         try {
             ObservableList<Customer> list = FXCollections.observableArrayList(repo.findAll()); 
-            colId.setCellValueFactory(new PropertyValueFactory<>("colNumber"));
+            colId.setCellValueFactory(new PropertyValueFactory<>("id"));
             colName.setCellValueFactory(new PropertyValueFactory<Customer, String>("name"));
             colPhone.setCellValueFactory(new PropertyValueFactory<Customer, String>("phone"));
             tbCustomer.setItems(list);
@@ -198,7 +198,7 @@ public class CustomersController implements Initializable{
             
             ObservableList<Customer> list = FXCollections.observableArrayList(repo.findBySearchWords(name));
 //            data.clear();
-            colId.setCellValueFactory(new PropertyValueFactory<>("colNumber"));
+            colId.setCellValueFactory(new PropertyValueFactory<>("id"));
             colName.setCellValueFactory(new PropertyValueFactory<Customer, String>("name"));
             colPhone.setCellValueFactory(new PropertyValueFactory<Customer, String>("phone"));
             tbCustomer.setItems(list);

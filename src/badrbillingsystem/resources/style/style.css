@@ -42,6 +42,16 @@
     -fx-font-size: 14;
 }
 
+.text-field{
+    -fx-font-family: 'almarai';
+    -fx-font-size: 14;
+}
+
+.label {
+    -fx-font-family: 'almarai';
+    -fx-font-size: 14;
+}
+
 .btn-save {
     -fx-font-family: 'almarai';
     -fx-font-size: 17;
@@ -63,6 +73,20 @@
     -fx-text-fill: white;
 }
 
+.btn-primary {
+    -fx-font-family: 'almarai';
+    -fx-font-size: 17;
+    -fx-background-color: #4B5945;
+    -fx-text-fill: white;
+}
+
+.btn-secondary {
+    -fx-font-family: 'almarai';
+    -fx-font-size: 17;
+    -fx-background-color: #54473F;
+    -fx-text-fill: white;
+}
+
 /* button hover*/
 
 .btn-save:hover {
@@ -81,9 +105,19 @@
         
 }
 
+.btn-primary:hover {
+    -fx-background-color: #66785F;
+    -fx-cursor: hand;
+}
+
+.btn-secondary:hover {
+    -fx-background-color: #9A7E6F;
+    -fx-cursor: hand;
+}
+
 /*tableview*/
 
-/*.table-view .column-header,
+.table-view .column-header,
 .table-view .column-header-background .filler {
     -fx-background-color:  #3A3960; 
     -fx-font-family: 'almarai';
@@ -92,10 +126,10 @@
 .table-view .column-header .label{
    -fx-text-fill: white;
    -fx-font-weight: bold; 
-   -fx-alignment: CENTER_LEFT;
+   -fx-alignment: CENTER;
    -fx-font-family: 'almarai';
    -fx-font-size: 14;
-}
+}/*
 .table-view .cell{
    -fx-cell-size: 35;
   -fx-alignment: center-left;
@@ -151,7 +185,7 @@
 	-fx-border-color: transparent;
 	-fx-background-color: transparent; /* OR  -fx-background-insets: 0.0; */
 }
-.table-view .column-header-background,
+/*.table-view .column-header-background,
 .table-view .column-header-background .filler,
 .table-view .corner {
 	-fx-background-color: transparent;
@@ -164,7 +198,8 @@
 .table-view .column-header .label{
 	-fx-font-weight: bold; 
 	-fx-alignment: CENTER;
-}
+}*/
+
 /* This is just magic */
 .table-row-cell:filled {
 	-fx-background-color: transparent;

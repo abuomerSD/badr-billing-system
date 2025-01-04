@@ -34,4 +34,16 @@ public class HomeController implements Initializable{
         
     }
     
+    @FXML
+    private void showProductsUI(ActionEvent event)  {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/badrbillingsystem/ui/products.fxml"));
+            borderPane.setCenter(root);
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.toString());
+        }
+        
+    }
+    
 }

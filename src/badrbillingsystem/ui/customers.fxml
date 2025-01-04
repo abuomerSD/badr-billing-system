@@ -82,7 +82,7 @@
                   </HBox>
                   <TableView fx:id="tbCustomer" editable="true" prefHeight="700.0" prefWidth="422.0" styleClass="tableview">
                     <columns>
-                      <TableColumn fx:id="colId" prefWidth="102.0" text="الرقم" />
+                      <TableColumn fx:id="colId" prefWidth="102.0" text="كود العميل" />
                       <TableColumn fx:id="colName" prefWidth="215.0" text="اسم العميل" />
                         <TableColumn fx:id="colPhone" prefWidth="248.0" text="رقم الهاتف" />
                     </columns>
