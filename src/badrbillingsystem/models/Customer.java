@@ -2,6 +2,7 @@
 package badrbillingsystem.models;
 
 public class Customer {
+    private int colNumber;
     private long id;
     private String name;
     private String phone;
@@ -15,6 +16,16 @@ public class Customer {
         this.phone = phone;
     }
 
+    public int getColNumber() {
+        return colNumber;
+    }
+
+    public void setColNumber(int colNumber) {
+        this.colNumber = colNumber;
+    }
+    
+    
+    
     public long getId() {
         return id;
     }

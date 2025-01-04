@@ -114,12 +114,15 @@ public class CustomerRepo implements ICustomerRepo{
             Connection con = DBConnection.getConnection();
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(sql);
+            int colNumber = 1;
             while (rs.next()) {                
                 Customer c = new Customer();
+                c.setColNumber(colNumber);
                 c.setId(rs.getInt("ID"));
                 c.setName(rs.getString("NAME"));
                 c.setPhone(rs.getString("PHONE"));
                 list.add(c);
+                colNumber++;
             }
         } catch (Exception e) {
             e.printStackTrace();
