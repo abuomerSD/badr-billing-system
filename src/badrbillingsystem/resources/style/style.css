@@ -1,11 +1,11 @@
-@font-face {
+/*@font-face {
     font-family: 'Cairo';
     src: url('/badrbillingsystem/resources/fonts/Cairo-VariableFont_slnt,wght.ttf');
-}
+}*/
 
 @font-face {
     font-family: 'almarai';
-    src: url('/badrbillingsystem/resources/fonts/Almarai-Bold.ttf');
+    src: url('/fonts/Almarai-Bold.ttf');
 }
 
 .sidebar-button {
@@ -20,6 +20,7 @@
     -fx-background-color: #5E686D;
     -fx-font-size: 20;
     -fx-text-fill: white;
+    -fx-cursor: hand;
 }
 
 .sidebar {
@@ -66,14 +67,17 @@
 
 .btn-save:hover {
     -fx-background-color: #859F3D;
+    -fx-cursor: hand;
 }
 
 .btn-edit:hover {
     -fx-background-color: #4CC9FE;
+    -fx-cursor: hand;
 }
 
 .btn-delete:hover {
     -fx-background-color: #F14A00;
+    -fx-cursor: hand;
         
 }
 

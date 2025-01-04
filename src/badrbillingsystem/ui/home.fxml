@@ -25,6 +25,7 @@
             </Button>
                   <Button mnemonicParsing="false" prefHeight="70.0" prefWidth="250.0" styleClass="sidebar-button" text="الاصناف" />
                   <Button mnemonicParsing="false" prefHeight="70.0" prefWidth="250.0" styleClass="sidebar-button" text="الفواتير" />
+                  <Button mnemonicParsing="false" prefHeight="70.0" prefWidth="250.0" styleClass="sidebar-button" text="مردود الفواتير" />
                   <Button mnemonicParsing="false" prefHeight="70.0" prefWidth="250.0" styleClass="sidebar-button" text="المستخدمين" />
                   <Button mnemonicParsing="false" prefHeight="70.0" prefWidth="250.0" styleClass="sidebar-button" text="إعدادات" />
                   <Button mnemonicParsing="false" prefHeight="70.0" prefWidth="250.0" styleClass="sidebar-button" text="حول البرنامج" />

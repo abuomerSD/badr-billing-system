@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 public class Main extends Application{
 
     public static void main(String[] args) {
-//        DatabaseTableCreator.createTables();
+        DatabaseTableCreator.createTables();
         launch(args);
 //        Home home = new Home();
 //        home.show();

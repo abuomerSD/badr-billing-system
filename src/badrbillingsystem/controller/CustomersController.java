@@ -21,6 +21,7 @@ import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 
 public class CustomersController implements Initializable{
     
@@ -41,6 +42,8 @@ public class CustomersController implements Initializable{
     
     @FXML
     TextField txtPhone;
+    @FXML
+    TextField txtSearch;
     
     CustomerRepo repo = new CustomerRepo();
     
@@ -186,6 +189,24 @@ public class CustomersController implements Initializable{
         txtName.clear();
         txtPhone.clear();
 }
+    
+    
+    @FXML
+    private void filterTableByKeywords(KeyEvent event){
+        try {
+            String name = txtSearch.getText();
+            
+            ObservableList<Customer> list = FXCollections.observableArrayList(repo.findBySearchWords(name));
+//            data.clear();
+            colId.setCellValueFactory(new PropertyValueFactory<>("colNumber"));
+            colName.setCellValueFactory(new PropertyValueFactory<Customer, String>("name"));
+            colPhone.setCellValueFactory(new PropertyValueFactory<Customer, String>("phone"));
+            tbCustomer.setItems(list);
+        } catch (Exception e) {
+            e.printStackTrace();
+            AlertMaker.showErrorALert(e.toString());
+        }
+    }
 
     
     
