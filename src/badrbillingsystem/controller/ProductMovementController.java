@@ -7,7 +7,6 @@ import badrbillingsystem.repos.customer.CustomerRepo;
 import badrbillingsystem.repos.productmovement.ProductMovementRepo;
 import badrbillingsystem.utils.AlertMaker;
 import java.net.URL;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
@@ -39,7 +38,18 @@ public class ProductMovementController implements Initializable {
         cbCustomerName.valueProperty().addListener(new ChangeListener<String>(){
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                filterTable();
+                String fromDate = dpFromDate.getValue().toString();
+                if(fromDate == null)
+                    fromDate = "";
+                String toDate = dpToDate.getValue().toString();
+                if(toDate == null)
+                    toDate = "";
+                String customerName = cbCustomerName.getSelectionModel().getSelectedItem();
+                CustomerRepo customerRepo =  new CustomerRepo();
+                Customer customer = customerRepo.findByName(customerName);
+                
+                filterTable(fromDate, toDate, customer.getId());
+        AlertMaker.showMessageAlert(fromDate);
             }
             
         });
@@ -91,7 +101,8 @@ public class ProductMovementController implements Initializable {
 
     @FXML
     void printReport(ActionEvent event) {
-
+        String fromDate = dpFromDate.getValue().toString();
+        AlertMaker.showMessageAlert(fromDate);
     }
 
     private void updateMovementTableData() {
@@ -111,18 +122,10 @@ public class ProductMovementController implements Initializable {
     }
     
     @FXML
-    private void filterTable() {
+    private void filterTable(String fromDate, String toDate , long customerId) {
         try {
-            String fromDate = dpFromDate.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-            if(fromDate == null)
-                fromDate = "";
-            String toDate = dpToDate.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-            if(toDate == null)
-                toDate = "";
-            String customerName = cbCustomerName.getSelectionModel().getSelectedItem();
-            CustomerRepo customerRepo =  new CustomerRepo();
-            Customer customer = customerRepo.findByName(customerName);
-            ObservableList<ProductMovement> data = FXCollections.observableArrayList(repo.findAllByKeywords(fromDate, toDate, customer.getId()));
+            
+            ObservableList<ProductMovement> data = FXCollections.observableArrayList(repo.findAllByKeywords(fromDate, toDate, customerId));
             colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
             colDetails.setCellValueFactory(new PropertyValueFactory<>("details"));
             colIn.setCellValueFactory(new PropertyValueFactory<>("returnQuantity"));

@@ -43,7 +43,7 @@
                      <HBox.margin>
                         <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
                      </HBox.margin></Label>
-                  <DatePicker fx:id="dpFromDate" prefHeight="40.0" prefWidth="119.0">
+                  <DatePicker fx:id="dpFromDate" editable="false" prefHeight="40.0" prefWidth="119.0">
                      <HBox.margin>
                         <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
                      </HBox.margin></DatePicker>
@@ -51,7 +51,7 @@
                      <HBox.margin>
                         <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
                      </HBox.margin></Label>
-                  <DatePicker fx:id="dpToDate" prefHeight="40.0" prefWidth="119.0">
+                  <DatePicker fx:id="dpToDate" editable="false" prefHeight="40.0" prefWidth="119.0">
                      <HBox.margin>
                         <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
                      </HBox.margin></DatePicker>
