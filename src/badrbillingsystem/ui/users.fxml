@@ -84,7 +84,7 @@
                <children>
                   <HBox alignment="CENTER" prefHeight="164.0" prefWidth="744.0">
                      <children>
-                        <TextField fx:id="txtSearchUsername" prefHeight="40.0" prefWidth="402.0" promptText="إبحث عن مستخدم" />
+                        <TextField fx:id="txtSearchUsername" onKeyReleased="#filterTable" prefHeight="40.0" prefWidth="402.0" promptText="إبحث عن مستخدم" />
                      </children>
                   </HBox>
                   <HBox prefHeight="700.0" prefWidth="745.0">
