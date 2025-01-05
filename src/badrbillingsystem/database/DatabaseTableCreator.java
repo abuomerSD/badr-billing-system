@@ -164,6 +164,7 @@ public class DatabaseTableCreator {
                                 "RETURN_INVOICE_ID INTEGER,\n" +
                                 "SALES_QUANTITY DOUBLE,\n" +
                                 "RETURN_QUANTITY DOUBLE,\n" +
+                                "MOVEMENT_INFO VARCHAR(100),\n" +
                                 "DETAILS VARCHAR(100)\n" +
                                 ");";
         

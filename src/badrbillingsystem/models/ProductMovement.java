@@ -7,6 +7,7 @@ public class ProductMovement {
     private long returnInvoiceId;
     private double salesQuantity;
     private double returnQuantity;
+    private String movementInfo;
     private String details;
 
     public ProductMovement() {
@@ -20,6 +21,16 @@ public class ProductMovement {
         this.returnQuantity = returnQuantity;
         this.details = details;
     }
+
+    public String getMovementInfo() {
+        return movementInfo;
+    }
+
+    public void setMovementInfo(String movementInfo) {
+        this.movementInfo = movementInfo;
+    }
+    
+    
 
     public long getProductId() {
         return productId;

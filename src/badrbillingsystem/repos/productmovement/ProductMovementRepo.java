@@ -13,7 +13,7 @@ public class ProductMovementRepo implements IProductMovementRepo{
 
     @Override
     public boolean save(ProductMovement productMovement) {
-        String sql = "INSERT INTO TB_PRODUCT_MOVEMENT (PRODUCT_ID,SALES_INVOICE_ID,RETURN_INVOICE_ID,SALES_QUANTITY,RETURN_QUANTITY,DETAILS) VALUES (?,?,?,?,?,?)";
+        String sql = "INSERT INTO TB_PRODUCT_MOVEMENT (PRODUCT_ID,SALES_INVOICE_ID,RETURN_INVOICE_ID,SALES_QUANTITY,RETURN_QUANTITY,MOVEMENT_INFO,DETAILS) VALUES (?,?,?,?,?,?,?)";
         boolean status = false;
         try {
             Connection con = DBConnection.getConnection();
@@ -23,7 +23,14 @@ public class ProductMovementRepo implements IProductMovementRepo{
             ps.setLong(3, productMovement.getReturnInvoiceId());
             ps.setDouble(4, productMovement.getSalesQuantity());
             ps.setDouble(5, productMovement.getReturnQuantity());
-            ps.setString(6, productMovement.getDetails());
+            if(productMovement.getSalesInvoiceId() > 0) {
+                ps.setString(6, "فاتورة مبيعات رقم " + productMovement.getSalesInvoiceId());
+            }
+            else if(productMovement.getReturnInvoiceId() > 0){
+                ps.setString(6, "مردود مبيعات رقم " + productMovement.getReturnInvoiceId());
+            }
+            
+            ps.setString(7, productMovement.getDetails());
             int flag = ps.executeUpdate();
             if(flag == 1) status = true;
         } catch (Exception e) {

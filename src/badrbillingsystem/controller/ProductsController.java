@@ -26,6 +26,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
@@ -68,6 +69,7 @@ public class ProductsController implements Initializable {
             
         });
         
+        tbProduct.setPlaceholder(new Label("لا توجد بيانات"));
     }    
     
     @FXML

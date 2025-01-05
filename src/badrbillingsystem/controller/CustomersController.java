@@ -16,6 +16,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
@@ -68,6 +69,8 @@ public class CustomersController implements Initializable{
             }
             
         });
+        
+        tbCustomer.setPlaceholder(new Label("لا توجد بيانات"));
     }
     
     

@@ -20,7 +20,7 @@ public class ProductMovementController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+        tbProduct.setPlaceholder(new Label("لا توجد بيانات"));
     }    
     
     
