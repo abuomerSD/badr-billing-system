@@ -13,7 +13,7 @@ public class CompanyInfoRepo implements ICompanyInfoRepo{
 
     @Override
     public boolean save(CompanyInfo companyInfo) {
-        String sql = "INSERT INTO TB_COMPANY_INFO (NAME,LOGO,PHONE,ADDRESS) VALUES(?,?,?,?);";
+        String sql = "INSERT INTO TB_COMPANY_INFO (NAME,LOGO,PHONE,ADDRESS,TAX_NUMBER,BRANCH,QR_CODE,INSTRUCTIONS) VALUES (?,?,?,?,?,?,?,?);";
         boolean status = false;
         try {
             Connection con = DBConnection.getConnection();
@@ -22,6 +22,11 @@ public class CompanyInfoRepo implements ICompanyInfoRepo{
             ps.setString(2, companyInfo.getLogo());
             ps.setString(3, companyInfo.getPhone());
             ps.setString(4, companyInfo.getAddress());
+            ps.setString(5, companyInfo.getTaxNumber());
+            ps.setString(6, companyInfo.getBranch());
+            ps.setString(7, companyInfo.getQrCode());
+            ps.setString(8, companyInfo.getInstructions());
+            
             int flag = ps.executeUpdate();
             if(flag == 1) status = true;
         } catch (Exception e) {
@@ -33,7 +38,7 @@ public class CompanyInfoRepo implements ICompanyInfoRepo{
 
     @Override
     public boolean update(CompanyInfo newCompanyInfo) {
-        String sql = "UPDATE TB_COMPANY_INFO SET NAME=?,LOGO=?,PHONE=?,ADDRESS=? WHERE ID=?;";
+        String sql = "UPDATE TB_COMPANY_INFO SET NAME=?,LOGO=?,PHONE=?,ADDRESS=?,TAX_NUMBER=?,BRANCH=?,QR_CODE=?,INSTRUCTIONS=? WHERE ID=1;";
         boolean status = false;
         try {
             Connection con = DBConnection.getConnection();
@@ -42,7 +47,11 @@ public class CompanyInfoRepo implements ICompanyInfoRepo{
             ps.setString(2, newCompanyInfo.getLogo());
             ps.setString(3, newCompanyInfo.getPhone());
             ps.setString(4, newCompanyInfo.getAddress());
-            ps.setLong(5, newCompanyInfo.getId());
+            ps.setString(5, newCompanyInfo.getTaxNumber());
+            ps.setString(6, newCompanyInfo.getBranch());
+            ps.setString(7, newCompanyInfo.getQrCode());
+            ps.setString(8, newCompanyInfo.getInstructions());
+//            ps.setLong(9, newCompanyInfo.getId());
             int flag = ps.executeUpdate();
             if(flag == 1) status = true;
         } catch (Exception e) {

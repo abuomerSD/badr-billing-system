@@ -7,6 +7,10 @@ public class CompanyInfo {
     private String logo;
     private String phone;
     private String address;
+    private String taxNumber;
+    private String branch;
+    private String qrCode;
+    private String instructions;
 
     public CompanyInfo() {
     }
@@ -59,8 +63,42 @@ public class CompanyInfo {
         this.address = address;
     }
 
+    public String getTaxNumber() {
+        return taxNumber;
+    }
+
+    public void setTaxNumber(String taxNumber) {
+        this.taxNumber = taxNumber;
+    }
+
+    public String getBranch() {
+        return branch;
+    }
+
+    public void setBranch(String branch) {
+        this.branch = branch;
+    }
+
+    public String getQrCode() {
+        return qrCode;
+    }
+
+    public void setQrCode(String qrCode) {
+        this.qrCode = qrCode;
+    }
+
+    public String getInstructions() {
+        return instructions;
+    }
+
+    public void setInstructions(String instructions) {
+        this.instructions = instructions;
+    }
+
     @Override
     public String toString() {
-        return "CompanyInfo{" + "id=" + id + ", name=" + name + ", logo=" + logo + ", phone=" + phone + ", address=" + address + '}';
+        return "CompanyInfo{" + "id=" + id + ", name=" + name + ", logo=" + logo + ", phone=" + phone + ", address=" + address + ", taxNumber=" + taxNumber + ", branch=" + branch + ", qrCode=" + qrCode + ", instructions=" + instructions + '}';
     }
+
+    
 }

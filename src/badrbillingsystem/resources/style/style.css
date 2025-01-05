@@ -47,6 +47,11 @@
     -fx-font-size: 14;
 }
 
+.textaria{
+    -fx-font-family: 'almarai';
+    -fx-font-size: 14;
+}
+
 .label {
     -fx-font-family: 'almarai';
     -fx-font-size: 14;

@@ -103,6 +103,10 @@ public class DatabaseTableCreator {
                             "	NAME VARCHAR(100),\n" +
                             "	LOGO VARCHAR(100),\n" +
                             "	PHONE VARCHAR(50),\n" +
+                            "	TAX_NUMBER VARCHAR(50),\n" +
+                            "	BRANCH VARCHAR(50),\n" +
+                            "	QR_CODE VARCHAR(100),\n" +
+                            "	INSTRUCTIONS VARCHAR(100),\n" +
                             "	ADDRESS VARCHAR(100)\n" +
                             ");";
         try {
