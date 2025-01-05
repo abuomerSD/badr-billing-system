@@ -52,6 +52,11 @@
     -fx-font-size: 14;
 }
 
+.combo-box {
+    -fx-font-family: 'almarai';
+    -fx-font-size: 14;
+}
+
 .btn-save {
     -fx-font-family: 'almarai';
     -fx-font-size: 17;

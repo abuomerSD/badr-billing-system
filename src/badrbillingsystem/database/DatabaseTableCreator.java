@@ -160,12 +160,14 @@ public class DatabaseTableCreator {
     private static void createProductMovementTable() {
         String sql = "CREATE TABLE IF NOT EXISTS TB_PRODUCT_MOVEMENT(\n" +
                                 "PRODUCT_ID INTEGER,\n" +
+                                "CUSTOMER_ID INTEGER,\n" +
                                 "SALES_INVOICE_ID INTEGER,\n" +
                                 "RETURN_INVOICE_ID INTEGER,\n" +
                                 "SALES_QUANTITY DOUBLE,\n" +
                                 "RETURN_QUANTITY DOUBLE,\n" +
-                                "MOVEMENT_INFO VARCHAR(100),\n" +
-                                "DETAILS VARCHAR(100)\n" +
+                                "MOVEMENT_INFO VARCHAR(50),\n" +
+                                "DETAILS VARCHAR(100),\n" +
+                                "DATE VARCHAR(50)\n" +
                                 ");";
         
         try {

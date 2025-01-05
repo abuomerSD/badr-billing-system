@@ -3,6 +3,7 @@ package badrbillingsystem.repos.productmovement;
 
 import badrbillingsystem.models.ProductMovement;
 import java.util.ArrayList;
+import javafx.collections.ObservableList;
 
 public interface IProductMovementRepo {
     boolean save(ProductMovement productMovement);
@@ -11,4 +12,5 @@ public interface IProductMovementRepo {
     boolean deleteBySalesInvoiceId(long productId, long invoiceId);
     boolean deleteByReturnInvoiceId(long productId, long invoiceId);
     ArrayList<ProductMovement> findAllById(long id); 
+    public ArrayList<ProductMovement> findAllByKeywords(String fromDate, String toDate, long customerId);
 }

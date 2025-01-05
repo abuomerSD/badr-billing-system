@@ -3,17 +3,22 @@ package badrbillingsystem.repos.productmovement;
 
 import badrbillingsystem.database.DBConnection;
 import badrbillingsystem.models.ProductMovement;
+import badrbillingsystem.models.ReturnDocumentHeader;
+import badrbillingsystem.models.SalesInvoiceHeader;
+import badrbillingsystem.repos.returndocumentheader.ReturnDocumentHeaderRepo;
+import badrbillingsystem.repos.salesinvoiceheader.SalesInvoiceHeaderRepo;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import javafx.collections.ObservableList;
 import javax.swing.JOptionPane;
 
 public class ProductMovementRepo implements IProductMovementRepo{
 
     @Override
     public boolean save(ProductMovement productMovement) {
-        String sql = "INSERT INTO TB_PRODUCT_MOVEMENT (PRODUCT_ID,SALES_INVOICE_ID,RETURN_INVOICE_ID,SALES_QUANTITY,RETURN_QUANTITY,MOVEMENT_INFO,DETAILS) VALUES (?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO TB_PRODUCT_MOVEMENT (PRODUCT_ID,SALES_INVOICE_ID,RETURN_INVOICE_ID,SALES_QUANTITY,RETURN_QUANTITY,MOVEMENT_INFO,DATE,DETAILS,CUSTOMER_ID) VALUES (?,?,?,?,?,?,?,?,?)";
         boolean status = false;
         try {
             Connection con = DBConnection.getConnection();
@@ -24,13 +29,20 @@ public class ProductMovementRepo implements IProductMovementRepo{
             ps.setDouble(4, productMovement.getSalesQuantity());
             ps.setDouble(5, productMovement.getReturnQuantity());
             if(productMovement.getSalesInvoiceId() > 0) {
+                SalesInvoiceHeaderRepo repo = new SalesInvoiceHeaderRepo();
+                SalesInvoiceHeader header = repo.findById(productMovement.getSalesInvoiceId());
                 ps.setString(6, "فاتورة مبيعات رقم " + productMovement.getSalesInvoiceId());
+                ps.setString(7, header.getDate());
             }
             else if(productMovement.getReturnInvoiceId() > 0){
+                ReturnDocumentHeaderRepo repo = new ReturnDocumentHeaderRepo();
+                ReturnDocumentHeader header = repo.findById(productMovement.getReturnInvoiceId());              
                 ps.setString(6, "مردود مبيعات رقم " + productMovement.getReturnInvoiceId());
+                ps.setString(7, header.getDate());
             }
             
-            ps.setString(7, productMovement.getDetails());
+            ps.setString(8, productMovement.getDetails());
+            ps.setLong(9, productMovement.getCustomerId());
             int flag = ps.executeUpdate();
             if(flag == 1) status = true;
         } catch (Exception e) {
@@ -133,6 +145,9 @@ public class ProductMovementRepo implements IProductMovementRepo{
                 p.setSalesInvoiceId(rs.getLong("SALES_INVOICE_ID"));
                 p.setSalesQuantity(rs.getDouble("SALES_QUANTITY"));
                 p.setDetails(rs.getString("DETAILS"));
+                p.setDate(rs.getString("DATE"));
+                p.setMovementInfo(rs.getString("MOVEMENT_INFO"));
+                p.setCustomerId(rs.getLong("CUSTOMER_ID"));
                 list.add(p);
             }
         } catch (Exception e) {
@@ -141,5 +156,39 @@ public class ProductMovementRepo implements IProductMovementRepo{
         }
         return list;
     }
+
+    @Override
+    public ArrayList<ProductMovement> findAllByKeywords(String fromDate, String toDate, long customerId) {
+        String sql = "SELECT * FROM TB_PRODUCT_MOVEMENT WHERE (DATE BETWEEN ? AND ?) AND  CUSTOMER_ID = ?";
+        ArrayList<ProductMovement> list = new ArrayList<>();
+        try {
+            Connection con = DBConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, fromDate);
+            ps.setString(1, toDate);
+            ps.setLong(1, customerId);
+            System.out.println(ps.toString());
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                ProductMovement p = new ProductMovement();
+                p.setProductId(rs.getLong("PRODUCT_ID"));
+                p.setReturnInvoiceId(rs.getLong("RETURN_INVOICE_ID"));
+                p.setReturnQuantity(rs.getDouble("RETURN_QUANTITY"));
+                p.setSalesInvoiceId(rs.getLong("SALES_INVOICE_ID"));
+                p.setSalesQuantity(rs.getDouble("SALES_QUANTITY"));
+                p.setDetails(rs.getString("DETAILS"));
+                p.setDate(rs.getString("DATE"));
+                p.setMovementInfo(rs.getString("MOVEMENT_INFO"));
+                p.setCustomerId(rs.getLong("CUSTOMER_ID"));
+                list.add(p);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.toString());
+        }
+        return list;
+    }
+
+    
     
 }
