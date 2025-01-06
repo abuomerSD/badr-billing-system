@@ -147,7 +147,7 @@
             </HBox>
             <HBox alignment="CENTER_RIGHT" prefHeight="170.0" prefWidth="900.0">
                <children>
-                  <ImageView fitHeight="159.0" fitWidth="222.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="imgLogo" fitHeight="159.0" fitWidth="222.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" top="10.0" />
                      </HBox.margin>
@@ -189,7 +189,7 @@
             </HBox>
             <HBox alignment="CENTER_RIGHT" prefHeight="170.0" prefWidth="900.0">
                <children>
-                  <ImageView fitHeight="159.0" fitWidth="222.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="imgQRCode" fitHeight="159.0" fitWidth="222.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" top="10.0" />
                      </HBox.margin>

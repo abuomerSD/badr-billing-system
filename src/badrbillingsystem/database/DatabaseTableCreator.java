@@ -1,7 +1,9 @@
 
 package badrbillingsystem.database;
 
+import badrbillingsystem.models.CompanyInfo;
 import badrbillingsystem.models.User;
+import badrbillingsystem.repos.companyinfo.CompanyInfoRepo;
 import badrbillingsystem.repos.user.UserRepo;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -23,6 +25,7 @@ public class DatabaseTableCreator {
         createProductMovementTable();
         createReturnDocumentHeaderTable();
         createReturnDocumentDetailsTable();
+        insertDefaultCompanyInfo();
     }
     
     private static void createCutomersTable(){
@@ -214,6 +217,31 @@ public class DatabaseTableCreator {
             Connection con = DBConnection.getConnection();
             Statement st = con.createStatement();
             st.execute(sql);
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.toString());
+        }
+    }
+
+    private static void insertDefaultCompanyInfo() {
+        try {
+            CompanyInfoRepo repo = new CompanyInfoRepo();
+            CompanyInfo info = new CompanyInfo();
+            info.setAddress("المدينة المنورة الحرة الشرقية - طريق الملك عبد العزيز");
+            info.setBranch("الفرع الرئيسي");
+            info.setInstructions("البضاعة المباعة لا ترد و لا تستبدل الا بحضور الفاتورة الاصل. * العدد اليدوية لا ترد و لا تستبدل * الدينموهات و الغطاسات و اوتوماتيك دينو ضمان الشركة و ليس المحل * الدريلات و الصواريخ و الخلاطات و الشطافات ضمان الشركة * التوصيلات الكهربائية و اللمبات و مراوح الشفط ضمان الشركة");
+            info.setLogo("src/badrbillingsystem/resources/images/LOGO-removebg-preview.png");
+            info.setName("مؤسسة بن سعد للتجارة");
+            info.setPhone("0539068795");
+            info.setQrCode("src/badrbillingsystem/resources/images/QR-removebg-preview.png");
+            info.setTaxNumber("300414463400003");
+            
+            ArrayList<CompanyInfo> list = repo.findAll();
+//            repo.save(info);
+            if(list.size() == 0 ) {
+                repo.save(info);
+            }
+            
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, e.toString());

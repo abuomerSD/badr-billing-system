@@ -26,7 +26,7 @@ public class CompanyInfoRepo implements ICompanyInfoRepo{
             ps.setString(6, companyInfo.getBranch());
             ps.setString(7, companyInfo.getQrCode());
             ps.setString(8, companyInfo.getInstructions());
-            
+            System.out.println(ps.toString());
             int flag = ps.executeUpdate();
             if(flag == 1) status = true;
         } catch (Exception e) {
@@ -52,6 +52,7 @@ public class CompanyInfoRepo implements ICompanyInfoRepo{
             ps.setString(7, newCompanyInfo.getQrCode());
             ps.setString(8, newCompanyInfo.getInstructions());
 //            ps.setLong(9, newCompanyInfo.getId());
+            System.out.println(ps.toString());
             int flag = ps.executeUpdate();
             if(flag == 1) status = true;
         } catch (Exception e) {
@@ -68,18 +69,23 @@ public class CompanyInfoRepo implements ICompanyInfoRepo{
 
     @Override
     public CompanyInfo findById(long id) {
-        String sql = "SELECT * FROM TB_COMPANY_INFO WHERE ID=?;";
+        String sql = "SELECT * FROM TB_COMPANY_INFO WHERE ID=1;";
         CompanyInfo c = new CompanyInfo();
         try {
             Connection con = DBConnection.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setLong(1, id);
+//            ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
             c.setAddress(rs.getString("ADDRESS"));
             c.setId(rs.getLong("ID"));
             c.setLogo(rs.getString("LOGO"));
             c.setName(rs.getString("NAME"));
             c.setPhone(rs.getString("PHONE"));
+            c.setBranch(rs.getString("BRANCH"));
+            c.setInstructions(rs.getString("INSTRUCTIONS"));
+            c.setQrCode(rs.getString("QR_CODE"));
+            c.setTaxNumber(rs.getString("TAX_NUMBER"));
+            
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showConfirmDialog(null, e.toString());
