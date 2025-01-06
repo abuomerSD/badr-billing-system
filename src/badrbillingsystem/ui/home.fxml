@@ -25,7 +25,7 @@
                </font>-->
             </Button>
                   <Button mnemonicParsing="false" onAction="#showProductsUI" prefHeight="70.0" prefWidth="250.0" styleClass="sidebar-button" text="الاصناف" />
-                  <Button mnemonicParsing="false" prefHeight="70.0" prefWidth="250.0" styleClass="sidebar-button" text="الفواتير" />
+                  <Button mnemonicParsing="false" onAction="#showSalesInvoicesUI" prefHeight="70.0" prefWidth="250.0" styleClass="sidebar-button" text="الفواتير" />
                   <Button mnemonicParsing="false" prefHeight="70.0" prefWidth="250.0" styleClass="sidebar-button" text="مردود الفواتير" />
                   <Button mnemonicParsing="false" onAction="#showUsersUI" prefHeight="70.0" prefWidth="250.0" styleClass="sidebar-button" text="المستخدمين" />
                   <Button mnemonicParsing="false" onAction="#showCompanyInfoUI" prefHeight="70.0" prefWidth="250.0" styleClass="sidebar-button" text="بيانات المؤسسة" />

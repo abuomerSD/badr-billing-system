@@ -70,4 +70,16 @@ public class HomeController implements Initializable{
         
     }
     
+    @FXML
+    private void showSalesInvoicesUI(ActionEvent event)  {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/badrbillingsystem/ui/salesInvoices.fxml"));
+            borderPane.setCenter(root);
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.toString());
+        }
+        
+    }
+    
 }
