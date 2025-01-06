@@ -2,10 +2,11 @@
     font-family: 'Cairo';
     src: url('/badrbillingsystem/resources/fonts/Cairo-VariableFont_slnt,wght.ttf');
 }*/
-
+/*@import "Almarai.otf";*/
 @font-face {
-    font-family: 'almarai';
-    src: url('/fonts/Almarai-Bold.ttf');
+    font-family: 'almaraiddd';
+    /*src: url('Almarai.otf');*/ 
+    src: url('/fonts/Almarai-Bold.ttf'); 
 }
 
 .sidebar-button {
