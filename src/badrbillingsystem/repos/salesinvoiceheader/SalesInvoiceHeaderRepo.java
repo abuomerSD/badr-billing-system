@@ -12,9 +12,10 @@ import javax.swing.JOptionPane;
 public class SalesInvoiceHeaderRepo implements ISalesInvoiceHeaderRepo{
 
     @Override
-    public boolean save(SalesInvoiceHeader header) {
+    public long save(SalesInvoiceHeader header) {
         String sql = "INSERT INTO TB_SALES_INVOICE_HEADER (CUSTOMER_ID,USER_ID,DISCOUNT,TAX,TOTAL,INVOICE_DATE) VALUES (?,?,?,?,?,?)";
         boolean status = false;
+        long flag = 0;
         try {
             Connection con = DBConnection.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
@@ -24,13 +25,16 @@ public class SalesInvoiceHeaderRepo implements ISalesInvoiceHeaderRepo{
             ps.setDouble(4, header.getTax());
             ps.setDouble(5, header.getTotal());
             ps.setString(6, header.getDate());
-            int flag = ps.executeUpdate();
-            if(flag == 1) status = true;
+            ps.executeUpdate();
+            ResultSet keys = ps.getGeneratedKeys();
+            flag = keys.getLong(1);
+            
+//            if(flag == 1) status = true;
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, e.toString());
         }
-        return status;
+        return flag;
     }
 
     @Override

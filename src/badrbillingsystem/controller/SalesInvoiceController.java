@@ -4,9 +4,13 @@ package badrbillingsystem.controller;
 import badrbillingsystem.models.Customer;
 import badrbillingsystem.models.Product;
 import badrbillingsystem.models.SalesInvoiceDetails;
+import badrbillingsystem.models.SalesInvoiceHeader;
 import badrbillingsystem.repos.customer.CustomerRepo;
 import badrbillingsystem.repos.product.ProductRepo;
+import badrbillingsystem.repos.salesinvoicedetails.SalesInvoiceDetailsRepo;
+import badrbillingsystem.repos.salesinvoiceheader.SalesInvoiceHeaderRepo;
 import badrbillingsystem.utils.AlertMaker;
+import badrbillingsystem.utils.NotificationMaker;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -15,6 +19,7 @@ import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -27,6 +32,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -110,7 +116,7 @@ public class SalesInvoiceController implements Initializable{
     private TextField txtTotal;
     
     ObservableList<SalesInvoiceDetails> data = FXCollections.observableArrayList();
-    DecimalFormat df = new DecimalFormat("#,###,###.##");
+    DecimalFormat df = new DecimalFormat("###.##");
     CustomerRepo customerRepo = new CustomerRepo();
 //    DateFormatter dateFormatter = new DateFormatter();
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MMMM-yyyy");
@@ -118,7 +124,12 @@ public class SalesInvoiceController implements Initializable{
     @FXML
     void newInvoice(ActionEvent event) {
         try {
+            Optional<ButtonType> r = AlertMaker.showConfirmationAlert("هل تريد فتح فاتورة جديدة؟");
             
+            if(r.get() != ButtonType.OK)
+                return;
+            
+            resetInvoice();
         } catch (Exception e) {
             e.printStackTrace();
             AlertMaker.showErrorALert(e.toString());
@@ -138,6 +149,43 @@ public class SalesInvoiceController implements Initializable{
     @FXML
     void saveInvoice(ActionEvent event) {
         try {
+            Optional<ButtonType> r = AlertMaker.showConfirmationAlert("هل تريد حفظ الفاتورة؟");
+            if(r.get() != ButtonType.OK)
+                return;
+            String customerName = cbCustomerName.getValue();
+            if(customerName == null){
+                AlertMaker.showErrorALert("اختر عميل اولا");
+                return;
+            }
+            Customer customer = customerRepo.findByName(customerName);
+            long customerId = customer.getId();
+            
+            String date = dpDate.getValue().toString();
+            double discount = Double.valueOf(txtDiscount.getText());
+            double tax = Double.valueOf(txtTaxInNumber.getText());
+            double total = Double.valueOf(txtTotal.getText());
+            
+            SalesInvoiceHeaderRepo headerRepo = new SalesInvoiceHeaderRepo();
+            SalesInvoiceHeader header = new SalesInvoiceHeader();
+            header.setCustomerId(customerId);
+            header.setDate(date);
+            header.setDiscount(discount);
+            header.setTax(tax);
+            header.setTotal(total);
+            header.setUserId(0);
+            long headerId = headerRepo.save(header);
+            
+            SalesInvoiceDetailsRepo detailsRepo = new SalesInvoiceDetailsRepo();
+            for (SalesInvoiceDetails d : data) {
+                d.setHeaderId(headerId);
+                detailsRepo.save(d);
+                
+            }
+            
+            resetInvoice();
+            NotificationMaker.showInformation("تم حفظ الفاتورة بالرقم " + headerId);
+            
+            
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -197,7 +245,9 @@ public class SalesInvoiceController implements Initializable{
                     details.setPrice(p.getPrice());
                     details.setQuantity(0);
                     details.setProductName(p.getName());
+                    Product product = productRepo.findByName(p.getName());
                     details.setDetails("");
+                    details.setProductId(product.getId());
                     addProductToInvoiceTable(details);
                 });
                 
@@ -298,7 +348,7 @@ public class SalesInvoiceController implements Initializable{
             double discount = Double.valueOf(txtDiscount.getText());
             double taxInPercentage = Double.valueOf(txtTaxInPercentage.getText());
             double tax = subtotal * (taxInPercentage / 100);
-            txtTaxInNumber.setText(df.format(tax) + " ريال");
+            txtTaxInNumber.setText(df.format(tax));
             
             double total = (subtotal + tax) - discount;
             
@@ -343,6 +393,24 @@ public class SalesInvoiceController implements Initializable{
             }
             
             cbCustomerName.setItems(data);
+        } catch (Exception e) {
+            e.printStackTrace();
+            AlertMaker.showErrorALert(e.toString());
+        }
+    }
+
+    private void resetInvoice() {
+        try {
+            txtCutomerPhone.setText("");
+            txtDiscount.setText("0.0");
+            txtSearchCustomer.setText("");
+            txtSubTotal.setText("0.0");
+            txtTaxInNumber.setText("0.0");
+            txtTaxInPercentage.setText("0.0");
+            txtTotal.setText("0.0");
+            data.clear();
+            cbCustomerName.getSelectionModel().clearSelection();
+            setInvoiceDate();
         } catch (Exception e) {
             e.printStackTrace();
             AlertMaker.showErrorALert(e.toString());

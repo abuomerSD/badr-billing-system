@@ -5,7 +5,7 @@ import badrbillingsystem.models.SalesInvoiceHeader;
 import java.util.ArrayList;
 
 public interface ISalesInvoiceHeaderRepo {
-    boolean save(SalesInvoiceHeader header);
+    long save(SalesInvoiceHeader header);
     boolean update(SalesInvoiceHeader newHeader);
     boolean delete(long id);
     SalesInvoiceHeader findById(long id);
