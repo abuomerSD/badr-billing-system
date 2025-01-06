@@ -2,6 +2,7 @@
 package badrbillingsystem.controller;
 
 import badrbillingsystem.models.Product;
+import badrbillingsystem.models.SalesInvoiceDetails;
 import badrbillingsystem.repos.product.ProductRepo;
 import badrbillingsystem.utils.AlertMaker;
 import java.io.File;
@@ -10,12 +11,20 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -30,7 +39,84 @@ public class SalesInvoiceController implements Initializable{
     }
     
     @FXML
+    private DatePicker dpDate;
+
+    @FXML
+    private ComboBox<String> cbCustomerName;
+
+    @FXML
+    private TextField txtCutomerPhone;
+
+    @FXML
+    private TextField txtSearchCustomer;
+
+    @FXML
     private GridPane gridPane;
+
+    @FXML
+    private TableView<SalesInvoiceDetails> tbInvocieDetails;
+
+    @FXML
+    private TableColumn<SalesInvoiceDetails, String> colProductName;
+
+    @FXML
+    private TableColumn<SalesInvoiceDetails, Double> colQuantity;
+
+    @FXML
+    private TableColumn<SalesInvoiceDetails, Double> colPrice;
+
+    @FXML
+    private TableColumn<SalesInvoiceDetails, Double> colTotal;
+
+    @FXML
+    private TableColumn<SalesInvoiceDetails, String> colDetails;
+
+    @FXML
+    private TextField txtSubTotal;
+
+    @FXML
+    private TextField txtDiscount;
+
+    @FXML
+    private TextField txtTaxInPercentage;
+
+    @FXML
+    private Label txtTaxInNumber;
+
+    @FXML
+    private TextField txtTotal;
+    
+    ObservableList<SalesInvoiceDetails> data = FXCollections.observableArrayList();
+
+    @FXML
+    void newInvoice(ActionEvent event) {
+        try {
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            AlertMaker.showErrorALert(e.toString());
+        }
+    }
+
+    @FXML
+    void printInvoice(ActionEvent event) {
+        try {
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            AlertMaker.showErrorALert(e.toString());
+        }
+    }
+
+    @FXML
+    void saveInvoice(ActionEvent event) {
+        try {
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            AlertMaker.showErrorALert(e.toString());
+        }
+    }
     
     ProductRepo productRepo = new ProductRepo();
     private void fillProductsGrid() {
@@ -74,12 +160,24 @@ public class SalesInvoiceController implements Initializable{
                     column = 0;
                 }
                 
-                
+                addButton.setStyle("-fx-font-family: 'almarai';");
                 // action listener
                 
                 addButton.setOnAction(e -> {
-                    AlertMaker.showMessageAlert(p.getName());
+//                    AlertMaker.showMessageAlert(p.getName());
                     System.out.println(p.getName());
+                    SalesInvoiceDetails details = new SalesInvoiceDetails();
+//                    details.setDetails(details);
+//                    details.setHeaderId(details);
+                    details.setPrice(p.getPrice());
+                    details.setQuantity(0);
+                    details.setProductName(p.getName());
+                    details.setDetails("");
+//                    details.setDetails(details);
+//                    details.setDetails(details);
+//                    details.setDetails(details);
+//                    details.setDetails(details);
+                    addProductToInvoiceTable(details);
                 });
                 
             }
@@ -90,5 +188,15 @@ public class SalesInvoiceController implements Initializable{
             AlertMaker.showErrorALert(e.toString());
         }
     }
+
+    private void addProductToInvoiceTable(SalesInvoiceDetails details) {
+        try {
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            AlertMaker.showErrorALert(e.toString());
+        }
+    }
+    
     
 }

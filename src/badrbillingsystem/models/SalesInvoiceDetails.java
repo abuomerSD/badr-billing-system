@@ -5,6 +5,7 @@ package badrbillingsystem.models;
 public class SalesInvoiceDetails {
     private long headerId;
     private long productId;
+    private String productName;
     private double quantity;
     private double price;
     private double total;
@@ -22,6 +23,16 @@ public class SalesInvoiceDetails {
         this.details = details;
     }
 
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    
+    
     public long getHeaderId() {
         return headerId;
     }
