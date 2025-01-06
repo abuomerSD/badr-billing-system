@@ -1,18 +1,17 @@
 
 package badrbillingsystem.utils;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 public class DateFormatter {
 
     
 //    public static SimpleDateFormat df = new SimpleDateFormat("dd-MMMM-yyyy");
     
-    DateTimeFormatter df = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+    DateTimeFormatter df = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     
-    public String format(LocalDateTime date) {
+    public String format(LocalDate date) {
         String formatedDate = date.format(df);
         return formatedDate;
     }

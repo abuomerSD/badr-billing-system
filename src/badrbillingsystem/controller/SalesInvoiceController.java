@@ -12,6 +12,8 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
@@ -49,13 +51,13 @@ public class SalesInvoiceController implements Initializable{
         tbInvocieDetails.setPlaceholder(new Label("لا توجد بيانات"));
         setInvoiceDate();
         fillCustomersComboBox();
-        cbCustomerName.focusedProperty().addListener(new ChangeListener<Boolean>(){
+        
+        cbCustomerName.valueProperty().addListener(new ChangeListener<String>(){
             @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 Customer c = customerRepo.findByName(cbCustomerName.getSelectionModel().getSelectedItem());
                 txtCutomerPhone.setText(c.getPhone());
-            }
-        
+            }        
         });
     }
     
@@ -108,8 +110,10 @@ public class SalesInvoiceController implements Initializable{
     private TextField txtTotal;
     
     ObservableList<SalesInvoiceDetails> data = FXCollections.observableArrayList();
-    DecimalFormat df = new DecimalFormat("#,###.##");
+    DecimalFormat df = new DecimalFormat("#,###,###.##");
     CustomerRepo customerRepo = new CustomerRepo();
+//    DateFormatter dateFormatter = new DateFormatter();
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MMMM-yyyy");
 
     @FXML
     void newInvoice(ActionEvent event) {
@@ -312,6 +316,7 @@ public class SalesInvoiceController implements Initializable{
             SalesInvoiceDetails d = tbInvocieDetails.getSelectionModel().getSelectedItem();
             
             data.remove(d);
+            calculateTotals();
         } catch (Exception e) {
             e.printStackTrace();
             AlertMaker.showErrorALert(e.toString());
@@ -320,7 +325,8 @@ public class SalesInvoiceController implements Initializable{
 
     private void setInvoiceDate() {
         try {
-            
+            String date = dtf.format(LocalDate.now());
+            dpDate.setValue(LocalDate.parse(date, dtf));
         } catch (Exception e) {
             e.printStackTrace();
             AlertMaker.showErrorALert(e.toString());
@@ -342,4 +348,5 @@ public class SalesInvoiceController implements Initializable{
             AlertMaker.showErrorALert(e.toString());
         }
     }
+
 }
