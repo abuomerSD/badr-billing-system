@@ -5,8 +5,10 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -95,7 +97,7 @@
                                     </VBox>
                                     <VBox prefHeight="438.0" prefWidth="532.0">
                                        <children>
-                                          <TableView fx:id="tbInvocieDetails" prefHeight="287.0" prefWidth="531.0">
+                                          <TableView fx:id="tbInvocieDetails" editable="true" prefHeight="287.0" prefWidth="531.0">
                                             <columns>
                                               <TableColumn fx:id="colProductName" prefWidth="194.0" text="اسم الصنف" />
                                               <TableColumn fx:id="colQuantity" prefWidth="65.0" text="العدد" />
@@ -103,6 +105,13 @@
                                                 <TableColumn fx:id="colTotal" prefWidth="97.0" text="الاجمالي" />
                                                 <TableColumn fx:id="colDetails" prefWidth="98.0" text="ملاحظات" />
                                             </columns>
+                                             <contextMenu>
+                                                <ContextMenu>
+                                                  <items>
+                                                    <MenuItem mnemonicParsing="false" onAction="#deleteProductFromTable" text="حذف" />
+                                                  </items>
+                                                </ContextMenu>
+                                             </contextMenu>
                                           </TableView>
                                           <HBox prefHeight="37.0" prefWidth="531.0">
                                              <children>
@@ -116,7 +125,7 @@
                                           <HBox prefHeight="37.0" prefWidth="531.0">
                                              <children>
                                                 <Label prefHeight="37.0" prefWidth="107.0" text="الخصم" />
-                                                <TextField fx:id="txtDiscount" prefHeight="37.0" prefWidth="127.0" text="0.0" />
+                                                <TextField fx:id="txtDiscount" onKeyReleased="#calculateTotals" prefHeight="37.0" prefWidth="127.0" text="0.0" />
                                              </children>
                                              <padding>
                                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -125,8 +134,11 @@
                                           <HBox prefHeight="37.0" prefWidth="531.0">
                                              <children>
                                                 <Label prefHeight="37.0" prefWidth="107.0" text="الضريبة ٪" />
-                                                <TextField fx:id="txtTaxInPercentage" prefHeight="37.0" prefWidth="127.0" text="0.0" />
-                                                <Label fx:id="txtTaxInNumber" alignment="CENTER" prefHeight="27.0" prefWidth="143.0" text="0.0" />
+                                                <TextField fx:id="txtTaxInPercentage" onKeyReleased="#calculateTotals" prefHeight="37.0" prefWidth="127.0" text="0.0" />
+                                                <Label fx:id="txtTaxInNumber" contentDisplay="RIGHT" prefHeight="27.0" prefWidth="267.0" text="0.0" textAlignment="RIGHT">
+                                                   <HBox.margin>
+                                                      <Insets left="10.0" />
+                                                   </HBox.margin></Label>
                                              </children>
                                              <padding>
                                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
