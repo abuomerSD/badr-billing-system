@@ -4,18 +4,31 @@ package badrbillingsystem.models;
 public class ReturnDocumentHeader {
     private long id;
     private long salesInvoiceId;
+    private String customerName;
     private String details;
     private String date;
+    private double total;
 
     public ReturnDocumentHeader() {
     }
 
-    public ReturnDocumentHeader(long id, long salesInvoiceId, String details, String date) {
+    public ReturnDocumentHeader(long id, long salesInvoiceId, String details, String date, double total) {
         this.id = id;
         this.salesInvoiceId = salesInvoiceId;
         this.details = details;
         this.date = date;
+        this.total = total;
     }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    
 
     public long getId() {
         return id;
@@ -49,10 +62,20 @@ public class ReturnDocumentHeader {
         this.date = date;
     }
 
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
+
     @Override
     public String toString() {
-        return "ReturnDocumentHeader{" + "id=" + id + ", salesInvoiceId=" + salesInvoiceId + ", details=" + details + ", date=" + date + '}';
+        return "ReturnDocumentHeader{" + "id=" + id + ", salesInvoiceId=" + salesInvoiceId + ", details=" + details + ", date=" + date + ", total=" + total + '}';
     }
+
+    
     
     
 }

@@ -3,6 +3,7 @@ package badrbillingsystem.controller;
 import badrbillingsystem.models.CompanyInfo;
 import badrbillingsystem.repos.companyinfo.CompanyInfoRepo;
 import badrbillingsystem.utils.AlertMaker;
+import badrbillingsystem.utils.NotificationMaker;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -110,6 +111,7 @@ public class CompanyInfoController implements Initializable{
             if(r.get() != ButtonType.OK)
                 return;
             repo.update(i);
+            NotificationMaker.showInformation("تم تعديل بيانات المؤسسة بنجاح");
         } catch (Exception e) {
             e.printStackTrace();
             AlertMaker.showErrorALert(e.toString());

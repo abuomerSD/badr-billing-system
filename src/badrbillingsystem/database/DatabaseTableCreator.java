@@ -193,6 +193,7 @@ public class DatabaseTableCreator {
                                 "ID INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                                 "SALES_INVOICE_ID INTEGER,\n" +
                                 "DETAILS VARCHAR(100),\n" +
+                                "TOTAL DOUBLE,\n" +
                                 "DOCUMENT_DATE VARCHAR(50)\n" +
                                 ");";
         

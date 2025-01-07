@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.image.Image?>
@@ -19,17 +20,31 @@
          <right>
             <VBox prefHeight="700" prefWidth="200.0" styleClass="sidebar" BorderPane.alignment="CENTER">
                <children>
-                  <Button mnemonicParsing="false" onAction="#showCustomersUI" prefHeight="70.0" prefWidth="250.0" styleClass="sidebar-button" text="العملاء">
-<!--               <font>
-                  <Font name="Cairo Regular" size="13.0" />
-               </font>-->
-            </Button>
-                  <Button mnemonicParsing="false" onAction="#showProductsUI" prefHeight="70.0" prefWidth="250.0" styleClass="sidebar-button" text="الاصناف" />
-                  <Button mnemonicParsing="false" onAction="#showSalesInvoicesUI" prefHeight="70.0" prefWidth="250.0" styleClass="sidebar-button" text="الفواتير" />
-                  <Button mnemonicParsing="false" prefHeight="70.0" prefWidth="250.0" styleClass="sidebar-button" text="مردود الفواتير" />
-                  <Button mnemonicParsing="false" onAction="#showUsersUI" prefHeight="70.0" prefWidth="250.0" styleClass="sidebar-button" text="المستخدمين" />
-                  <Button mnemonicParsing="false" onAction="#showCompanyInfoUI" prefHeight="70.0" prefWidth="250.0" styleClass="sidebar-button" text="بيانات المؤسسة" />
-                  <Button mnemonicParsing="false" prefHeight="70.0" prefWidth="250.0" styleClass="sidebar-button" text="حول البرنامج" />
+                  <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#showCustomersUI" prefHeight="70.0" prefWidth="250.0" styleClass="sidebar-button" text="العملاء">
+                     <graphic>
+                        <FontAwesomeIcon fill="WHITE" iconName="USERS" size="25" />
+                     </graphic></Button>
+                  <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#showProductsUI" prefHeight="70.0" prefWidth="250.0" styleClass="sidebar-button" text="الاصناف">
+                     <graphic>
+                        <FontAwesomeIcon fill="WHITE" iconName="CUBES" size="25" />
+                     </graphic></Button>
+                  <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#showSalesInvoicesUI" prefHeight="70.0" prefWidth="250.0" styleClass="sidebar-button" text="الفواتير">
+                     <graphic>
+                        <FontAwesomeIcon fill="WHITE" iconName="SHOPPING_CART" size="25" />
+                     </graphic></Button>
+                  <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#showReturnDocumentUI" prefHeight="70.0" prefWidth="250.0" styleClass="sidebar-button" text="مردود الفواتير">
+                     <graphic>
+                        <FontAwesomeIcon fill="WHITE" iconName="MAIL_REPLY" size="25" />
+                     </graphic></Button>
+                  <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#showUsersUI" prefHeight="70.0" prefWidth="250.0" styleClass="sidebar-button" text="المستخدمين">
+                     <graphic>
+                        <FontAwesomeIcon fill="WHITE" iconName="LOCK" size="25" />
+                     </graphic></Button>
+                  <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#showCompanyInfoUI" prefHeight="70.0" prefWidth="250.0" styleClass="sidebar-button" text="بيانات المؤسسة">
+                     <graphic>
+                        <FontAwesomeIcon fill="WHITE" iconName="BARS" size="25" />
+                     </graphic></Button>
+                  <!--<Button mnemonicParsing="false" prefHeight="70.0" prefWidth="250.0" styleClass="sidebar-button" text="حول البرنامج" />-->
                </children>
             </VBox>
          </right>

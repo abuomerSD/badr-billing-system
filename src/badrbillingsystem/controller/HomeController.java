@@ -82,4 +82,16 @@ public class HomeController implements Initializable{
         
     }
     
+    @FXML
+    private void showReturnDocumentUI(ActionEvent event)  {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/badrbillingsystem/ui/returnDocument.fxml"));
+            borderPane.setCenter(root);
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.toString());
+        }
+        
+    }
+    
 }

@@ -2,11 +2,13 @@
 package badrbillingsystem.controller;
 
 import badrbillingsystem.models.Customer;
+import badrbillingsystem.models.CustomerAccount;
 import badrbillingsystem.models.Product;
 import badrbillingsystem.models.ProductMovement;
 import badrbillingsystem.models.SalesInvoiceDetails;
 import badrbillingsystem.models.SalesInvoiceHeader;
 import badrbillingsystem.repos.customer.CustomerRepo;
+import badrbillingsystem.repos.customeraccount.CustomerAccountRepo;
 import badrbillingsystem.repos.product.ProductRepo;
 import badrbillingsystem.repos.productmovement.ProductMovementRepo;
 import badrbillingsystem.repos.salesinvoicedetails.SalesInvoiceDetailsRepo;
@@ -161,6 +163,8 @@ public class SalesInvoiceController implements Initializable{
     SalesInvoiceHeaderRepo headerRepo = new SalesInvoiceHeaderRepo();
     ProductMovementRepo productMovementRepo = new ProductMovementRepo();
     SalesInvoiceDetailsRepo detailsRepo = new SalesInvoiceDetailsRepo();
+    CustomerAccountRepo customerAccountRepo = new CustomerAccountRepo();
+    
 
     @FXML
     void newInvoice(ActionEvent event) {
@@ -201,6 +205,8 @@ public class SalesInvoiceController implements Initializable{
                 productMovementRepo.deleteBySalesInvoiceId(d.getProductId(), headerId);
             }
             
+            // delete customer account
+            customerAccountRepo.deleteBySalesInvoiceId(headerId, header.getCustomerId());
             NotificationMaker.showInformation("تم حذف الفاتورة بنجاح");
             fillInvoicesListTable();
         } catch (Exception e) {
@@ -238,6 +244,7 @@ public class SalesInvoiceController implements Initializable{
             double tax = Double.valueOf(txtTaxInNumber.getText());
             double total = Double.valueOf(txtTotal.getText());
             
+            
             SalesInvoiceHeader header = new SalesInvoiceHeader();
             header.setCustomerId(customerId);
             header.setDate(date);
@@ -246,7 +253,7 @@ public class SalesInvoiceController implements Initializable{
             header.setTotal(total);
             header.setUserId(0);
             long headerId = headerRepo.save(header);
-            
+            String info = "فاتورة مبيعات رقم " + headerId;
             
             
             for (SalesInvoiceDetails d : data) {
@@ -254,7 +261,7 @@ public class SalesInvoiceController implements Initializable{
                 movement.setCustomerId(customerId);
                 movement.setDate(date);
                 movement.setDetails(d.getDetails());
-                movement.setMovementInfo("فاتورة مبيعات رقم " + headerId);
+                movement.setMovementInfo(info);
                 movement.setProductId(d.getProductId());
                 movement.setReturnInvoiceId(0);
                 movement.setReturnQuantity(0);
@@ -267,6 +274,20 @@ public class SalesInvoiceController implements Initializable{
                 detailsRepo.save(d);
                 
             }
+            
+            // add invoice to customer account
+            CustomerAccount account = new CustomerAccount();
+            account.setCustomerId(customerId);
+            account.setDate(date);
+            account.setIncoming(0);
+            account.setInfo(info);
+            account.setOutgoing(total);
+            account.setReturnDocumentId(0);
+            account.setSalesInvoiceId(headerId);
+            
+            customerAccountRepo.save(account);
+            
+            
             
             resetInvoice();
             NotificationMaker.showInformation("تم حفظ الفاتورة بالرقم " + headerId);

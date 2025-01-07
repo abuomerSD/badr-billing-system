@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox layoutX="301.0" layoutY="134.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="700.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <TabPane prefHeight="700.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab fx:id="colProductName" styleClass="label" text="مردود مبيعات">
+                     <content>
+                        <VBox prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <AnchorPane prefHeight="66.0" prefWidth="900.0">
+                                 <children>
+                                    <Label layoutX="12.0" layoutY="-3.0" prefHeight="68.0" prefWidth="138.0" text="مردود مبيعات" />
+                                    <DatePicker fx:id="dpDate" layoutX="733.0" layoutY="14.0" prefHeight="30.0" prefWidth="155.0" />
+                                 </children>
+                              </AnchorPane>
+                              <HBox prefHeight="276.0" prefWidth="900.0">
+                                 <children>
+                                    <TableView fx:id="tbReturnDocumentDetails" prefHeight="276.0" prefWidth="899.0">
+                                      <columns>
+                                        <TableColumn fx:id="colPName" prefWidth="253.0" text="اسم الصنف" />
+                                        <TableColumn fx:id="colPQuantity" prefWidth="145.0" text="العدد" />
+                                          <TableColumn fx:id="colPPrice" prefWidth="135.0" text="السعر" />
+                                          <TableColumn fx:id="colPTotal" prefWidth="134.0" text="الإجمالي" />
+                                          <TableColumn fx:id="colPDetails" prefWidth="212.0" text="التفاصيل" />
+                                      </columns>
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </HBox.margin>
+                                    </TableView>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="BOTTOM_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="210.0" prefWidth="900.0">
+                                 <children>
+                                    <VBox prefHeight="210.0" prefWidth="479.0">
+                                       <children>
+                                          <HBox alignment="CENTER_LEFT" nodeOrientation="RIGHT_TO_LEFT" prefHeight="52.0" prefWidth="479.0">
+                                             <children>
+                                                <Label contentDisplay="CENTER" prefHeight="51.0" prefWidth="126.0" text="الخصم">
+                                                   <HBox.margin>
+                                                      <Insets left="10.0" right="5.0" />
+                                                   </HBox.margin>
+                                                </Label>
+                                                <TextField fx:id="txtDiscount" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" nodeOrientation="RIGHT_TO_LEFT" prefHeight="52.0" prefWidth="479.0">
+                                             <children>
+                                                <Label contentDisplay="CENTER" prefHeight="51.0" prefWidth="126.0" text="الضريبة">
+                                                   <HBox.margin>
+                                                      <Insets left="10.0" right="5.0" />
+                                                   </HBox.margin>
+                                                </Label>
+                                                <TextField fx:id="txtTax" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" nodeOrientation="RIGHT_TO_LEFT" prefHeight="52.0" prefWidth="479.0">
+                                             <children>
+                                                <Label contentDisplay="CENTER" prefHeight="51.0" prefWidth="126.0" text="إجمالي المردود">
+                                                   <HBox.margin>
+                                                      <Insets left="10.0" right="5.0" />
+                                                   </HBox.margin>
+                                                </Label>
+                                                <TextField fx:id="txtTotal" />
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#saveReturnDocument" prefHeight="62.0" prefWidth="145.0" styleClass="btn-save" text="حفظ">
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </HBox.margin>
+                                       <graphic>
+                                          <FontAwesomeIcon fill="WHITE" iconName="SAVE" size="20" />
+                                       </graphic>
+                                    </Button>
+                                    <Button mnemonicParsing="false" onAction="#printReturnDocument" prefHeight="62.0" prefWidth="145.0" styleClass="btn-primary" text="طباعة">
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </HBox.margin>
+                                       <graphic>
+                                          <FontAwesomeIcon fill="WHITE" iconName="PRINT" size="20" />
+                                       </graphic>
+                                    </Button>
+                                    <Button mnemonicParsing="false" onAction="#newReturnDocument" prefHeight="62.0" prefWidth="145.0" styleClass="btn-secondary" text="مردود جديد">
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </HBox.margin>
+                                       <graphic>
+                                          <FontAwesomeIcon fill="WHITE" iconName="FILE_TEXT" size="20" />
+                                       </graphic>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </content>
+                  </Tab>
+                <Tab styleClass="label" text="قائمة المردودات">
+                     <content>
+                        <VBox prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <HBox alignment="CENTER_LEFT" prefHeight="90.0" prefWidth="900.0">
+                                 <children>
+                                    <ComboBox fx:id="cbFilterTableByCustomerName" prefHeight="40.0" prefWidth="150.0" promptText="إختر عميل">
+                                       <HBox.margin>
+                                          <Insets left="10.0" right="10.0" />
+                                       </HBox.margin>
+                                    </ComboBox>
+                                    <Button mnemonicParsing="false" onAction="#refreshListTable" prefHeight="46.0" prefWidth="56.0" styleClass="btn-secondary">
+                                       <graphic>
+                                          <FontAwesomeIcon fill="WHITE" iconName="REFRESH" size="25" />
+                                       </graphic>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="472.0" prefWidth="900.0">
+                                 <children>
+                                    <TableView fx:id="tbReturnDocumentsList" prefHeight="200.0" prefWidth="900.0">
+                                      <columns>
+                                        <TableColumn fx:id="colListDate" prefWidth="75.0" text="التاريخ" />
+                                        <TableColumn fx:id="colListId" prefWidth="75.0" text="الرقم" />
+                                          <TableColumn fx:id="colListInvoiceId" prefWidth="134.0" text="رقم فاتورة المبيعات" />
+                                          <TableColumn fx:id="colListCustomerName" prefWidth="216.0" text="اسم العميل" />
+                                          <TableColumn fx:id="colListDetails" prefWidth="249.0" text="التفاصيل" />
+                                          <TableColumn fx:id="colListTotal" prefWidth="129.0" text="إجمالي المردودات" />
+                                      </columns>
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </HBox.margin>
+                                    </TableView>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#printReturnDocumentFromList" prefHeight="59.0" prefWidth="166.0" styleClass="btn-primary" text="طباعة">
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </HBox.margin>
+                                       <graphic>
+                                          <FontAwesomeIcon fill="WHITE" iconName="PRINT" size="25" />
+                                       </graphic>
+                                    </Button>
+                                    <Button mnemonicParsing="false" onAction="#deleteReturnDocumentFromList" prefHeight="59.0" prefWidth="166.0" styleClass="btn-delete" text="حذف">
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </HBox.margin>
+                                       <graphic>
+                                          <FontAwesomeIcon fill="WHITE" iconName="TRASH" size="25" />
+                                       </graphic>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </content>
+                  </Tab>
+              </tabs>
+            </TabPane>
+         </children></HBox>
+   </children>
+</AnchorPane>
