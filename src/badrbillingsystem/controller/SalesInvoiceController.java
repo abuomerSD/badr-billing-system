@@ -160,6 +160,7 @@ public class SalesInvoiceController implements Initializable{
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MMMM-yyyy");
     SalesInvoiceHeaderRepo headerRepo = new SalesInvoiceHeaderRepo();
     ProductMovementRepo productMovementRepo = new ProductMovementRepo();
+    SalesInvoiceDetailsRepo detailsRepo = new SalesInvoiceDetailsRepo();
 
     @FXML
     void newInvoice(ActionEvent event) {
@@ -184,7 +185,28 @@ public class SalesInvoiceController implements Initializable{
     
     @FXML
     void listInvoiceDelete() { 
-
+        try {
+            SalesInvoiceHeader header = tbInvoicesList.getSelectionModel().getSelectedItem();
+            long headerId = header.getId();
+            Optional<ButtonType> r = AlertMaker.showConfirmationAlert("هل تريد حذف الفاتورة" +" " + headerId + " ؟");
+            if (r.get() != ButtonType.OK) {
+                return;
+            }
+            headerRepo.delete(headerId);
+            
+            ArrayList<SalesInvoiceDetails> details = detailsRepo.findAllByHeaderId(headerId);
+            
+            for(SalesInvoiceDetails d : details) {
+                detailsRepo.delete(d.getProductId(), headerId);
+                productMovementRepo.deleteBySalesInvoiceId(d.getProductId(), headerId);
+            }
+            
+            NotificationMaker.showInformation("تم حذف الفاتورة بنجاح");
+            fillInvoicesListTable();
+        } catch (Exception e) {
+            e.printStackTrace();
+            AlertMaker.showErrorALert(e.toString());
+        }
     }
 
     @FXML
@@ -225,7 +247,7 @@ public class SalesInvoiceController implements Initializable{
             header.setUserId(0);
             long headerId = headerRepo.save(header);
             
-            SalesInvoiceDetailsRepo detailsRepo = new SalesInvoiceDetailsRepo();
+            
             
             for (SalesInvoiceDetails d : data) {
                 ProductMovement movement = new ProductMovement();

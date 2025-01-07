@@ -100,6 +100,7 @@ public class ProductMovementRepo implements IProductMovementRepo{
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setLong(1, productId);
             ps.setLong(2, invoiceId);
+            System.out.println(ps.toString());
             int flag = ps.executeUpdate();
             if(flag == 1) status = true;
         } catch (Exception e) {

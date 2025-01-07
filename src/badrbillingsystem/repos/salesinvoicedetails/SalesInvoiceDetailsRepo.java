@@ -55,13 +55,15 @@ public class SalesInvoiceDetailsRepo implements ISalesInvoiceDetailsRepo{
     }
 
     @Override
-    public boolean delete(long productId) {
-        String sql = "DELETE FROM TB_SALES_INVOICE_DETAILS WHERE PRODUCT_ID=?";
+    public boolean delete(long productId, long headerId) {
+        String sql = "DELETE FROM TB_SALES_INVOICE_DETAILS WHERE PRODUCT_ID=? AND HEADER_ID =?";
         boolean status = false;
         try {
             Connection con = DBConnection.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setLong(1, productId);
+            ps.setLong(2, headerId);
+            System.out.println(ps.toString());
             int flag = ps.executeUpdate();
             if(flag == 1) status = true;
         } catch (Exception e) {
