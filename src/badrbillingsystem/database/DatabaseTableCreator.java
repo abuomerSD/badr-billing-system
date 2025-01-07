@@ -15,7 +15,8 @@ import javax.swing.JOptionPane;
 public class DatabaseTableCreator {
     
     public static void createTables() {
-        createCutomersTable();
+        createCustomersTable();
+        createCustomerAccountTable();
         createProductsTable();
         createUsersTable();
         insertAdminUser();
@@ -28,7 +29,7 @@ public class DatabaseTableCreator {
         insertDefaultCompanyInfo();
     }
     
-    private static void createCutomersTable(){
+    private static void createCustomersTable(){
         String sql = "CREATE TABLE  IF NOT EXISTS TB_CUSTOMER (\n" +
                             "	ID INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                             "	NAME VARCHAR(100) UNIQUE, \n" +
@@ -242,6 +243,27 @@ public class DatabaseTableCreator {
                 repo.save(info);
             }
             
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.toString());
+        }
+    }
+
+    private static void createCustomerAccountTable() {
+        String sql = "CREATE TABLE IF NOT EXISTS TB_CUTOMER_ACCOUNT (\n" +
+                                    "TRANSACTION_DATE VARCHAR(50),\n" +
+                                    "SALES_INVOICE_ID INTEGER,\n" +
+                                    "RETURN_INVOICE_ID INTEGER,\n" +
+                                    "CUSTOMER_ID INTEGER,\n" +
+                                    "INCOMING_VALUE DOUBLE,\n" +
+                                    "OUTGOING_VALUE DOUBLE,\n" +
+                                    "TOTAL_BALANCE DOUBLE,\n" +
+                                    "INFO VARCHAR(50)\n" +
+                                    ");";
+        try {
+            Connection con = DBConnection.getConnection();
+            Statement st = con.createStatement();
+            st.execute(sql);
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, e.toString());
