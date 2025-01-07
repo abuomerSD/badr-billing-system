@@ -26,6 +26,7 @@ public class ProductMovement {
         this.date = date;
     }
 
+    
     public long getCustomerId() {
         return customerId;
     }

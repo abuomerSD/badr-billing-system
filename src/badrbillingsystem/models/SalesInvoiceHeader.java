@@ -10,6 +10,7 @@ public class SalesInvoiceHeader {
     private double tax;
     private double total;
     private String date;
+    private String cutomerName;
 
     public SalesInvoiceHeader() {
     }
@@ -24,6 +25,15 @@ public class SalesInvoiceHeader {
         this.date = date;
     }
 
+    public String getCutomerName() {
+        return cutomerName;
+    }
+
+    public void setCutomerName(String cutomerName) {
+        this.cutomerName = cutomerName;
+    }
+    
+    
     public long getId() {
         return id;
     }

@@ -193,7 +193,71 @@
                   </HBox>
                </content>
             </Tab>
-          <Tab styleClass="label" text="قائمة الفواتير" />
+          <Tab styleClass="label" text="قائمة الفواتير">
+               <content>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <VBox prefHeight="667.0" prefWidth="907.0">
+                           <children>
+                              <HBox alignment="CENTER_LEFT" prefHeight="71.0" prefWidth="900.0">
+                                 <children>
+                                    <ComboBox fx:id="cbFilterListByCutomer" prefHeight="42.0" prefWidth="261.0" promptText="إختر عميل">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </ComboBox>
+                                    <Button mnemonicParsing="false" onAction="#fillInvoicesListTable" prefHeight="45.0" prefWidth="66.0" styleClass="btn-secondary">
+                                       <graphic>
+                                          <FontAwesomeIcon fill="WHITE" iconName="REFRESH" size="30" />
+                                       </graphic>
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                              <VBox prefHeight="467.0" prefWidth="900.0">
+                                 <children>
+                                    <TableView fx:id="tbInvoicesList" prefHeight="455.0" prefWidth="900.0">
+                                      <columns>
+                                        <TableColumn fx:id="colListDate" prefWidth="141.0" text="التاريخ" />
+                                        <TableColumn fx:id="colListId" prefWidth="106.0" sortType="DESCENDING" text="رقم الفاتورة" />
+                                          <TableColumn fx:id="colListCustmerName" prefWidth="211.0" text="إسم العميل" />
+                                          <TableColumn fx:id="colListDiscount" prefWidth="136.0" text="الخصم" />
+                                          <TableColumn fx:id="colListTax" prefWidth="149.0" text="الضريبة" />
+                                          <TableColumn fx:id="colListTotal" prefWidth="135.0" text="الإجمالي" />
+                                      </columns>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </TableView>
+                                 </children>
+                              </VBox>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#listInvoicePrint" prefHeight="58.0" prefWidth="164.0" styleClass="btn-primary" text="طباعة">
+                                       <graphic>
+                                          <FontAwesomeIcon fill="WHITE" iconName="PRINT" size="20" />
+                                       </graphic>
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" right="10.0" top="10.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Button mnemonicParsing="false" onAction="#listInvoiceDelete" prefHeight="58.0" prefWidth="164.0" styleClass="btn-delete" text="حذف">
+                                       <graphic>
+                                          <FontAwesomeIcon fill="WHITE" iconName="TRASH" size="20" />
+                                       </graphic>
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" right="10.0" top="10.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </content></Tab>
         </tabs>
       </TabPane>
    </children>

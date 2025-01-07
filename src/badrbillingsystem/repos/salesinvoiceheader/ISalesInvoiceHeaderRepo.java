@@ -11,6 +11,7 @@ public interface ISalesInvoiceHeaderRepo {
     SalesInvoiceHeader findById(long id);
 //    SalesInvoiceHeader findByName(String name);
     ArrayList<SalesInvoiceHeader> findAll();
+    ArrayList<SalesInvoiceHeader> findByCutomerId(long id);
 //    ArrayList<User> findBySearchWords(String searchWords);
     
 }

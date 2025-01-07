@@ -73,7 +73,7 @@
                       <TableColumn fx:id="colDate" prefWidth="252.0" text="التاريخ" />
                       <TableColumn fx:id="colIn" prefWidth="202.0" text="الوارد" />
                         <TableColumn fx:id="colOut" prefWidth="222.0" text="المنصرف" />
-                        <TableColumn fx:id="colDetails" prefWidth="403.0" text="البيان" />
+                        <TableColumn fx:id="colInfo" prefWidth="403.0" text="البيان" />
                     </columns>
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" />

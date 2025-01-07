@@ -80,8 +80,8 @@ public class ProductMovementController implements Initializable {
     @FXML
     private TableColumn<ProductMovement, Double> colOut;
 
-    @FXML
-    private TableColumn<ProductMovement, String> colDetails;
+//    @FXML
+//    private TableColumn<ProductMovement, String> colDetails;
     
     @FXML
     private ComboBox<String> cbCustomerName;
@@ -108,7 +108,7 @@ public class ProductMovementController implements Initializable {
     private void updateMovementTableData() {
         try {
             colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
-            colDetails.setCellValueFactory(new PropertyValueFactory<>("details"));
+//            colDetails.setCellValueFactory(new PropertyValueFactory<>("details"));
             colIn.setCellValueFactory(new PropertyValueFactory<>("returnQuantity"));
             colInfo.setCellValueFactory(new PropertyValueFactory<>("movementInfo"));
             colOut.setCellValueFactory(new PropertyValueFactory<>("salesQuantity"));
@@ -127,7 +127,7 @@ public class ProductMovementController implements Initializable {
             
             ObservableList<ProductMovement> data = FXCollections.observableArrayList(repo.findAllByKeywords(fromDate, toDate, customerId));
             colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
-            colDetails.setCellValueFactory(new PropertyValueFactory<>("details"));
+//            colDetails.setCellValueFactory(new PropertyValueFactory<>("details"));
             colIn.setCellValueFactory(new PropertyValueFactory<>("returnQuantity"));
             colInfo.setCellValueFactory(new PropertyValueFactory<>("movementInfo"));
             colOut.setCellValueFactory(new PropertyValueFactory<>("salesQuantity"));

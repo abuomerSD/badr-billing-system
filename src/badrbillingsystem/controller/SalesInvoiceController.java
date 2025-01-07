@@ -3,10 +3,12 @@ package badrbillingsystem.controller;
 
 import badrbillingsystem.models.Customer;
 import badrbillingsystem.models.Product;
+import badrbillingsystem.models.ProductMovement;
 import badrbillingsystem.models.SalesInvoiceDetails;
 import badrbillingsystem.models.SalesInvoiceHeader;
 import badrbillingsystem.repos.customer.CustomerRepo;
 import badrbillingsystem.repos.product.ProductRepo;
+import badrbillingsystem.repos.productmovement.ProductMovementRepo;
 import badrbillingsystem.repos.salesinvoicedetails.SalesInvoiceDetailsRepo;
 import badrbillingsystem.repos.salesinvoiceheader.SalesInvoiceHeaderRepo;
 import badrbillingsystem.utils.AlertMaker;
@@ -25,6 +27,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -57,6 +60,8 @@ public class SalesInvoiceController implements Initializable{
         tbInvocieDetails.setPlaceholder(new Label("لا توجد بيانات"));
         setInvoiceDate();
         fillCustomersComboBox();
+        fillInvoicesListTable();
+        fillFilterInvoicesListCustomerCB();
         
         cbCustomerName.valueProperty().addListener(new ChangeListener<String>(){
             @Override
@@ -65,6 +70,14 @@ public class SalesInvoiceController implements Initializable{
                 txtCutomerPhone.setText(c.getPhone());
             }        
         });
+        
+        cbFilterListByCutomer.valueProperty().addListener(new ChangeListener<String>(){
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                filterInvoicesListTable();
+            }
+            
+        });
     }
     
     @FXML
@@ -72,6 +85,9 @@ public class SalesInvoiceController implements Initializable{
 
     @FXML
     private ComboBox<String> cbCustomerName;
+    
+    @FXML
+    private ComboBox<String> cbFilterListByCutomer;
 
     @FXML
     private TextField txtCutomerPhone;
@@ -115,11 +131,35 @@ public class SalesInvoiceController implements Initializable{
     @FXML
     private TextField txtTotal;
     
+    @FXML
+    TableView<SalesInvoiceHeader> tbInvoicesList;
+    
+    @FXML
+    TableColumn<SalesInvoiceHeader, String> colListDate;
+    
+    @FXML
+    TableColumn<SalesInvoiceHeader, Long> colListId;
+    
+    @FXML
+    TableColumn<SalesInvoiceHeader, String> colListCustmerName;
+    
+    @FXML
+    TableColumn<SalesInvoiceHeader, Double> colListDiscount;
+    
+    @FXML
+    TableColumn<SalesInvoiceHeader, Double> colListTax;
+    
+    @FXML
+    TableColumn<SalesInvoiceHeader, Double> colListTotal;
+    
+    
     ObservableList<SalesInvoiceDetails> data = FXCollections.observableArrayList();
     DecimalFormat df = new DecimalFormat("###.##");
     CustomerRepo customerRepo = new CustomerRepo();
 //    DateFormatter dateFormatter = new DateFormatter();
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MMMM-yyyy");
+    SalesInvoiceHeaderRepo headerRepo = new SalesInvoiceHeaderRepo();
+    ProductMovementRepo productMovementRepo = new ProductMovementRepo();
 
     @FXML
     void newInvoice(ActionEvent event) {
@@ -134,6 +174,17 @@ public class SalesInvoiceController implements Initializable{
             e.printStackTrace();
             AlertMaker.showErrorALert(e.toString());
         }
+    }
+    
+    
+    @FXML
+    void listInvoicePrint(){
+        
+    }
+    
+    @FXML
+    void listInvoiceDelete() { 
+
     }
 
     @FXML
@@ -165,7 +216,6 @@ public class SalesInvoiceController implements Initializable{
             double tax = Double.valueOf(txtTaxInNumber.getText());
             double total = Double.valueOf(txtTotal.getText());
             
-            SalesInvoiceHeaderRepo headerRepo = new SalesInvoiceHeaderRepo();
             SalesInvoiceHeader header = new SalesInvoiceHeader();
             header.setCustomerId(customerId);
             header.setDate(date);
@@ -176,7 +226,21 @@ public class SalesInvoiceController implements Initializable{
             long headerId = headerRepo.save(header);
             
             SalesInvoiceDetailsRepo detailsRepo = new SalesInvoiceDetailsRepo();
+            
             for (SalesInvoiceDetails d : data) {
+                ProductMovement movement = new ProductMovement();
+                movement.setCustomerId(customerId);
+                movement.setDate(date);
+                movement.setDetails(d.getDetails());
+                movement.setMovementInfo("فاتورة مبيعات رقم " + headerId);
+                movement.setProductId(d.getProductId());
+                movement.setReturnInvoiceId(0);
+                movement.setReturnQuantity(0);
+                movement.setSalesInvoiceId(headerId);
+                movement.setSalesQuantity(d.getQuantity());
+                
+                productMovementRepo.save(movement);
+                
                 d.setHeaderId(headerId);
                 detailsRepo.save(d);
                 
@@ -184,6 +248,8 @@ public class SalesInvoiceController implements Initializable{
             
             resetInvoice();
             NotificationMaker.showInformation("تم حفظ الفاتورة بالرقم " + headerId);
+            fillInvoicesListTable();
+            
             
             
             
@@ -411,6 +477,93 @@ public class SalesInvoiceController implements Initializable{
             data.clear();
             cbCustomerName.getSelectionModel().clearSelection();
             setInvoiceDate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            AlertMaker.showErrorALert(e.toString());
+        }
+    }
+
+    @FXML
+    private void fillInvoicesListTable() {
+        try {
+            
+            cbFilterListByCutomer.getSelectionModel().clearSelection();
+            
+            colListCustmerName.setCellValueFactory(new PropertyValueFactory<>("cutomerName"));
+            colListDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+            colListDiscount.setCellValueFactory(new PropertyValueFactory<>("discount"));
+            colListId.setCellValueFactory(new PropertyValueFactory<>("id"));
+            colListTax.setCellValueFactory(new PropertyValueFactory<>("tax"));
+            colListTotal.setCellValueFactory(new PropertyValueFactory<>("total"));
+            
+            
+            ObservableList<SalesInvoiceHeader> data = FXCollections.observableArrayList(headerRepo.findAll());
+            
+            SortedList<SalesInvoiceHeader> sortedList = new SortedList<>(data);
+            
+            sortedList.comparatorProperty().bind(tbInvoicesList.comparatorProperty());
+            
+            tbInvoicesList.setItems(sortedList);
+            
+            colListId.setSortType(TableColumn.SortType.DESCENDING);
+            tbInvoicesList.getSortOrder().addAll(colListId);
+            
+            
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            AlertMaker.showErrorALert(e.toString());
+        }
+    }
+    
+    @FXML
+    void filterInvoicesListTable(){
+        try {
+            String customerName = cbFilterListByCutomer.getSelectionModel().getSelectedItem();
+
+            Customer c = customerRepo.findByName(customerName);
+            
+            if(c == null)
+            {
+                filterInvoicesListTable();
+                return;
+            }
+                
+                
+            
+            colListCustmerName.setCellValueFactory(new PropertyValueFactory<>("cutomerName"));
+            colListDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+            colListDiscount.setCellValueFactory(new PropertyValueFactory<>("discount"));
+            colListId.setCellValueFactory(new PropertyValueFactory<>("id"));
+            colListTax.setCellValueFactory(new PropertyValueFactory<>("tax"));
+            colListTotal.setCellValueFactory(new PropertyValueFactory<>("total"));
+            
+            ObservableList<SalesInvoiceHeader> data = FXCollections.observableArrayList(headerRepo.findByCutomerId(c.getId()));
+            
+            SortedList<SalesInvoiceHeader> sortedList = new SortedList<>(data);
+            
+            sortedList.comparatorProperty().bind(tbInvoicesList.comparatorProperty());
+            
+            tbInvoicesList.setItems(sortedList);
+            
+            colListId.setSortType(TableColumn.SortType.DESCENDING);
+            tbInvoicesList.getSortOrder().addAll(colListId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            AlertMaker.showErrorALert(e.toString());
+        }
+    }
+
+    private void fillFilterInvoicesListCustomerCB() {
+        try {
+            ObservableList<String> d = FXCollections.observableArrayList();
+            ArrayList<Customer> list = customerRepo.findAll();
+            
+            for(Customer c : list) {
+                d.add(c.getName());
+            }
+            
+            cbFilterListByCutomer.setItems(d);
         } catch (Exception e) {
             e.printStackTrace();
             AlertMaker.showErrorALert(e.toString());
