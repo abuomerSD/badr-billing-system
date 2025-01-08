@@ -191,6 +191,7 @@ public class DatabaseTableCreator {
     private static void createReturnDocumentHeaderTable() {
         String sql = "CREATE TABLE IF NOT EXISTS TB_RETURN_DOCUMENT_HEADER(\n" +
                                 "ID INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+                                "CUSTOMER_ID INTEGER,\n" +
                                 "SALES_INVOICE_ID INTEGER,\n" +
                                 "DETAILS VARCHAR(100),\n" +
                                 "TOTAL DOUBLE,\n" +

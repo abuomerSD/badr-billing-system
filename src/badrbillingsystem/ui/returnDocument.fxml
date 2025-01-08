@@ -175,12 +175,12 @@
                                  <children>
                                     <TableView fx:id="tbReturnDocumentsList" prefHeight="200.0" prefWidth="900.0">
                                       <columns>
-                                        <TableColumn fx:id="colListDate" prefWidth="75.0" text="التاريخ" />
-                                        <TableColumn fx:id="colListId" prefWidth="75.0" text="الرقم" />
-                                          <TableColumn fx:id="colListInvoiceId" prefWidth="134.0" text="رقم فاتورة المبيعات" />
-                                          <TableColumn fx:id="colListCustomerName" prefWidth="216.0" text="اسم العميل" />
-                                          <TableColumn fx:id="colListDetails" prefWidth="249.0" text="التفاصيل" />
-                                          <TableColumn fx:id="colListTotal" prefWidth="129.0" text="إجمالي المردودات" />
+                                        <TableColumn fx:id="colListDate" prefWidth="98.0" text="التاريخ" />
+                                        <TableColumn fx:id="colListId" prefWidth="79.0" text="الرقم" />
+                                          <TableColumn fx:id="colListInvoiceId" prefWidth="136.0" text="رقم فاتورة المبيعات" />
+                                          <TableColumn fx:id="colListCustomerName" prefWidth="156.0" text="اسم العميل" />
+                                          <TableColumn fx:id="colListDetails" prefWidth="229.0" text="التفاصيل" />
+                                          <TableColumn fx:id="colListTotal" prefWidth="180.0" text="إجمالي المردودات" />
                                       </columns>
                                        <HBox.margin>
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

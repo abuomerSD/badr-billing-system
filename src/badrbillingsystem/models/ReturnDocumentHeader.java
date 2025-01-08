@@ -5,6 +5,7 @@ public class ReturnDocumentHeader {
     private long id;
     private long salesInvoiceId;
     private Long customerId;
+    private String customerName;
     private String details;
     private String date;
     private double total;
@@ -19,6 +20,16 @@ public class ReturnDocumentHeader {
         this.date = date;
         this.total = total;
     }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+    
+    
 
     public Long getCustomerId() {
         return customerId;

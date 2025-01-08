@@ -18,10 +18,12 @@ import badrbillingsystem.repos.salesinvoicedetails.SalesInvoiceDetailsRepo;
 import badrbillingsystem.repos.salesinvoiceheader.SalesInvoiceHeaderRepo;
 import badrbillingsystem.utils.AlertMaker;
 import badrbillingsystem.utils.DateFormatter;
+import com.badrbillingsystem.utils.NotificationMaker;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -29,6 +31,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -140,7 +143,11 @@ public class ReturnDocumentController implements Initializable{
     @FXML
     void newReturnDocument(ActionEvent event) {
         try {
-            
+            Optional<ButtonType> r = AlertMaker.showConfirmationAlert("هل تريد فتح مستند مردود جديد؟");
+            if(r.get() != ButtonType.OK){
+                return;
+            }
+            resetDocument();
         } catch (Exception e) {
             e.printStackTrace();
             AlertMaker.showErrorALert(e.toString());
@@ -173,7 +180,9 @@ public class ReturnDocumentController implements Initializable{
     @FXML
     void refreshListTable(ActionEvent event) {
         try {
-            
+            ArrayList<ReturnDocumentHeader> list = returnDocumentHeaderRepo.findAll();
+            ObservableList<ReturnDocumentHeader> data = FXCollections.observableArrayList(list);
+            fillReturnDocumentHeaderTable(data);
         } catch (Exception e) {
             e.printStackTrace();
             AlertMaker.showErrorALert(e.toString());
@@ -185,6 +194,10 @@ public class ReturnDocumentController implements Initializable{
     void saveReturnDocument(ActionEvent event) {
         try {
             // saving return document header 
+            
+            Optional<ButtonType> r = AlertMaker.showConfirmationAlert("هل تريد حفظ المردود؟");
+            
+            if(r.get() != ButtonType.OK) return;
             
             ReturnDocumentHeader header = new ReturnDocumentHeader();
             long salesInvoiceId = Long.valueOf(txtSalesInvoiceId.getText());
@@ -211,7 +224,7 @@ public class ReturnDocumentController implements Initializable{
             for (SalesInvoiceDetails d : salesInvoiceDetails) {
                 ReturnDocumentDetails detail = new ReturnDocumentDetails();
                 detail.setDetails(d.getDetails());
-                detail.setHeaderId(d.getHeaderId());
+                detail.setHeaderId(headerId);
                 detail.setProductId(d.getProductId());
                 detail.setQuantity(d.getQuantity());
                 returnDocumentDetails.add(detail);
@@ -249,6 +262,7 @@ public class ReturnDocumentController implements Initializable{
             ArrayList<ReturnDocumentHeader> documents = returnDocumentHeaderRepo.findAll();
             ObservableList<ReturnDocumentHeader> documentsOL = FXCollections.observableArrayList(documents);
             fillReturnDocumentHeaderTable(documentsOL);
+            NotificationMaker.showInformation("تم إضافة مستند مردود المبيعات بنجاح");
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -262,13 +276,21 @@ public class ReturnDocumentController implements Initializable{
         try {
             String idStr = txtSalesInvoiceId.getText();
             long id = Long.valueOf(idStr);
+            ArrayList<ReturnDocumentHeader> returnInvoicesList = returnDocumentHeaderRepo.findAll();
+            for (ReturnDocumentHeader r : returnInvoicesList) {
+                if(r.getSalesInvoiceId() == id) {
+                    AlertMaker.showErrorALert("هنالك مردود مبيعات اخر لهذه الفاتورة");
+                    System.out.println("هنالك مردود اخر لهذه الفاتورة");
+                    return;
+                }
+            }
             System.out.println("id = "+ id);
             SalesInvoiceHeader header = salesInvoiceHeaderRepo.findById(id);
             ArrayList<SalesInvoiceDetails> details = salesInvoiceDetailsRepo.findAllByHeaderId(id);
             ObservableList<SalesInvoiceDetails> data = FXCollections.observableArrayList(details);
             System.out.println(details);
             if(details.size() > 0) {
-                fillReturnDocumentTable(data);
+                fillReturnDocumentDetailsTable(data);
             } else {
                 tbReturnDocumentDetails.getItems().clear();
             }
@@ -325,7 +347,7 @@ public class ReturnDocumentController implements Initializable{
         }
     }
 
-    private void fillReturnDocumentTable(ObservableList<SalesInvoiceDetails> data) {
+    private void fillReturnDocumentDetailsTable(ObservableList<SalesInvoiceDetails> data) {
         try {
             colPDetails.setCellValueFactory(new PropertyValueFactory<>("details"));
             colPName.setCellValueFactory(new PropertyValueFactory<>("productName"));
@@ -416,9 +438,16 @@ public class ReturnDocumentController implements Initializable{
         }
     }
 
+    
     private void resetDocument() {
         try {
-            
+            dpDate.setValue(LocalDate.now());
+            txtSalesInvoiceId.clear();
+            txtDetails.clear();
+            tbReturnDocumentDetails.getItems().clear();
+            txtDiscount.setText("0.0");
+            txtTax.setText("0.0");
+            txtTotal.setText("0.0");
         } catch (Exception e) {
             e.printStackTrace();
             AlertMaker.showErrorALert(e.toString());
@@ -428,7 +457,13 @@ public class ReturnDocumentController implements Initializable{
     @FXML
     void deleteItemFromTable() {
         try {
+            SalesInvoiceDetails detail = tbReturnDocumentDetails.getSelectionModel().getSelectedItem();
             
+            if(detail == null) {
+                return;
+            }
+            tbReturnDocumentDetails.getItems().remove(detail);
+            calculateTotals();
         } catch (Exception e) {
             e.printStackTrace();
             AlertMaker.showErrorALert(e.toString());

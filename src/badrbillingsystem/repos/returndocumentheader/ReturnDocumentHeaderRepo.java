@@ -2,7 +2,9 @@
 package badrbillingsystem.repos.returndocumentheader;
 
 import badrbillingsystem.database.DBConnection;
+import badrbillingsystem.models.Customer;
 import badrbillingsystem.models.ReturnDocumentHeader;
+import badrbillingsystem.repos.customer.CustomerRepo;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,7 +16,7 @@ public class ReturnDocumentHeaderRepo implements IReturnDocumentHeaderRepo{
 
     @Override
     public long save(ReturnDocumentHeader header) {
-        String sql = "INSERT INTO TB_RETURN_DOCUMENT_HEADER (SALES_INVOICE_ID,DETAILS,DOCUMENT_DATE) VALUES (?,?,?)";
+        String sql = "INSERT INTO TB_RETURN_DOCUMENT_HEADER (SALES_INVOICE_ID,DETAILS,DOCUMENT_DATE,CUSTOMER_ID,TOTAL) VALUES (?,?,?,?,?)";
         boolean status  = false;
         long id = 0;
         try {
@@ -23,6 +25,8 @@ public class ReturnDocumentHeaderRepo implements IReturnDocumentHeaderRepo{
             ps.setLong(1, header.getSalesInvoiceId());
             ps.setString(2, header.getDetails());
             ps.setString(3, header.getDate());
+            ps.setLong(4, header.getCustomerId());
+            ps.setDouble(5, header.getTotal());
             int flag = ps.executeUpdate();
             if(flag == 1) status = true;
             ResultSet keys = ps.getGeneratedKeys();
@@ -102,12 +106,17 @@ public class ReturnDocumentHeaderRepo implements IReturnDocumentHeaderRepo{
             Connection con = DBConnection.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
+            CustomerRepo repo = new CustomerRepo();
             while(rs.next()) {
                 ReturnDocumentHeader h = new ReturnDocumentHeader();
                 h.setDate(rs.getString("DOCUMENT_DATE"));
                 h.setDetails(rs.getString("DETAILS"));
                 h.setId(rs.getLong("ID"));
                 h.setSalesInvoiceId(rs.getLong("SALES_INVOICE_ID"));
+                h.setCustomerId(rs.getLong("CUSTOMER_ID"));
+                h.setTotal(rs.getDouble("TOTAL"));
+                Customer customer = repo.findById(h.getCustomerId());
+                h.setCustomerName(customer.getName());
                 list.add(h);
             }
         } catch (Exception e) {
