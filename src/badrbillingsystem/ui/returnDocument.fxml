@@ -5,8 +5,10 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -42,7 +44,7 @@
                                           <Insets left="10.0" right="10.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <TextField fx:id="txtSalesInvoiceId" onAction="#getSalesInvoice" prefHeight="27.0" prefWidth="127.0" promptText="رقم الفاتورة" />
+                                    <TextField fx:id="txtSalesInvoiceId" onAction="#getSalesInvoice" prefHeight="40.0" prefWidth="127.0" promptText="رقم الفاتورة" />
                                     <Button mnemonicParsing="false" onAction="#getSalesInvoice" prefHeight="42.0" prefWidth="58.0" styleClass="btn-primary">
                                        <HBox.margin>
                                           <Insets left="10.0" />
@@ -51,6 +53,11 @@
                                           <FontAwesomeIcon fill="WHITE" iconName="ARROW_CIRCLE_DOWN" size="25" />
                                        </graphic>
                                     </Button>
+                                    <TextField fx:id="txtDetails" prefHeight="40.0" prefWidth="549.0" promptText="التفاصيل">
+                                       <HBox.margin>
+                                          <Insets left="10.0" right="10.0" />
+                                       </HBox.margin>
+                                    </TextField>
                                  </children>
                               </HBox>
                               <HBox prefHeight="276.0" prefWidth="900.0">
@@ -66,6 +73,13 @@
                                        <HBox.margin>
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </HBox.margin>
+                                       <contextMenu>
+                                          <ContextMenu>
+                                            <items>
+                                              <MenuItem mnemonicParsing="false" onAction="#deleteItemFromTable" text="حذف" />
+                                            </items>
+                                          </ContextMenu>
+                                       </contextMenu>
                                     </TableView>
                                  </children>
                               </HBox>

@@ -13,9 +13,10 @@ import javax.swing.JOptionPane;
 public class ReturnDocumentHeaderRepo implements IReturnDocumentHeaderRepo{
 
     @Override
-    public boolean save(ReturnDocumentHeader header) {
+    public long save(ReturnDocumentHeader header) {
         String sql = "INSERT INTO TB_RETURN_DOCUMENT_HEADER (SALES_INVOICE_ID,DETAILS,DOCUMENT_DATE) VALUES (?,?,?)";
         boolean status  = false;
+        long id = 0;
         try {
             Connection con = DBConnection.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
@@ -24,11 +25,14 @@ public class ReturnDocumentHeaderRepo implements IReturnDocumentHeaderRepo{
             ps.setString(3, header.getDate());
             int flag = ps.executeUpdate();
             if(flag == 1) status = true;
+            ResultSet keys = ps.getGeneratedKeys();
+            id = keys.getLong(1);
+            
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showConfirmDialog(null, e.toString());
         }
-        return status;
+        return id;
     }
 
     @Override

@@ -12,7 +12,8 @@ import javax.swing.JOptionPane;
 public class ReturnDocumentDetailsRepo implements IReturnDocumentDetailsRepo{
 
     @Override
-    public boolean save(ReturnDocumentDetails details) {
+    public long save(ReturnDocumentDetails details) {
+        long id = 0;
         String sql = "INSERT INTO TB_RETURN_DOCUMENT_DETAILS(HEADER_ID,PRODUCT_ID,QUANTITY,DETAILS) VALUES (?,?,?,?)";
         try {
             Connection con = DBConnection.getConnection();
@@ -22,13 +23,14 @@ public class ReturnDocumentDetailsRepo implements IReturnDocumentDetailsRepo{
             ps.setDouble(3, details.getQuantity());
             ps.setString(4, details.getDetails());
             int flag = ps.executeUpdate();
-            if(flag == 1)
-                return true;
+            
+            ResultSet keys = ps.getGeneratedKeys();
+            id = keys.getLong(1);
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, e.toString());
         }
-        return false;
+        return 0;
     }
 
     @Override

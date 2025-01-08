@@ -4,7 +4,7 @@ package badrbillingsystem.models;
 public class ReturnDocumentHeader {
     private long id;
     private long salesInvoiceId;
-    private String customerName;
+    private Long customerId;
     private String details;
     private String date;
     private double total;
@@ -20,12 +20,12 @@ public class ReturnDocumentHeader {
         this.total = total;
     }
 
-    public String getCustomerName() {
-        return customerName;
+    public Long getCustomerId() {
+        return customerId;
     }
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
     }
 
     

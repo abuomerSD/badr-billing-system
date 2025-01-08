@@ -392,7 +392,12 @@ public class SalesInvoiceController implements Initializable{
                 @Override
                 public void handle(CellEditEvent<SalesInvoiceDetails, Double> t) {
                     SalesInvoiceDetails d = t.getRowValue();
-                    d.setPrice(t.getNewValue());
+                    double newValue = t.getNewValue();
+                    if(newValue <= 0) {
+                        AlertMaker.showErrorALert("ادخل عدد اكبر من صفر ");
+                        return;
+                    }
+                    d.setPrice(newValue);
                     double total = d.getPrice() * d.getQuantity();
                     d.setTotal(total);
                     tbInvocieDetails.refresh();
@@ -410,7 +415,12 @@ public class SalesInvoiceController implements Initializable{
                 @Override
                 public void handle(CellEditEvent<SalesInvoiceDetails, Double> t) {
                     SalesInvoiceDetails d = t.getRowValue();
-                    d.setQuantity(t.getNewValue());
+                    double newValue = t.getNewValue();
+                    if(newValue <= 0) {
+                        AlertMaker.showErrorALert("ادخل عدد اكبر من صفر ");
+                        return;
+                    }
+                    d.setQuantity(newValue);
                     double total = d.getPrice() * d.getQuantity();
                     d.setTotal(total);
                     tbInvocieDetails.refresh();

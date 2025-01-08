@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 
 public interface IReturnDocumentHeaderRepo {
-    boolean save(ReturnDocumentHeader header);
+    long save(ReturnDocumentHeader header);
     boolean update(ReturnDocumentHeader newHeader);
     boolean delete(long id);
     ReturnDocumentHeader findById(long id);

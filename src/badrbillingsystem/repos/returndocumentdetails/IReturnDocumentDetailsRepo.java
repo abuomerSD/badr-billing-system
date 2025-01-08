@@ -5,7 +5,7 @@ import badrbillingsystem.models.ReturnDocumentDetails;
 import java.util.ArrayList;
 
 public interface IReturnDocumentDetailsRepo {
-    boolean save(ReturnDocumentDetails details);
+    long save(ReturnDocumentDetails details);
     boolean update(ReturnDocumentDetails newDetails, long productId);
     boolean delete(long headerId, long productId);
 //    ReturnDocumentDetails findAllByHeaderId(long id);

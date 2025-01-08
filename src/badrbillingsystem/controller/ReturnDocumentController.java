@@ -2,11 +2,16 @@
 package badrbillingsystem.controller;
 
 import badrbillingsystem.models.Customer;
+import badrbillingsystem.models.CustomerAccount;
+import badrbillingsystem.models.ProductMovement;
 import badrbillingsystem.models.ReturnDocumentDetails;
 import badrbillingsystem.models.ReturnDocumentHeader;
 import badrbillingsystem.models.SalesInvoiceDetails;
 import badrbillingsystem.models.SalesInvoiceHeader;
 import badrbillingsystem.repos.customer.CustomerRepo;
+import badrbillingsystem.repos.customeraccount.CustomerAccountRepo;
+import badrbillingsystem.repos.product.ProductRepo;
+import badrbillingsystem.repos.productmovement.ProductMovementRepo;
 import badrbillingsystem.repos.returndocumentdetails.ReturnDocumentDetailsRepo;
 import badrbillingsystem.repos.returndocumentheader.ReturnDocumentHeaderRepo;
 import badrbillingsystem.repos.salesinvoicedetails.SalesInvoiceDetailsRepo;
@@ -82,6 +87,9 @@ public class ReturnDocumentController implements Initializable{
 
     @FXML
     private TextField txtTotal;
+    
+    @FXML
+    private TextField txtDetails;
 
     @FXML
     private ComboBox<String> cbFilterTableByCustomerName;
@@ -114,8 +122,11 @@ public class ReturnDocumentController implements Initializable{
     SalesInvoiceHeaderRepo salesInvoiceHeaderRepo = new SalesInvoiceHeaderRepo();
     SalesInvoiceDetailsRepo salesInvoiceDetailsRepo = new SalesInvoiceDetailsRepo();
     DecimalFormat df = new DecimalFormat("###.##");
-    
-
+    ProductRepo productRepo = new ProductRepo();
+    CustomerAccountRepo customerAccountRepo = new CustomerAccountRepo();
+    ProductMovementRepo productMovementRepo = new ProductMovementRepo();
+            
+            
     @FXML
     void deleteReturnDocumentFromList(ActionEvent event) {
         try {
@@ -173,6 +184,71 @@ public class ReturnDocumentController implements Initializable{
     @FXML
     void saveReturnDocument(ActionEvent event) {
         try {
+            // saving return document header 
+            
+            ReturnDocumentHeader header = new ReturnDocumentHeader();
+            long salesInvoiceId = Long.valueOf(txtSalesInvoiceId.getText());
+            SalesInvoiceHeader salesInvoiceHeader = salesInvoiceHeaderRepo.findById(salesInvoiceId);
+//            Customer customer = customerRepo.findById(salesInvoiceHeader.getCustomerId());
+            long customerId = salesInvoiceHeader.getCustomerId();
+            header.setCustomerId(customerId);
+            String date = dateFormatter.format(dpDate.getValue());
+            header.setDate(date);
+            String details = txtDetails.getText();
+            header.setDetails(details);
+            header.setSalesInvoiceId(salesInvoiceId);
+            double total = Double.valueOf(txtTotal.getText());
+            header.setTotal(total);
+            
+            long headerId  = returnDocumentHeaderRepo.save(header);
+            
+            String info = "مردود مبيعات رقم " + headerId;
+            
+            // saving return document details
+            ObservableList<SalesInvoiceDetails> salesInvoiceDetails = tbReturnDocumentDetails.getItems();
+            ObservableList<ReturnDocumentDetails> returnDocumentDetails = FXCollections.observableArrayList();
+            
+            for (SalesInvoiceDetails d : salesInvoiceDetails) {
+                ReturnDocumentDetails detail = new ReturnDocumentDetails();
+                detail.setDetails(d.getDetails());
+                detail.setHeaderId(d.getHeaderId());
+                detail.setProductId(d.getProductId());
+                detail.setQuantity(d.getQuantity());
+                returnDocumentDetails.add(detail);
+                returnDocumentDetailsRepo.save(detail);
+                
+                // adding product movement
+                ProductMovement movement = new ProductMovement();
+                movement.setCustomerId(customerId);
+                movement.setDate(date);
+                movement.setDetails(d.getDetails());
+                movement.setMovementInfo(info);
+                movement.setProductId(d.getProductId());
+                movement.setReturnInvoiceId(headerId);
+                movement.setReturnQuantity(d.getQuantity());
+                movement.setSalesInvoiceId(0);
+                movement.setSalesQuantity(0);
+                
+                productMovementRepo.save(movement);
+            }
+            
+            // adding to customer account 
+            CustomerAccount customerAccount = new CustomerAccount();
+            customerAccount.setCustomerId(customerId);
+            customerAccount.setDate(date);
+            customerAccount.setIncoming(total);
+            customerAccount.setInfo(info);
+            customerAccount.setOutgoing(0);
+            customerAccount.setReturnDocumentId(headerId);
+            customerAccount.setSalesInvoiceId(0);
+            
+            customerAccountRepo.save(customerAccount);
+            
+            resetDocument();
+            
+            ArrayList<ReturnDocumentHeader> documents = returnDocumentHeaderRepo.findAll();
+            ObservableList<ReturnDocumentHeader> documentsOL = FXCollections.observableArrayList(documents);
+            fillReturnDocumentHeaderTable(documentsOL);
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -262,6 +338,30 @@ public class ReturnDocumentController implements Initializable{
                 @Override
                 public void handle(CellEditEvent<SalesInvoiceDetails, Double> t) {
                     SalesInvoiceDetails d = t.getRowValue();
+                    SalesInvoiceHeader header = salesInvoiceHeaderRepo.findById(Long.valueOf(txtSalesInvoiceId.getText()));
+                    ArrayList<SalesInvoiceDetails> details = salesInvoiceDetailsRepo.findAllByHeaderId(header.getId());
+                    SalesInvoiceDetails oldDetail = new SalesInvoiceDetails();
+                    for (SalesInvoiceDetails detail : details) {
+                        if(detail.getProductId()== d.getProductId()){
+                            oldDetail.setQuantity(detail.getQuantity()); 
+                        }
+                    }
+
+                    double newValue = t.getNewValue();
+                    if(newValue <= 0) {
+                        AlertMaker.showErrorALert("ادخل عدد اكبر من صفر ");
+                        d.setQuantity(oldDetail.getQuantity());
+                        tbReturnDocumentDetails.refresh();
+                        return;
+                    }
+                    
+                    System.out.println(oldDetail.getQuantity());
+                    System.out.println("details "+ details);
+                    if(newValue > oldDetail.getQuantity()){
+//                        d.setQuantity(d.getQuantity());
+                        tbReturnDocumentDetails.refresh();
+                        return;
+                    }
                     d.setQuantity(t.getNewValue());
                     double total = d.getQuantity() * d.getPrice();
                     d.setTotal(total);
@@ -289,8 +389,10 @@ public class ReturnDocumentController implements Initializable{
             double oldTotal = header.getTotal();
             double oldDiscount = header.getDiscount();
             
-            double discountPercentage = (oldDiscount / oldTotal) ;
-            double taxPercentage = (oldTax / oldTotal) ;
+            double oldTotalWithoutTaxAndDiscount = (oldTotal - oldTax) + oldDiscount;
+            
+            double discountPercentage = (oldDiscount / oldTotalWithoutTaxAndDiscount) ;
+            double taxPercentage = (oldTax / oldTotalWithoutTaxAndDiscount) ;
             System.out.println("discountPercentage "+ discountPercentage);
             System.out.println("taxPercentage " + taxPercentage);
             double newTotal = 0;
@@ -303,12 +405,33 @@ public class ReturnDocumentController implements Initializable{
             
             double newDiscount = newTotal * discountPercentage;
             double newTax = newTotal * taxPercentage;
-            
+            double totalReturn = (newTotal + newTax) - newDiscount;
             txtDiscount.setText(df.format(newDiscount));
             txtTax.setText(df.format(newTax));
-            txtTotal.setText(df.format(newTotal));
+            txtTotal.setText(df.format(totalReturn));
             
         } catch (Exception e) {
+            e.printStackTrace();
+            AlertMaker.showErrorALert(e.toString());
+        }
+    }
+
+    private void resetDocument() {
+        try {
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            AlertMaker.showErrorALert(e.toString());
+        }
+    }
+    
+    @FXML
+    void deleteItemFromTable() {
+        try {
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            AlertMaker.showErrorALert(e.toString());
         }
     }
     
