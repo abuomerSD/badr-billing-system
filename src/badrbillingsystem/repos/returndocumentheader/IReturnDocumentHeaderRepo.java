@@ -12,4 +12,5 @@ public interface IReturnDocumentHeaderRepo {
     boolean delete(long id);
     ReturnDocumentHeader findById(long id);
     ArrayList<ReturnDocumentHeader> findAll();
+    ArrayList<ReturnDocumentHeader> findByCustomerId(long customerId);
 }

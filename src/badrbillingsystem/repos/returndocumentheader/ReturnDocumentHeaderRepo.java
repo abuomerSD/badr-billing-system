@@ -5,6 +5,7 @@ import badrbillingsystem.database.DBConnection;
 import badrbillingsystem.models.Customer;
 import badrbillingsystem.models.ReturnDocumentHeader;
 import badrbillingsystem.repos.customer.CustomerRepo;
+import badrbillingsystem.utils.AlertMaker;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -122,6 +123,35 @@ public class ReturnDocumentHeaderRepo implements IReturnDocumentHeaderRepo{
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, e.toString());
+        }
+        return list;
+    }
+    
+    @Override
+    public ArrayList<ReturnDocumentHeader> findByCustomerId(long customerId){
+        String sql = "SELECT * FROM TB_RETURN_DOCUMENT_HEADER WHERE CUSTOMER_ID = " + customerId;
+        ArrayList<ReturnDocumentHeader> list = new ArrayList<>();
+        try {
+            Connection con = DBConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            CustomerRepo repo = new CustomerRepo();
+            while(rs.next()){
+                ReturnDocumentHeader h = new ReturnDocumentHeader();
+                h.setCustomerId(rs.getLong("CUSTOMER_ID"));
+                Customer c = repo.findById(h.getCustomerId());
+                h.setCustomerName(c.getName());
+                h.setDate(rs.getString("DOCUMENT_DATE"));
+                h.setDetails(rs.getString("DETAILS"));
+                h.setId(rs.getLong("ID"));
+                h.setSalesInvoiceId(rs.getLong("SALES_INVOICE_ID"));
+                h.setTotal(rs.getDouble("TOTAL"));
+                
+                list.add(h);
+            }
+        } catch (Exception e) {
+            e.toString();
+            AlertMaker.showErrorALert(e.toString());
         }
         return list;
     }

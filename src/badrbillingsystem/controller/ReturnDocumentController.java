@@ -25,6 +25,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -56,6 +58,24 @@ public class ReturnDocumentController implements Initializable{
         ArrayList<ReturnDocumentHeader> list = returnDocumentHeaderRepo.findAll();
         ObservableList<ReturnDocumentHeader> data = FXCollections.observableArrayList(list);
         fillReturnDocumentHeaderTable(data);
+        
+        cbFilterTableByCustomerName.valueProperty().addListener(new ChangeListener<String>(){
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                try{
+                    String customerName = cbFilterTableByCustomerName.getSelectionModel().getSelectedItem();
+                    Customer c = customerRepo.findByName(customerName);
+                    ArrayList<ReturnDocumentHeader> list = returnDocumentHeaderRepo.findByCustomerId(c.getId());
+                    ObservableList<ReturnDocumentHeader> data = FXCollections.observableArrayList(list);
+                    
+                    tbReturnDocumentsList.setItems(data);
+                } catch(Exception e) {
+                    e.printStackTrace();
+                    AlertMaker.showErrorALert(e.toString());
+                }
+            }
+            
+        });
     }
     
     @FXML

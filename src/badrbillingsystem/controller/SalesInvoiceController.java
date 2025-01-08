@@ -14,6 +14,7 @@ import badrbillingsystem.repos.productmovement.ProductMovementRepo;
 import badrbillingsystem.repos.salesinvoicedetails.SalesInvoiceDetailsRepo;
 import badrbillingsystem.repos.salesinvoiceheader.SalesInvoiceHeaderRepo;
 import badrbillingsystem.utils.AlertMaker;
+import badrbillingsystem.utils.DateFormatter;
 import badrbillingsystem.utils.NotificationMaker;
 import java.io.File;
 import java.io.FileInputStream;
@@ -158,7 +159,7 @@ public class SalesInvoiceController implements Initializable{
     ObservableList<SalesInvoiceDetails> data = FXCollections.observableArrayList();
     DecimalFormat df = new DecimalFormat("###.##");
     CustomerRepo customerRepo = new CustomerRepo();
-//    DateFormatter dateFormatter = new DateFormatter();
+    DateFormatter dateFormatter = new DateFormatter();
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MMMM-yyyy");
     SalesInvoiceHeaderRepo headerRepo = new SalesInvoiceHeaderRepo();
     ProductMovementRepo productMovementRepo = new ProductMovementRepo();
@@ -239,7 +240,7 @@ public class SalesInvoiceController implements Initializable{
             Customer customer = customerRepo.findByName(customerName);
             long customerId = customer.getId();
             
-            String date = dpDate.getValue().toString();
+            LocalDate date = dpDate.getValue();
             double discount = Double.valueOf(txtDiscount.getText());
             double tax = Double.valueOf(txtTaxInNumber.getText());
             double total = Double.valueOf(txtTotal.getText());
@@ -247,7 +248,7 @@ public class SalesInvoiceController implements Initializable{
             
             SalesInvoiceHeader header = new SalesInvoiceHeader();
             header.setCustomerId(customerId);
-            header.setDate(date);
+            header.setDate(dateFormatter.format(date));
             header.setDiscount(discount);
             header.setTax(tax);
             header.setTotal(total);
@@ -259,7 +260,7 @@ public class SalesInvoiceController implements Initializable{
             for (SalesInvoiceDetails d : data) {
                 ProductMovement movement = new ProductMovement();
                 movement.setCustomerId(customerId);
-                movement.setDate(date);
+                movement.setDate(date.toString());
                 movement.setDetails(d.getDetails());
                 movement.setMovementInfo(info);
                 movement.setProductId(d.getProductId());
@@ -278,7 +279,7 @@ public class SalesInvoiceController implements Initializable{
             // add invoice to customer account
             CustomerAccount account = new CustomerAccount();
             account.setCustomerId(customerId);
-            account.setDate(date);
+            account.setDate(date.toString());
             account.setIncoming(0);
             account.setInfo(info);
             account.setOutgoing(total);
