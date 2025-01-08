@@ -5,7 +5,10 @@ package badrbillingsystem.models;
 public class ReturnDocumentDetails {
     private long headerId;
     private long productId;
+    private String productName;
     private double quantity;
+    private double price;
+    private double total;
     private String details;
 
     public ReturnDocumentDetails() {
@@ -18,6 +21,7 @@ public class ReturnDocumentDetails {
         this.details = details;
     }
 
+    
     public long getHeaderId() {
         return headerId;
     }

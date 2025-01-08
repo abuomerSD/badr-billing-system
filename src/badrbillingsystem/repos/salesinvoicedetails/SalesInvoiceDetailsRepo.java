@@ -2,7 +2,9 @@
 package badrbillingsystem.repos.salesinvoicedetails;
 
 import badrbillingsystem.database.DBConnection;
+import badrbillingsystem.models.Product;
 import badrbillingsystem.models.SalesInvoiceDetails;
+import badrbillingsystem.repos.product.ProductRepo;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -82,6 +84,7 @@ public class SalesInvoiceDetailsRepo implements ISalesInvoiceDetailsRepo{
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
+            ProductRepo repo = new ProductRepo();
             while(rs.next()) {
                 SalesInvoiceDetails details = new SalesInvoiceDetails();
                 details.setDetails(rs.getString("DETAILS"));
@@ -90,6 +93,8 @@ public class SalesInvoiceDetailsRepo implements ISalesInvoiceDetailsRepo{
                 details.setProductId(rs.getLong("PRODUCT_ID"));
                 details.setQuantity(rs.getDouble("QUANTITY"));
                 details.setTotal(rs.getDouble("ITEM_TOTAL"));
+                Product p = repo.findById(details.getProductId());
+                details.setProductName(p.getName());
                 list.add(details);
             }
         } catch (Exception e) {

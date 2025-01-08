@@ -25,7 +25,7 @@
          <children>
             <TabPane prefHeight="700.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
-                <Tab fx:id="colProductName" styleClass="label" text="مردود مبيعات">
+                <Tab styleClass="label" text="مردود مبيعات">
                      <content>
                         <VBox prefHeight="200.0" prefWidth="100.0">
                            <children>
@@ -42,12 +42,20 @@
                                           <Insets left="10.0" right="10.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <TextField fx:id="txtSalesInvoiceId" prefHeight="27.0" prefWidth="127.0" promptText="رقم الفاتورة" />
+                                    <TextField fx:id="txtSalesInvoiceId" onAction="#getSalesInvoice" prefHeight="27.0" prefWidth="127.0" promptText="رقم الفاتورة" />
+                                    <Button mnemonicParsing="false" onAction="#getSalesInvoice" prefHeight="42.0" prefWidth="58.0" styleClass="btn-primary">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                       <graphic>
+                                          <FontAwesomeIcon fill="WHITE" iconName="ARROW_CIRCLE_DOWN" size="25" />
+                                       </graphic>
+                                    </Button>
                                  </children>
                               </HBox>
                               <HBox prefHeight="276.0" prefWidth="900.0">
                                  <children>
-                                    <TableView fx:id="tbReturnDocumentDetails" prefHeight="276.0" prefWidth="899.0">
+                                    <TableView fx:id="tbReturnDocumentDetails" editable="true" prefHeight="276.0" prefWidth="899.0">
                                       <columns>
                                         <TableColumn fx:id="colPName" prefWidth="253.0" text="اسم الصنف" />
                                         <TableColumn fx:id="colPQuantity" prefWidth="145.0" text="العدد" />
@@ -72,7 +80,7 @@
                                                       <Insets left="10.0" right="5.0" />
                                                    </HBox.margin>
                                                 </Label>
-                                                <TextField fx:id="txtDiscount" />
+                                                <TextField fx:id="txtDiscount" editable="false" text="0.0" />
                                              </children>
                                           </HBox>
                                           <HBox alignment="CENTER_LEFT" nodeOrientation="RIGHT_TO_LEFT" prefHeight="52.0" prefWidth="479.0">
@@ -82,7 +90,7 @@
                                                       <Insets left="10.0" right="5.0" />
                                                    </HBox.margin>
                                                 </Label>
-                                                <TextField fx:id="txtTax" />
+                                                <TextField fx:id="txtTax" editable="false" text="0.0" />
                                              </children>
                                           </HBox>
                                           <HBox alignment="CENTER_LEFT" nodeOrientation="RIGHT_TO_LEFT" prefHeight="52.0" prefWidth="479.0">
@@ -92,7 +100,7 @@
                                                       <Insets left="10.0" right="5.0" />
                                                    </HBox.margin>
                                                 </Label>
-                                                <TextField fx:id="txtTotal" />
+                                                <TextField fx:id="txtTotal" editable="false" text="0.0" />
                                              </children>
                                           </HBox>
                                        </children>
