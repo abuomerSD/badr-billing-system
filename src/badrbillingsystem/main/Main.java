@@ -1,8 +1,12 @@
 package badrbillingsystem.main;
 
 import badrbillingsystem.database.DatabaseTableCreator;
-import badrbillingsystem.models.CustomerAccount;
-import badrbillingsystem.repos.customeraccount.CustomerAccountRepo;
+import badrbillingsystem.models.SalesInvoiceDetails;
+import badrbillingsystem.models.SalesInvoiceHeader;
+import badrbillingsystem.reports.ReportMaker;
+import badrbillingsystem.repos.salesinvoicedetails.SalesInvoiceDetailsRepo;
+import badrbillingsystem.repos.salesinvoiceheader.SalesInvoiceHeaderRepo;
+import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,8 +18,20 @@ import javafx.stage.Stage;
 public class Main extends Application{
 
     public static void main(String[] args) {
-        DatabaseTableCreator.createTables();      
-        launch(args);
+        DatabaseTableCreator.createTables();    
+        
+        SalesInvoiceHeaderRepo headerRepo = new SalesInvoiceHeaderRepo();
+        SalesInvoiceDetailsRepo detailsRepo = new SalesInvoiceDetailsRepo();
+        
+        SalesInvoiceHeader header = headerRepo.findById(1);
+        ArrayList<SalesInvoiceDetails> details = detailsRepo.findAllByHeaderId(1);
+        
+        ReportMaker reportMaker = new ReportMaker();
+        reportMaker.showSalesInvoice(1, header, details);
+
+        
+        
+//        launch(args);
     }
 
     @Override
