@@ -18,7 +18,7 @@ import badrbillingsystem.repos.salesinvoicedetails.SalesInvoiceDetailsRepo;
 import badrbillingsystem.repos.salesinvoiceheader.SalesInvoiceHeaderRepo;
 import badrbillingsystem.utils.AlertMaker;
 import badrbillingsystem.utils.DateFormatter;
-import com.badrbillingsystem.utils.NotificationMaker;
+import badrbillingsystem.utils.NotificationMaker;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.time.LocalDate;

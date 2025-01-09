@@ -88,6 +88,7 @@ public class SalesInvoiceHeaderRepo implements ISalesInvoiceHeaderRepo{
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
+            CustomerRepo repo = new CustomerRepo();
             while(rs.next()) {
                 header.setCustomerId(rs.getLong("CUSTOMER_ID"));
                 header.setDate(rs.getString("INVOICE_DATE"));
@@ -96,6 +97,8 @@ public class SalesInvoiceHeaderRepo implements ISalesInvoiceHeaderRepo{
                 header.setTax(rs.getDouble("TAX"));
                 header.setTotal(rs.getDouble("TOTAL"));
                 header.setUserId(rs.getLong("USER_ID"));
+                Customer c = repo.findById(header.getCustomerId());
+                header.setCutomerName(c.getName());
             }
         } catch (Exception e) {
             e.printStackTrace();
