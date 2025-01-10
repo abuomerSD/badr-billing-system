@@ -147,6 +147,7 @@
                                              <children>
                                                 <Label prefHeight="37.0" prefWidth="107.0" text="الاجمالي العام" />
                                                 <TextField fx:id="txtTotal" editable="false" prefHeight="37.0" prefWidth="127.0" text="0.0" />
+                                                <Label fx:id="lbInvoiceId" text="Label" visible="false" />
                                              </children>
                                              <padding>
                                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -161,7 +162,7 @@
                               </HBox>
                               <HBox alignment="CENTER" prefHeight="104.0" prefWidth="900.0">
                                  <children>
-                                    <Button mnemonicParsing="false" onAction="#saveInvoice" prefHeight="54.0" prefWidth="150.0" styleClass="btn-save" text="حفظ">
+                                    <Button fx:id="btnSaveInvoice" mnemonicParsing="false" onAction="#saveInvoice" prefHeight="54.0" prefWidth="150.0" styleClass="btn-save" text="حفظ">
                                        <HBox.margin>
                                           <Insets bottom="10.0" right="10.0" top="10.0" />
                                        </HBox.margin>
@@ -169,7 +170,7 @@
                                           <FontAwesomeIcon fill="WHITE" iconName="SAVE" size="20" />
                                        </graphic>
                                     </Button>
-                                    <Button mnemonicParsing="false" onAction="#printInvoice" prefHeight="54.0" prefWidth="150.0" styleClass="btn-primary" text="طباعة">
+                                    <Button fx:id="btnPrintInvoice" mnemonicParsing="false" onAction="#printInvoice" prefHeight="54.0" prefWidth="150.0" styleClass="btn-primary" text="طباعة">
                                        <HBox.margin>
                                           <Insets bottom="10.0" right="10.0" top="10.0" />
                                        </HBox.margin>

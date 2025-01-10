@@ -7,6 +7,7 @@ import badrbillingsystem.models.Product;
 import badrbillingsystem.models.ProductMovement;
 import badrbillingsystem.models.SalesInvoiceDetails;
 import badrbillingsystem.models.SalesInvoiceHeader;
+import badrbillingsystem.reports.SalesInvoiceReport;
 import badrbillingsystem.repos.customer.CustomerRepo;
 import badrbillingsystem.repos.customeraccount.CustomerAccountRepo;
 import badrbillingsystem.repos.product.ProductRepo;
@@ -16,6 +17,8 @@ import badrbillingsystem.repos.salesinvoiceheader.SalesInvoiceHeaderRepo;
 import badrbillingsystem.utils.AlertMaker;
 import badrbillingsystem.utils.DateFormatter;
 import badrbillingsystem.utils.NotificationMaker;
+import badrbillingsystem.utils.OSDetector;
+import java.awt.Desktop;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -65,6 +68,8 @@ public class SalesInvoiceController implements Initializable{
         fillCustomersComboBox();
         fillInvoicesListTable();
         fillFilterInvoicesListCustomerCB();
+        btnPrintInvoice.setDisable(true);
+        lbInvoiceId.setText("0");
         
         cbCustomerName.valueProperty().addListener(new ChangeListener<String>(){
             @Override
@@ -82,6 +87,15 @@ public class SalesInvoiceController implements Initializable{
             
         });
     }
+    
+    @FXML 
+    private Label lbInvoiceId;
+    
+    @FXML
+    private Button btnSaveInvoice;
+    
+    @FXML
+    private Button btnPrintInvoice;
     
     @FXML
     private DatePicker dpDate;
@@ -219,6 +233,23 @@ public class SalesInvoiceController implements Initializable{
     @FXML
     void printInvoice(ActionEvent event) {
         try {
+            long headerId = Long.valueOf(lbInvoiceId.getText());
+            
+            SalesInvoiceHeaderRepo headerRepo = new SalesInvoiceHeaderRepo();
+            SalesInvoiceDetailsRepo detailsRepo = new SalesInvoiceDetailsRepo();
+            
+            SalesInvoiceHeader header = headerRepo.findById(headerId);
+            ArrayList<SalesInvoiceDetails> details = detailsRepo.findAllByHeaderId(headerId);
+            
+//            Customer c = customerRepo.findByName(name)
+            
+            String customerName = header.getCutomerName();
+            Customer c = customerRepo.findByName(customerName);
+            
+            SalesInvoiceReport report = new SalesInvoiceReport();
+            String invoiceName = report.showSalesInvoice(headerId, header, details, c);
+            
+            showInvoiceFile(new File(invoiceName));
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -293,6 +324,9 @@ public class SalesInvoiceController implements Initializable{
             resetInvoice();
             NotificationMaker.showInformation("تم حفظ الفاتورة بالرقم " + headerId);
             fillInvoicesListTable();
+            lbInvoiceId.setText(String.valueOf(headerId));
+            btnSaveInvoice.setDisable(true);
+            btnPrintInvoice.setDisable(false);
             
             
             
@@ -531,6 +565,9 @@ public class SalesInvoiceController implements Initializable{
             data.clear();
             cbCustomerName.getSelectionModel().clearSelection();
             setInvoiceDate();
+            btnPrintInvoice.setDisable(true);
+            btnSaveInvoice.setDisable(false);
+            lbInvoiceId.setText("0");
         } catch (Exception e) {
             e.printStackTrace();
             AlertMaker.showErrorALert(e.toString());
@@ -618,6 +655,40 @@ public class SalesInvoiceController implements Initializable{
             }
             
             cbFilterListByCutomer.setItems(d);
+        } catch (Exception e) {
+            e.printStackTrace();
+            AlertMaker.showErrorALert(e.toString());
+        }
+    }
+    
+    
+    
+     private void showInvoiceFile(File file) {
+        try {
+            if (OSDetector.isWindows())
+        {
+            Runtime.getRuntime().exec(new String[]
+            {"rundll32", "url.dll,FileProtocolHandler",
+             file.getAbsolutePath()});
+//            return true;
+        } else if (OSDetector.isLinux() || OSDetector.isMac())
+        {
+            Runtime.getRuntime().exec(new String[]{"/usr/bin/open",
+                                                   file.getAbsolutePath()});
+//            return true;
+        } else
+        {
+            // Unknown OS, try with desktop
+            if (Desktop.isDesktopSupported())
+            {
+                Desktop.getDesktop().open(file);
+//                return true;
+            }
+            else
+            {
+//                return false;
+            }
+        }
         } catch (Exception e) {
             e.printStackTrace();
             AlertMaker.showErrorALert(e.toString());

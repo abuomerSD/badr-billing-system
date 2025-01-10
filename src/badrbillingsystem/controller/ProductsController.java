@@ -4,6 +4,7 @@ package badrbillingsystem.controller;
 import badrbillingsystem.models.Product;
 import badrbillingsystem.repos.product.ProductRepo;
 import badrbillingsystem.utils.AlertMaker;
+import badrbillingsystem.utils.Constants;
 import badrbillingsystem.utils.ImageResizer;
 import badrbillingsystem.utils.NotificationMaker;
 import java.io.File;
@@ -316,7 +317,7 @@ public class ProductsController implements Initializable {
         copied = new File(distPath);
 //        System.out.println(copied.getAbsolutePath());
 
-        ImageResizer.resizeImage(originalImage, copied, extention);
+        ImageResizer.resizeImage(originalImage, copied, extention, Constants.PRODUCTS_IMAGES_WIDTH, Constants.PRODUCTS_IMAGES_HEIGHT);
         
         
 //        FileInputStream in = null;

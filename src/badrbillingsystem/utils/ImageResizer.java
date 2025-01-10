@@ -24,10 +24,10 @@ public class ImageResizer {
 //        }
 //    }
     
-    public static void resizeImage(File source, File dist, String imageExtention) {
+    public static void resizeImage(File source, File dist, String imageExtention, int width, int height) {
         try {
             BufferedImage originalImage = ImageIO.read(source);
-            BufferedImage resizedImage = Scalr.resize(originalImage, Scalr.Method.QUALITY, 100, 100);
+            BufferedImage resizedImage = Scalr.resize(originalImage, Scalr.Method.ULTRA_QUALITY, width, height);
             ImageIO.write(resizedImage, imageExtention, dist);
         } catch (Exception e) {
             e.printStackTrace();

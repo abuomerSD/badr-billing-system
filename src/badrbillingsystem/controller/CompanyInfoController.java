@@ -5,6 +5,7 @@ import badrbillingsystem.repos.companyinfo.CompanyInfoRepo;
 import badrbillingsystem.utils.AlertMaker;
 import badrbillingsystem.utils.ImageResizer;
 import badrbillingsystem.utils.NotificationMaker;
+import badrbillingsystem.utils.Constants;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -117,7 +118,7 @@ public class CompanyInfoController implements Initializable{
             String logoOutPath = "out/logo/" + UUID.randomUUID() + "."+ logoExtention;
             File resizedLogo = new File(logoOutPath);
             
-            ImageResizer.resizeImage(originalLogo, resizedLogo, logoExtention);
+            ImageResizer.resizeImage(originalLogo, resizedLogo, logoExtention, Constants.LOGO_WIDTH, Constants.LOGO_HEIGHT);
             i.setLogo(logoOutPath);
             i.setName(txtName.getText());
             i.setPhone(txtPhone.getText());
@@ -133,7 +134,7 @@ public class CompanyInfoController implements Initializable{
             System.out.println(logoOutPath);
             System.out.println(qrCodeOutPath);
             
-            ImageResizer.resizeImage(originalQrCode, resizedQrCode, qrCodeExtention);
+            ImageResizer.resizeImage(originalQrCode, resizedQrCode, qrCodeExtention, Constants.LOGO_WIDTH, Constants.LOGO_HEIGHT);
             i.setQrCode(qrCodeOutPath);
             i.setTaxNumber(txtTaxNumber.getText());
             

@@ -50,7 +50,8 @@ public class SalesInvoiceReport {
     String almaraiFontRegular = "/badrbillingsystem/resources/fonts/Almarai-Bold.ttf";
     String almaraiFontBold = "/badrbillingsystem/resources/fonts/Almarai-ExtraBold.ttf";
     
-    public void showSalesInvoice(long id, SalesInvoiceHeader header, ArrayList<SalesInvoiceDetails> details, Customer c) {
+    public String showSalesInvoice(long id, SalesInvoiceHeader header, ArrayList<SalesInvoiceDetails> details, Customer c) {
+        String invoiceName = "";
         try {
             
             int pageNumber = 1;
@@ -67,6 +68,7 @@ public class SalesInvoiceReport {
 //            PdfFont almarai = PdfFontFactory.createFont(fontProgram, PdfEncodings.IDENTITY_H, true);
             
             String outputFileName = "./docs/" + "sales-invoice-"+id+".pdf";
+            invoiceName = outputFileName;
             Document document = new Document(PageSize.A4);
             
             PdfWriter.getInstance(document, new FileOutputStream(outputFileName));
@@ -368,6 +370,7 @@ public class SalesInvoiceReport {
             e.printStackTrace();
             AlertMaker.showErrorALert(e.toString());
         }
+        return invoiceName;
     }
     
     
