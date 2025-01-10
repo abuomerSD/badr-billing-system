@@ -4,7 +4,7 @@ import badrbillingsystem.database.DatabaseTableCreator;
 import badrbillingsystem.models.Customer;
 import badrbillingsystem.models.SalesInvoiceDetails;
 import badrbillingsystem.models.SalesInvoiceHeader;
-import badrbillingsystem.reports.ReportMaker;
+import badrbillingsystem.reports.SalesInvoiceReport;
 import badrbillingsystem.repos.customer.CustomerRepo;
 import badrbillingsystem.repos.salesinvoicedetails.SalesInvoiceDetailsRepo;
 import badrbillingsystem.repos.salesinvoiceheader.SalesInvoiceHeaderRepo;
@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 
 
 
-public class Main extends Application{
+public class Main {
 
     public static void main(String[] args)  {
         DatabaseTableCreator.createTables();    
@@ -30,26 +30,26 @@ public class Main extends Application{
         ArrayList<SalesInvoiceDetails> details = detailsRepo.findAllByHeaderId(1);
         Customer c = customerRepo.findById(header.getCustomerId());
         
-        ReportMaker reportMaker = new ReportMaker();
+        SalesInvoiceReport reportMaker = new SalesInvoiceReport();
         reportMaker.showSalesInvoice(1, header, details, c);
 
         
         
-        launch(args);
+//        launch(args);
     }
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/badrbillingsystem/ui/home.fxml"));
-            Scene scene = new Scene(root);
-            primaryStage.setScene(scene);
-            primaryStage.setTitle("الواجهة الرئيسية");
-            primaryStage.show();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    @Override
+//    public void start(Stage primaryStage) throws Exception {
+//        try {
+//            Parent root = FXMLLoader.load(getClass().getResource("/badrbillingsystem/ui/home.fxml"));
+//            Scene scene = new Scene(root);
+//            primaryStage.setScene(scene);
+//            primaryStage.setTitle("الواجهة الرئيسية");
+//            primaryStage.show();
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
     
 }

@@ -7,6 +7,8 @@ import badrbillingsystem.models.SalesInvoiceDetails;
 import badrbillingsystem.models.SalesInvoiceHeader;
 import badrbillingsystem.repos.companyinfo.CompanyInfoRepo;
 import badrbillingsystem.utils.AlertMaker;
+import badrbillingsystem.utils.NumberConvertToArabicText;
+import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 
 import com.itextpdf.text.Font;
@@ -18,12 +20,13 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.io.FileOutputStream;
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class ReportMaker {
+public class SalesInvoiceReport {
 
-    public ReportMaker()  {
+    public SalesInvoiceReport()  {
         
     }
     
@@ -34,11 +37,15 @@ public class ReportMaker {
     float oneColWidth[] = {190f};
     float twoColWidth[] = {285f, 285f};
     float threeColWidth[] = {190f, 190f, 190f};
+    float threeColSpecialWidth[] = {90f, 90f, 90f};
     float fiveColWidth[] = {114f,114f,114f,114f,114f};
     float sixcolWidth[] = {95f,95f,95f,95f,95f,95f};
     float productsTableWidth[] = {63f,63f,63f,63f,63f,189f,63f};
-    String almaraiFontRegular = "/badrbillingsystem/resources/fonts/Almarai-Regular.ttf";
-    String almaraiFontBold = "/badrbillingsystem/resources/fonts/Almarai-Bold.ttf";
+    float speratorWidth[] = {20f};
+    float specialWidth[] = {275f,20f,275f};
+    
+    String almaraiFontRegular = "/badrbillingsystem/resources/fonts/Almarai-Bold.ttf";
+    String almaraiFontBold = "/badrbillingsystem/resources/fonts/Almarai-ExtraBold.ttf";
     
     public void showSalesInvoice(long id, SalesInvoiceHeader header, ArrayList<SalesInvoiceDetails> details, Customer c) {
         try {
@@ -314,6 +321,7 @@ public class ReportMaker {
                 pdPriceCell.setHorizontalAlignment(1);
                 PdfPCell pdNameCell = getUnborderdCell(detail.getProductName(), almarai);
                 pdNameCell.setHorizontalAlignment(1);
+//                pdNameCell.setPadding(2);
                 PdfPCell pdNoCell = getUnborderdCell(String.valueOf(productNumber), almarai);
                 pdNoCell.setHorizontalAlignment(1);
                 
@@ -326,7 +334,7 @@ public class ReportMaker {
                 productsDetailsInnerTable.addCell(pdNoCell);
                 
                 productsDetailsOuterTable.addCell(productsDetailsInnerTable);
-//                productsDetailsOuterTable.setSpacingBefore(2);
+//                productsDetailsOuterTable.setPaddingTop(10f);
                 
                 document.add(productsDetailsOuterTable);
                 
@@ -346,12 +354,7 @@ public class ReportMaker {
             System.out.println("document closed");
 
             
-//            PdfPCell cCompanyName = new PdfPCell(new Paragraph("     " + company.getName() +"\n\n"
-//                    + "مواد بناء - سباكة - مواد كهرباء - نجارة" + "\n\n"
-//                    + "          " + company.getPhone() +"\n\n"
-//                    + "          " + company.getBranch() + "\n\n" , almarai));
-//            cCompanyName.setRunDirection(PdfWriter.RUN_DIRECTION_RTL);
-//            cCompanyName.setBorder(0);
+
             
             
             
@@ -377,6 +380,7 @@ public class ReportMaker {
     
     PdfPCell getborderdCell(String text, Font font){
         Paragraph paragraph = new Paragraph(text, font);
+        paragraph.setLeading(10f, 10f);
 //        paragraph.setFont(almarai);
         PdfPCell cell = new PdfPCell(paragraph);
 //        cell.setBorder(18);
@@ -632,9 +636,10 @@ public class ReportMaker {
         
         try {
             // font 
-            String almaraiFontPath = "/badrbillingsystem/resources/fonts/Almarai-Regular.ttf";
-            BaseFont base = BaseFont.createFont(almaraiFontPath,  BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
+            BaseFont base = BaseFont.createFont(almaraiFontRegular,  BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
+            BaseFont base2 = BaseFont.createFont(almaraiFontBold,  BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
             Font almarai = new Font(base, 9);
+            Font almaraiBold = new Font(base2, 10);
 
             // total before tax
             PdfPTable totalBeforeTaxOuterTable = new PdfPTable(fullPageWidth);
@@ -660,6 +665,147 @@ public class ReportMaker {
             totalBeforeTaxOuterTable.addCell(totalBeforeTaxInnerTable);
             totalBeforeTaxOuterTable.setSpacingBefore(20);
             document.add(totalBeforeTaxOuterTable);
+            
+            // total discount 
+            
+            PdfPTable totalDiscountOuterTable = new PdfPTable(fullPageWidth);
+            PdfPTable totalDiscountInnerTable = new PdfPTable(threeColWidth);
+            
+            PdfPCell totalDiscountCell1 = getUnborderdCell("Total Discount", almarai);
+            totalDiscountCell1.setHorizontalAlignment(1);
+            PdfPCell totalDiscountCell2 = getUnborderdCell(decimalFormat.format(discount), almarai);
+            totalDiscountCell2.setHorizontalAlignment(1);
+            PdfPCell totalDiscountCell3 = getUnborderdCell("الخصم", almarai);
+            totalDiscountCell3.setHorizontalAlignment(1);
+            
+            totalDiscountInnerTable.addCell(totalDiscountCell1);
+            totalDiscountInnerTable.addCell(totalDiscountCell2);
+            totalDiscountInnerTable.addCell(totalDiscountCell3);
+            
+            totalDiscountOuterTable.addCell(totalDiscountInnerTable);
+            totalDiscountOuterTable.setSpacingBefore(2);
+            
+            document.add(totalDiscountOuterTable);
+            
+            // total tax 
+            
+            PdfPTable totalTaxOuterTable = new PdfPTable(fullPageWidth);
+            PdfPTable totalTaxInnerTable = new PdfPTable(threeColWidth);
+            
+            PdfPCell totalTaxCell1 = getUnborderdCell("Total Tax 15%", almarai);
+            totalTaxCell1.setHorizontalAlignment(1);
+            PdfPCell totalTaxCell2 = getUnborderdCell(decimalFormat.format(tax), almarai);
+            totalTaxCell2.setHorizontalAlignment(1);
+            PdfPCell totalTaxCell3 = getUnborderdCell("ضريبة القيمة المضافة 15%", almarai);
+            totalTaxCell3.setHorizontalAlignment(1);
+            
+            totalTaxInnerTable.addCell(totalTaxCell1);
+            totalTaxInnerTable.addCell(totalTaxCell2);
+            totalTaxInnerTable.addCell(totalTaxCell3);
+            
+            totalTaxOuterTable.addCell(totalTaxInnerTable);
+            totalTaxOuterTable.setSpacingBefore(2);
+            
+            document.add(totalTaxOuterTable);
+            
+            // total after tax and discount
+            
+            PdfPTable totalOuterTable = new PdfPTable(fullPageWidth);
+            PdfPTable totalInnerTable = new PdfPTable(threeColWidth);
+            
+            PdfPCell totalCell1 = getUnborderdCell("Total After Discount With Tax", almarai);
+            totalCell1.setRunDirection(PdfWriter.RUN_DIRECTION_LTR);
+            PdfPCell totalCell2 = getUnborderdCell(decimalFormat.format(total), almarai);
+            totalCell2.setHorizontalAlignment(1);
+            PdfPCell totalCell3 = getUnborderdCell("الاجمالي بعد الخصم شامل الضريبة", almarai);
+            
+            totalInnerTable.addCell(totalCell1);
+            totalInnerTable.addCell(totalCell2);
+            totalInnerTable.addCell(totalCell3);
+            
+            totalOuterTable.addCell(totalInnerTable);
+            totalOuterTable.setSpacingBefore(2);
+            
+            document.add(totalOuterTable);
+            
+            // total in arabic
+            
+            PdfPTable totalInArabicTable = new PdfPTable(fullPageWidth);
+            
+            String totalInArabic = NumberConvertToArabicText.convert(new BigDecimal(total));
+            PdfPCell totalInArabicCell = getborderdCell(totalInArabic, almarai);
+            totalInArabicCell.setHorizontalAlignment(1);
+            totalInArabicCell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+            totalInArabicCell.setPadding(5);
+            
+            totalInArabicTable.addCell(totalInArabicCell);
+            totalInArabicTable.setSpacingBefore(2);
+            
+            document.add(totalInArabicTable);
+            
+            // paid and balance
+            
+            PdfPTable paidOuterTable = new PdfPTable(fullPageWidth);
+            PdfPTable paidSpecialOuterTable = new PdfPTable(specialWidth);
+            PdfPTable paidInnerTable1 = new PdfPTable(threeColSpecialWidth);
+            PdfPTable paidInnerTable2 = new PdfPTable(threeColSpecialWidth);
+            PdfPTable paidInnerSeperatorTable = new PdfPTable(speratorWidth);
+            
+            PdfPCell balanceCell1 = getUnborderdCell("Balance", almarai);
+            PdfPCell balanceCell2 = getUnborderdCell("0.00", almarai);
+            PdfPCell balanceCell3 = getUnborderdCell("المتبقي", almarai);
+            
+            paidInnerTable1.addCell(balanceCell1);
+            paidInnerTable1.addCell(balanceCell2);
+            paidInnerTable1.addCell(balanceCell3);
+            
+            
+            
+            PdfPCell totalPaidCell1 = getUnborderdCell("Total Paid", almarai);
+            PdfPCell totalPaidCell2 = getUnborderdCell(decimalFormat.format(total), almarai);
+            PdfPCell totalPaidCell3 = getUnborderdCell("المدفوع", almarai);
+            
+            paidInnerTable2.addCell(totalPaidCell1);
+            paidInnerTable2.addCell(totalPaidCell2);
+            paidInnerTable2.addCell(totalPaidCell3);
+            
+            PdfPCell speratorCell =  getUnborderdCell("", almarai);
+            
+            paidInnerSeperatorTable.addCell(speratorCell);
+            
+            paidOuterTable.addCell(paidInnerTable1);
+            paidOuterTable.addCell(paidInnerSeperatorTable);
+            paidOuterTable.addCell(paidInnerTable2);
+            paidOuterTable.setSpacingBefore(2);
+            
+            paidSpecialOuterTable.addCell(paidInnerTable1);
+            paidSpecialOuterTable.addCell(paidInnerSeperatorTable);
+            paidSpecialOuterTable.addCell(paidInnerTable2);
+            paidSpecialOuterTable.setSpacingBefore(2);
+            
+            
+            
+            document.add(paidSpecialOuterTable);
+            
+            
+            // instructions
+            
+            PdfPTable instructionsTable = new PdfPTable(fullPageWidth);
+            
+            
+            CompanyInfoRepo companyInfoRepo = new CompanyInfoRepo();
+            CompanyInfo companyInfo = companyInfoRepo.findById(1);
+            
+            PdfPCell instructionsCell = getborderdCell(companyInfo.getInstructions(), almarai);
+            instructionsCell.setPadding(3);
+            
+            
+            instructionsTable.addCell(instructionsCell);
+            instructionsTable.setSpacingBefore(2);
+            
+            document.add(instructionsTable);
+                    
+                    
         } catch (Exception e) {
             e.printStackTrace();
         }
