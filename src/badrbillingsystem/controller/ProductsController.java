@@ -4,6 +4,7 @@ package badrbillingsystem.controller;
 import badrbillingsystem.models.Product;
 import badrbillingsystem.repos.product.ProductRepo;
 import badrbillingsystem.utils.AlertMaker;
+import badrbillingsystem.utils.ImageResizer;
 import badrbillingsystem.utils.NotificationMaker;
 import java.io.File;
 import java.io.FileInputStream;
@@ -309,38 +310,43 @@ public class ProductsController implements Initializable {
             extention = originalImage.getAbsolutePath().substring(i+1);
         }
         String newFileName = imageName + "." + extention;
-        String distPath = System.getProperty("user.dir") + "/product-images/" + newFileName;
+        String distPath = "out/product-images/" + newFileName;
+//        String distPath = System.getProperty("user.dir") + "/product-images/" + newFileName;
 
         copied = new File(distPath);
 //        System.out.println(copied.getAbsolutePath());
+
+        ImageResizer.resizeImage(originalImage, copied, extention);
         
         
-        FileInputStream in = null;
-        FileOutputStream out = null;
+//        FileInputStream in = null;
+//        FileOutputStream out = null;
         
-        try {
-            in = new FileInputStream(originalImage);
-            out = new FileOutputStream(copied);    
-            int c;
-            
-            while ((c = in.read()) != -1) {
-                
-                out.write(c);
-//                System.out.println(c);
-            }
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-            AlertMaker.showErrorALert(e.toString());
-        }
-        finally {
-            if (in != null) {
-                in.close();
-            }
-            if (out != null) {
-                out.close();
-            }
-        }
+//        try {
+//            in = new FileInputStream(originalImage);
+//            out = new FileOutputStream(copied);    
+//            int c;
+//            
+//            while ((c = in.read()) != -1) {
+//                
+//                out.write(c);
+////                System.out.println(c);
+//            }
+//            
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            AlertMaker.showErrorALert(e.toString());
+//        }
+//        finally {
+//            if (in != null) {
+//                in.close();
+//            }
+//            if (out != null) {
+//                out.close();
+//            }
+//        }
+
+        System.out.println(copied.getAbsolutePath());
          return copied.getAbsolutePath();
     }
 

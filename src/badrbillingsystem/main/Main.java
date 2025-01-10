@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 
 
 
-public class Main {
+public class Main extends Application{
 
     public static void main(String[] args)  {
         DatabaseTableCreator.createTables();    
@@ -35,21 +35,21 @@ public class Main {
 
         
         
-//        launch(args);
+        launch(args);
     }
 
-//    @Override
-//    public void start(Stage primaryStage) throws Exception {
-//        try {
-//            Parent root = FXMLLoader.load(getClass().getResource("/badrbillingsystem/ui/home.fxml"));
-//            Scene scene = new Scene(root);
-//            primaryStage.setScene(scene);
-//            primaryStage.setTitle("الواجهة الرئيسية");
-//            primaryStage.show();
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/badrbillingsystem/ui/home.fxml"));
+            Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+            primaryStage.setTitle("الواجهة الرئيسية");
+            primaryStage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     
 }

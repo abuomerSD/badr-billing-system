@@ -3,6 +3,7 @@ package badrbillingsystem.controller;
 import badrbillingsystem.models.CompanyInfo;
 import badrbillingsystem.repos.companyinfo.CompanyInfoRepo;
 import badrbillingsystem.utils.AlertMaker;
+import badrbillingsystem.utils.ImageResizer;
 import badrbillingsystem.utils.NotificationMaker;
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,6 +11,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.UUID;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -70,6 +72,10 @@ public class CompanyInfoController implements Initializable{
             InputStream in = new FileInputStream(file);
             imgLogo.setImage(new Image(in));
             txtLogo.setText(file.getAbsolutePath());
+            String fullFilePath = txtLogo.getText();
+            int index = fullFilePath.lastIndexOf(".");
+            String extention = fullFilePath.substring(index + 1);
+            System.out.println(extention);
         } catch (Exception e) {
             e.printStackTrace();
             AlertMaker.showErrorALert(e.toString());
@@ -101,10 +107,34 @@ public class CompanyInfoController implements Initializable{
             i.setAddress(txtAddress.getText());
             i.setBranch(txtBranch.getText());
             i.setInstructions(txtInstructions.getText());
-            i.setLogo(txtLogo.getText());
+            
+            // copy and resize logo and qrcode
+            File originalLogo = new File(txtLogo.getText());
+            int index = txtLogo.getText().lastIndexOf(".");
+            String logoExtention = txtLogo.getText().substring(index + 1);
+            System.out.println(logoExtention);
+            
+            String logoOutPath = "out/logo/" + UUID.randomUUID() + "."+ logoExtention;
+            File resizedLogo = new File(logoOutPath);
+            
+            ImageResizer.resizeImage(originalLogo, resizedLogo, logoExtention);
+            i.setLogo(logoOutPath);
             i.setName(txtName.getText());
             i.setPhone(txtPhone.getText());
-            i.setQrCode(txtQRCode.getText());
+            
+            int index2 = txtQRCode.getText().lastIndexOf(".");
+            String qrCodeExtention = txtQRCode.getText().substring(index2 + 1);
+            System.out.println(qrCodeExtention);
+            
+            File originalQrCode = new File(txtQRCode.getText());
+            String qrCodeOutPath =  "out/logo/" + UUID.randomUUID() + "." + qrCodeExtention;
+            File resizedQrCode = new File(qrCodeOutPath);
+            
+            System.out.println(logoOutPath);
+            System.out.println(qrCodeOutPath);
+            
+            ImageResizer.resizeImage(originalQrCode, resizedQrCode, qrCodeExtention);
+            i.setQrCode(qrCodeOutPath);
             i.setTaxNumber(txtTaxNumber.getText());
             
             Optional<ButtonType> r = AlertMaker.showConfirmationAlert("هل تريد تعديل بيانات المؤسسة؟");
@@ -129,8 +159,9 @@ public class CompanyInfoController implements Initializable{
             txtName.setText(info.getName());
             txtPhone.setText(info.getPhone());
             txtTaxNumber.setText(info.getTaxNumber());
-            txtLogo.setText("src/badrbillingsystem/resources/images/LOGO-removebg-preview.png");
-            txtQRCode.setText("src/badrbillingsystem/resources/images/QR-removebg-preview.png");
+//            if(info.getLogo().isEmpty()){
+            txtLogo.setText(info.getLogo());
+            txtQRCode.setText(info.getQrCode());
             InputStream logoImage = new FileInputStream(new File(info.getLogo()));
             InputStream qrcodeImage = new FileInputStream(new File(info.getQrCode()));
             imgLogo.setImage(new Image(logoImage));

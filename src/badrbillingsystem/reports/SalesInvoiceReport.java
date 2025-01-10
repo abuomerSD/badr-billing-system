@@ -36,6 +36,7 @@ public class SalesInvoiceReport {
     float fullPageWidth[] = {570f};
     float oneColWidth[] = {190f};
     float twoColWidth[] = {285f, 285f};
+    float twoColSpectialWidth[] = {300f, 300f};
     float threeColWidth[] = {190f, 190f, 190f};
     float threeColSpecialWidth[] = {90f, 90f, 90f};
     float fiveColWidth[] = {114f,114f,114f,114f,114f};
@@ -43,6 +44,8 @@ public class SalesInvoiceReport {
     float productsTableWidth[] = {63f,63f,63f,63f,63f,189f,63f};
     float speratorWidth[] = {20f};
     float specialWidth[] = {275f,20f,275f};
+    
+    String fiveTabs= "                  ";
     
     String almaraiFontRegular = "/badrbillingsystem/resources/fonts/Almarai-Bold.ttf";
     String almaraiFontBold = "/badrbillingsystem/resources/fonts/Almarai-ExtraBold.ttf";
@@ -296,12 +299,13 @@ public class SalesInvoiceReport {
            int rowNumber = 1;
            int productNumber = 1;
             for (SalesInvoiceDetails detail : details) {
-                if(rowNumber == 18) {
+                if(rowNumber == productsPerPage + 1) {
+                    pageNumber++;
                     addPageFooter(document, id, header, details, c, pageNumber);
                     document.newPage();
                     addPageHeader(document, id, header, details, c, pageNumber);
                     rowNumber =1;
-                    pageNumber++;
+                    
                 }
                 PdfPTable productsDetailsOuterTable = new PdfPTable(fullPageWidth);
                 PdfPTable productsDetailsInnerTable = new PdfPTable(productsTableWidth);
@@ -346,7 +350,7 @@ public class SalesInvoiceReport {
 //           addPageHeader(document, id, header, details, c, pageNumber);
            
            
-           
+            addPageFooter(document, id, header, details, c, pageNumber);
            
             
             // close the document
@@ -421,11 +425,17 @@ public class SalesInvoiceReport {
             
             // company info , logo and qr code
             
-            PdfPTable tbCompanyInfoAndLogos = new PdfPTable(threeColWidth);
+            float newWidth[] = {175f,175f,220f};
+            
+            PdfPTable tbCompanyInfoAndLogos = new PdfPTable(newWidth);
+//            PdfPTable tbCompanyInfoAndLogos = new PdfPTable(threeColWidth);
             
             
             // company info
             
+            float testWidth[] = {300f};
+            
+//            PdfPTable companyInfoTable = new PdfPTable(testWidth);
             PdfPTable companyInfoTable = new PdfPTable(oneColWidth);
             PdfPCell companyInfo = getUnborderdCell("       " + company.getName() + "\n\n"
                     + "مواد بناء - سباكة - مواد كهرباء - نجارة" + "\n\n"
@@ -434,27 +444,49 @@ public class SalesInvoiceReport {
             
             PdfPCell taxNumberCell = getborderdCell("الرقم الضريبي"+"  "+company.getTaxNumber(), almarai);
             
+            PdfPCell taxNumberCell1 = getUnborderdCell("       " + company.getName() , almaraiBold);
+            PdfPCell taxNumberCell2 = getUnborderdCell("مواد بناء - سباكة - مواد كهرباء - نجارة", almarai);
+            PdfPCell taxNumberCell3 = getUnborderdCell("                  " +company.getPhone(), almarai);
+            PdfPCell taxNumberCell4 = getUnborderdCell("                 " +company.getBranch() , almarai);
             
-            companyInfoTable.addCell(companyInfo);
+            
+            companyInfoTable.addCell(taxNumberCell1);
+            companyInfoTable.addCell(taxNumberCell2);
+            companyInfoTable.addCell(taxNumberCell3);
+            companyInfoTable.addCell(taxNumberCell4);
+            
+//            companyInfoTable.addCell(companyInfo);
             companyInfoTable.addCell(taxNumberCell);
             
             // logo
             Image logo = Image.getInstance(company.getLogo());
-            logo.setBorder(-1);
+//            logo.setBorder(-1);
+//            logo.setWidthPercentage(1);
+            logo.setAbsolutePosition(200, 730);
+            logo.setCompressionLevel(2);
+            logo.setScaleToFitHeight(false);
+            logo.setDpi(100, 100);
+            
+            document.add(logo);
 //            System.out.println(logo.getBorder());
             logo.scaleToFit(20,20);
             logo.setPaddingTop(30);
-            
+            System.out.println(document.getPageSize());
             
             // qr code
             Image qrCode = Image.getInstance(company.getQrCode());
-            qrCode.setBorder(0);
+//            qrCode.setBorder(0);
+            qrCode.setAbsolutePosition(50, 730);
             
+            document.add(qrCode);
             
             // add to table
-            tbCompanyInfoAndLogos.addCell(qrCode);
-            tbCompanyInfoAndLogos.addCell(logo);
+            tbCompanyInfoAndLogos.addCell(getUnborderdCell("", almarai));
+            tbCompanyInfoAndLogos.addCell(getUnborderdCell("", almarai));
             tbCompanyInfoAndLogos.addCell(companyInfoTable);
+            
+            Paragraph p = new Paragraph("اختبار", almarai);
+//            p.set
             
             document.add(tbCompanyInfoAndLogos);
             
@@ -471,8 +503,11 @@ public class SalesInvoiceReport {
             
             
             // address 
+            
+            
+            
             PdfPTable address = new PdfPTable(fullPageWidth);
-            PdfPCell addressCell = getUnborderdCell(company.getAddress()+ " - " + "هاتف " + company.getPhone(), almarai);
+            PdfPCell addressCell = getUnborderdCell(company.getAddress()+ " - " + "هاتف " + company.getPhone() + fiveTabs + pageNumber, almarai);
             addressCell.setHorizontalAlignment(1);
             addressCell.setBorder(3);
             
@@ -486,12 +521,12 @@ public class SalesInvoiceReport {
             float d[] = {700f,700f,700f};
             PdfPTable date = new PdfPTable(d);
             
-            PdfPCell dateCell = getborderdCell( "التاريخ"+ "    "+header.getDate() + "  " + "Date", almarai);
+            PdfPCell dateCell = getborderdCell( "التاريخ"+ "        "+header.getDate() + fiveTabs + "Date", almarai);
             
             PdfPCell titleCell = getUnborderdCell("فاتورة ضريبية" + " " + "Tax Invoice", almaraiBold);
             titleCell.setPadding(5);
             
-            PdfPCell invoiceIdCell = getborderdCell("رقم الفاتورة" + "  " + header.getId() + "  " +"Invoice", almarai);
+            PdfPCell invoiceIdCell = getborderdCell("رقم الفاتورة" + "  " + "           " + header.getId() + fiveTabs +"Invoice", almarai);
 
             
             date.addCell(invoiceIdCell);
@@ -663,7 +698,13 @@ public class SalesInvoiceReport {
             totalBeforeTaxInnerTable.addCell(totalBeforeTaxCell3);
             
             totalBeforeTaxOuterTable.addCell(totalBeforeTaxInnerTable);
-            totalBeforeTaxOuterTable.setSpacingBefore(20);
+            
+            if(details.size() < 10) {
+                totalBeforeTaxOuterTable.setSpacingBefore(100);
+            } else {
+                totalBeforeTaxOuterTable.setSpacingBefore(20);
+            }
+            
             document.add(totalBeforeTaxOuterTable);
             
             // total discount 
@@ -752,7 +793,9 @@ public class SalesInvoiceReport {
             PdfPTable paidInnerSeperatorTable = new PdfPTable(speratorWidth);
             
             PdfPCell balanceCell1 = getUnborderdCell("Balance", almarai);
+            balanceCell1.setRunDirection(PdfWriter.RUN_DIRECTION_LTR);
             PdfPCell balanceCell2 = getUnborderdCell("0.00", almarai);
+            balanceCell2.setHorizontalAlignment(1);
             PdfPCell balanceCell3 = getUnborderdCell("المتبقي", almarai);
             
             paidInnerTable1.addCell(balanceCell1);
@@ -762,7 +805,9 @@ public class SalesInvoiceReport {
             
             
             PdfPCell totalPaidCell1 = getUnborderdCell("Total Paid", almarai);
+            totalPaidCell1.setRunDirection(PdfWriter.RUN_DIRECTION_LTR);
             PdfPCell totalPaidCell2 = getUnborderdCell(decimalFormat.format(total), almarai);
+            totalPaidCell2.setHorizontalAlignment(1);
             PdfPCell totalPaidCell3 = getUnborderdCell("المدفوع", almarai);
             
             paidInnerTable2.addCell(totalPaidCell1);
@@ -804,7 +849,8 @@ public class SalesInvoiceReport {
             instructionsTable.setSpacingBefore(2);
             
             document.add(instructionsTable);
-                    
+            
+            
                     
         } catch (Exception e) {
             e.printStackTrace();
