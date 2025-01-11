@@ -15,6 +15,7 @@ import badrbillingsystem.repos.productmovement.ProductMovementRepo;
 import badrbillingsystem.repos.salesinvoicedetails.SalesInvoiceDetailsRepo;
 import badrbillingsystem.repos.salesinvoiceheader.SalesInvoiceHeaderRepo;
 import badrbillingsystem.utils.AlertMaker;
+import badrbillingsystem.utils.Constants;
 import badrbillingsystem.utils.DateFormatter;
 import badrbillingsystem.utils.NotificationMaker;
 import badrbillingsystem.utils.OSDetector;
@@ -70,6 +71,7 @@ public class SalesInvoiceController implements Initializable{
         fillFilterInvoicesListCustomerCB();
         btnPrintInvoice.setDisable(true);
         lbInvoiceId.setText("0");
+        txtTaxInPercentage.setText("15");
         
         cbCustomerName.valueProperty().addListener(new ChangeListener<String>(){
             @Override
@@ -199,7 +201,37 @@ public class SalesInvoiceController implements Initializable{
     
     @FXML
     void listInvoicePrint(){
-        
+        try {
+            SalesInvoiceHeader header = tbInvoicesList.getSelectionModel().getSelectedItem();
+            
+            SalesInvoiceDetailsRepo detailsRepo = new SalesInvoiceDetailsRepo();
+            Customer c = customerRepo.findByName(header.getCutomerName());
+            
+            
+            if(header == null) {
+                return;
+            }
+            
+            long id = header.getId();
+            ArrayList<SalesInvoiceDetails> details = detailsRepo.findAllByHeaderId(id);
+            
+                    
+            String invoicePath = Constants.SALES_INVOICE_SUFFIX + id + Constants.SALES_INVOICE_EXTENTION;
+            File invoiceFile = new File(invoicePath);
+            
+            if(! invoiceFile.isFile()){
+                System.out.println("invoice not found, "+ id+" creating another invoice");
+                SalesInvoiceReport report = new SalesInvoiceReport();
+                report.saveSalesInvoiceAsPdf(id, header, details, c);
+                showInvoiceFile(invoiceFile);
+            } else {
+                showInvoiceFile(invoiceFile);
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            AlertMaker.showErrorALert(e.toString());
+        }
     }
     
     @FXML
@@ -241,13 +273,11 @@ public class SalesInvoiceController implements Initializable{
             SalesInvoiceHeader header = headerRepo.findById(headerId);
             ArrayList<SalesInvoiceDetails> details = detailsRepo.findAllByHeaderId(headerId);
             
-//            Customer c = customerRepo.findByName(name)
-            
             String customerName = header.getCutomerName();
             Customer c = customerRepo.findByName(customerName);
             
             SalesInvoiceReport report = new SalesInvoiceReport();
-            String invoiceName = report.showSalesInvoice(headerId, header, details, c);
+            String invoiceName = report.saveSalesInvoiceAsPdf(headerId, header, details, c);
             
             showInvoiceFile(new File(invoiceName));
             
