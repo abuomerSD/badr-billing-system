@@ -41,10 +41,10 @@ public class Main extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/badrbillingsystem/ui/home.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/badrbillingsystem/ui/login.fxml"));
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
-            primaryStage.setTitle("الواجهة الرئيسية");
+            primaryStage.setTitle("تسجيل الدخول");
             primaryStage.show();
 
         } catch (Exception e) {

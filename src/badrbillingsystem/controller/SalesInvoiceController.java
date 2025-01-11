@@ -298,6 +298,13 @@ public class SalesInvoiceController implements Initializable{
                 AlertMaker.showErrorALert("اختر عميل اولا");
                 return;
             }
+            
+            for (SalesInvoiceDetails d : data) {
+                if (d.getQuantity() == 0) {
+                    AlertMaker.showErrorALert("اضف الكمية لجميع العناصر في الفاتورة");
+                    return;
+                }
+            }
             Customer customer = customerRepo.findByName(customerName);
             long customerId = customer.getId();
             

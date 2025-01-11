@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javax.swing.JOptionPane;
 
@@ -18,6 +19,9 @@ public class HomeController implements Initializable{
     public void initialize(URL url, ResourceBundle rb) {
         
     }
+    
+    @FXML
+    public Label lbUsername;
     
     @FXML
     BorderPane borderPane;
