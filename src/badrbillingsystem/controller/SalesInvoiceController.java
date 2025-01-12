@@ -347,7 +347,7 @@ public class SalesInvoiceController implements Initializable{
             // add invoice to customer account
             CustomerAccount account = new CustomerAccount();
             account.setCustomerId(customerId);
-            account.setDate(date.toString());
+            account.setDate(dateFormatter.format(date));
             account.setIncoming(0);
             account.setInfo(info);
             account.setOutgoing(total);

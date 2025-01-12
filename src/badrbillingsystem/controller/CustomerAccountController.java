@@ -75,19 +75,7 @@ public class CustomerAccountController implements Initializable{
 
     @FXML
     void resetTable(ActionEvent event) {
-        try {
-            colBalance.setCellValueFactory(new PropertyValueFactory<>("balance"));
-            colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
-            colIncoming.setCellValueFactory(new PropertyValueFactory<>("incoming"));
-            colInfo.setCellValueFactory(new PropertyValueFactory<>("info"));
-            colOutgoing.setCellValueFactory(new PropertyValueFactory<>("outgoing"));
-            
-            
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-            AlertMaker.showErrorALert(e.toString());
-        }
+        fillTable();
     }
     
     void fillTable() {
@@ -126,7 +114,28 @@ public class CustomerAccountController implements Initializable{
     @FXML 
     void filterTableByDate(ActionEvent event){
         try {
+            String fromDate = dpFromDate.getValue().toString();
+            String toDate = dpToDate.getValue().toString();
             
+            if(fromDate.isEmpty() || toDate.isEmpty()) {
+                AlertMaker.showErrorALert("اختر التواريخ اولا");
+                return;
+            }
+            
+            System.out.println("fromDate " + fromDate);
+            System.out.println("toDate " + toDate);
+            
+            ArrayList<CustomerAccount> list = customerAccountRepo.findByDates(fromDate, toDate);
+            ObservableList<CustomerAccount> data = FXCollections.observableArrayList(list);
+            
+            colBalance.setCellValueFactory(new PropertyValueFactory<>("balance"));
+            colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+            colIncoming.setCellValueFactory(new PropertyValueFactory<>("incoming"));
+            colInfo.setCellValueFactory(new PropertyValueFactory<>("info"));
+            colOutgoing.setCellValueFactory(new PropertyValueFactory<>("outgoing"));
+            
+            
+            tbCustomerAccount.setItems(data);
         } catch (Exception e) {
             e.printStackTrace();
             AlertMaker.showErrorALert(e.toString());

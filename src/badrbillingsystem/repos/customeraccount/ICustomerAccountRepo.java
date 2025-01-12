@@ -11,4 +11,5 @@ public interface ICustomerAccountRepo {
     boolean deleteBySalesInvoiceId(long headId, long customerId);
     boolean deleteByReturnDocumentId(long headId, long customerId);
     ArrayList<CustomerAccount> findByCutomerId(long id);
+    ArrayList<CustomerAccount> findByDates(String fromDate, String toDate);
 }

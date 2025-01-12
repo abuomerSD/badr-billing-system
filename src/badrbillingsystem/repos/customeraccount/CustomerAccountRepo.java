@@ -158,4 +158,41 @@ public class CustomerAccountRepo implements ICustomerAccountRepo{
         return list;     
     }
     
+    
+    @Override
+    public ArrayList<CustomerAccount> findByDates(String fromDate, String toDate) {
+        String sql = "SELECT * FROM TB_CUTOMER_ACCOUNT WHERE TRANSACTION_DATE BETWEEN ? AND ?";
+        ArrayList<CustomerAccount> list = new ArrayList<>();
+        try {
+            Connection con = DBConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, fromDate);
+            ps.setString(2, toDate);
+            
+            ResultSet rs = ps.executeQuery();
+            double totalBalance = 0;
+            while(rs.next()) {
+                CustomerAccount c = new CustomerAccount();
+                
+                c.setCustomerId(rs.getLong("CUSTOMER_ID"));
+                c.setDate(rs.getString("TRANSACTION_DATE"));
+                c.setIncoming(rs.getDouble("INCOMING_VALUE"));
+                c.setInfo(rs.getString("INFO"));
+                c.setOutgoing(rs.getDouble("OUTGOING_VALUE"));
+                c.setReturnDocumentId(rs.getLong("RETURN_INVOICE_ID"));
+                c.setSalesInvoiceId(rs.getLong("SALES_INVOICE_ID"));
+                
+                double newBalance = (totalBalance + c.getOutgoing()) - c.getIncoming();
+                totalBalance = newBalance;
+                c.setBalance(newBalance);
+                c.setTotalBalance(totalBalance);
+                list.add(c);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            AlertMaker.showErrorALert(e.toString());
+        }
+        return list;     
+    }
+    
 }
