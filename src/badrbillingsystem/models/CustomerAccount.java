@@ -105,10 +105,5 @@ public class CustomerAccount {
     public String toString() {
         return "CustomerAccount{" + "date=" + date + ", salesInvoiceId=" + salesInvoiceId + ", returnDocumentId=" + returnDocumentId + ", incoming=" + incoming + ", outgoing=" + outgoing + ", balance=" + balance + ", totalBalance=" + totalBalance + ", customerId=" + customerId + ", info=" + info + '}';
     }
-
-    
-
-    
-    
-    
+  
 }

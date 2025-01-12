@@ -6,6 +6,7 @@ import badrbillingsystem.models.CustomerAccount;
 import badrbillingsystem.utils.AlertMaker;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 public class CustomerAccountRepo implements ICustomerAccountRepo{
@@ -126,9 +127,30 @@ public class CustomerAccountRepo implements ICustomerAccountRepo{
 
     @Override
     public ArrayList<CustomerAccount> findByCutomerId(long id) {
+        String sql = "SELECT * FROM TB_CUTOMER_ACCOUNT WHERE CUSTOMER_ID ="+ id;
         ArrayList<CustomerAccount> list = new ArrayList<>();
         try {
-            
+            Connection con = DBConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            double totalBalance = 0;
+            while(rs.next()) {
+                CustomerAccount c = new CustomerAccount();
+                
+                c.setCustomerId(rs.getLong("CUSTOMER_ID"));
+                c.setDate(rs.getString("TRANSACTION_DATE"));
+                c.setIncoming(rs.getDouble("INCOMING_VALUE"));
+                c.setInfo(rs.getString("INFO"));
+                c.setOutgoing(rs.getDouble("OUTGOING_VALUE"));
+                c.setReturnDocumentId(rs.getLong("RETURN_INVOICE_ID"));
+                c.setSalesInvoiceId(rs.getLong("SALES_INVOICE_ID"));
+                
+                double newBalance = (totalBalance + c.getOutgoing()) - c.getIncoming();
+                totalBalance = newBalance;
+                c.setBalance(newBalance);
+                c.setTotalBalance(totalBalance);
+                list.add(c);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             AlertMaker.showErrorALert(e.toString());
