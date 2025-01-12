@@ -6,14 +6,16 @@ import badrbillingsystem.repos.user.UserRepo;
 import badrbillingsystem.utils.AlertMaker;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class LoginController implements Initializable{
 
@@ -60,10 +62,25 @@ public class LoginController implements Initializable{
 //                usersHashmap.put(user.getUsername(), user.getPassword());
 //            }
             
+            System.out.println(usersList);
             for (User user : usersList) {
-                if(user.getUsername() == username && user.getPassword() == password){
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/badrbillingsystem/ui/login.fxml"));
-                    HomeController controller = loader.getController();
+                if(user.getUsername().equals(username) && user.getPassword().equals(password)){
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/badrbillingsystem/ui/home.fxml"));
+//                    Parent root = loader.load();
+                    HomeController homeController = new HomeController(username);
+//                    HomeController controller = loader.getController();
+                    loader.setController(homeController);
+                    Parent root = loader.load();
+//                    controller.lbUsername.setText(username);
+//                    controller.user = new User(0, username, password);
+                    
+                    Stage stage = new Stage();
+                    Scene scene = new Scene(root);
+                    stage.setScene(scene);
+                    stage.setTitle("الواجهة الرئيسية");
+                    stage.show();
+                    Stage loginStage = (Stage) txtUsername.getScene().getWindow();
+                    loginStage.close();
                 }
             }
             

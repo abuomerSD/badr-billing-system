@@ -1,6 +1,7 @@
 
 package badrbillingsystem.controller;
 
+import badrbillingsystem.models.User;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -8,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javax.swing.JOptionPane;
@@ -15,10 +17,54 @@ import javax.swing.JOptionPane;
 
 public class HomeController implements Initializable{
 
+    public HomeController(String username) {
+        this.username = username;
+    }
+
+//    public HomeController() {
+//        this("");
+//    }
+//
+//    public HomeController(String username, Button btnReturnDocument, Button btnUsers, User user, Label lbUsername, BorderPane borderPane) {
+//        this.username = username;
+//        this.btnReturnDocument = btnReturnDocument;
+//        this.btnUsers = btnUsers;
+//        this.user = user;
+//        this.lbUsername = lbUsername;
+//        this.borderPane = borderPane;
+//    }
+    
+    
+    
+    private String username;
+    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+        lbUsername.setText(username);
+        System.out.println(lbUsername.getText());
+        if(lbUsername.getText().equals("admin")){
+            btnReturnDocument.setDisable(false);
+            btnUsers.setDisable(false);
+        } else {
+            btnReturnDocument.setDisable(true);
+            btnUsers.setDisable(true);
+        }
+
+//        lbUsername.setText(user.getUsername());
+//        if(!user.getUsername().equals("admin")){
+//            btnUsers.setDisable(true);
+//            btnReturnDocument.setDisable(true);
+//        }
     }
+    
+    @FXML 
+    Button btnReturnDocument;
+    
+    @FXML 
+    Button btnUsers;
+    
+    public User user;
     
     @FXML
     public Label lbUsername;

@@ -38,7 +38,7 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </FontAwesomeIcon>
-                  <PasswordField fx:id="txtPassword" prefHeight="40.0" prefWidth="256.0" promptText="كلمة المرور">
+                  <PasswordField fx:id="txtPassword" onAction="#login" prefHeight="40.0" prefWidth="256.0" promptText="كلمة المرور">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>

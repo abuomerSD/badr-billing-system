@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="700" prefWidth="1100" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="badrbillingsystem.controller.HomeController">
+<AnchorPane id="AnchorPane" prefHeight="700" prefWidth="1100" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
     <stylesheets>
         <URL value="@/badrbillingsystem/resources/style/style.css" />
     </stylesheets>
@@ -33,11 +33,11 @@
                      <graphic>
                         <FontAwesomeIcon fill="WHITE" iconName="SHOPPING_CART" size="25" />
                      </graphic></Button>
-                  <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#showReturnDocumentUI" prefHeight="70.0" prefWidth="250.0" styleClass="sidebar-button" text="مردود الفواتير">
+                  <Button fx:id="btnReturnDocument" contentDisplay="TOP" mnemonicParsing="false" onAction="#showReturnDocumentUI" prefHeight="70.0" prefWidth="250.0" styleClass="sidebar-button" text="مردود الفواتير">
                      <graphic>
                         <FontAwesomeIcon fill="WHITE" iconName="MAIL_REPLY" size="25" />
                      </graphic></Button>
-                  <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#showUsersUI" prefHeight="70.0" prefWidth="250.0" styleClass="sidebar-button" text="المستخدمين">
+                  <Button fx:id="btnUsers" contentDisplay="TOP" mnemonicParsing="false" onAction="#showUsersUI" prefHeight="70.0" prefWidth="250.0" styleClass="sidebar-button" text="المستخدمين">
                      <graphic>
                         <FontAwesomeIcon fill="WHITE" iconName="LOCK" size="25" />
                      </graphic></Button>
@@ -47,8 +47,8 @@
                      </graphic></Button>
                   <AnchorPane prefHeight="278.0" prefWidth="200.0">
                      <children>
-                        <FontAwesomeIcon fill="WHITE" layoutX="88.0" layoutY="172.0" size="25" />
-                        <Label fx:id="lbUsername" layoutX="73.0" layoutY="190.0" text="username" textFill="WHITE" />
+                        <FontAwesomeIcon fill="WHITE" iconName="USER" layoutX="88.0" layoutY="172.0" size="35" />
+                        <Label fx:id="lbUsername" alignment="CENTER" layoutX="15.0" layoutY="190.0" prefHeight="31.0" prefWidth="174.0" text="username" textFill="WHITE" />
                      </children>
                   </AnchorPane>
                   <!--<Button mnemonicParsing="false" prefHeight="70.0" prefWidth="250.0" styleClass="sidebar-button" text="حول البرنامج" />-->

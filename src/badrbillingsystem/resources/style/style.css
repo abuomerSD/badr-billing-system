@@ -26,6 +26,8 @@
 
 .sidebar {
     -fx-background-color: #3A3960;
+    -fx-font-family: 'almarai';
+    -fx-text-fill: white;
 }
 
 .title {
