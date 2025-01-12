@@ -158,15 +158,18 @@ public class ProductMovementRepo implements IProductMovementRepo{
     }
 
     @Override
-    public ArrayList<ProductMovement> findAllByKeywords(String fromDate, String toDate, long customerId) {
-        String sql = "SELECT * FROM TB_PRODUCT_MOVEMENT WHERE (DATE BETWEEN ? AND ?) AND  CUSTOMER_ID = ?";
+    public ArrayList<ProductMovement> findAllByKeywords(long productID, String fromDate, String toDate, long customerId) {
+        String sql = "SELECT * FROM TB_PRODUCT_MOVEMENT WHERE DATE >= ? AND DATE <= ? AND  CUSTOMER_ID = ?";
+        String sql2 = "SELECT * FROM TB_PRODUCT_MOVEMENT WHERE PRODUCT_ID=?  DATE BETWEEN ? AND  ? AND  CUSTOMER_ID = ?";
+        String sql3 = "SELECT * FROM TB_PRODUCT_MOVEMENT WHERE DATE BETWEEN ? AND  ?";
         ArrayList<ProductMovement> list = new ArrayList<>();
         try {
             Connection con = DBConnection.getConnection();
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, fromDate);
-            ps.setString(1, toDate);
-            ps.setLong(1, customerId);
+            PreparedStatement ps = con.prepareStatement(sql2);
+            ps.setString(1, productId);
+            ps.setString(2, fromDate);
+            ps.setString(3, toDate);
+            ps.setLong(4, customerId);
             System.out.println(ps.toString());
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
@@ -186,9 +189,43 @@ public class ProductMovementRepo implements IProductMovementRepo{
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, e.toString());
         }
+        System.out.println(list);
         return list;
     }
-
+    @Override
+    public ArrayList<ProductMovement> findAllByDateRange(String fromDate, String toDate) {
+//        String sql = "SELECT * FROM TB_PRODUCT_MOVEMENT WHERE DATE >= ? AND DATE <= ? AND  CUSTOMER_ID = ?";
+//        String sql2 = "SELECT * FROM TB_PRODUCT_MOVEMENT WHERE DATE BETWEEN ? AND  ? AND  CUSTOMER_ID = ?";
+        String sql3 = "SELECT * FROM TB_PRODUCT_MOVEMENT WHERE DATE BETWEEN ? AND  ?";
+        ArrayList<ProductMovement> list = new ArrayList<>();
+        try {
+            Connection con = DBConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql3);
+            ps.setString(1, fromDate);
+            ps.setString(2, toDate);
+//            ps.setLong(3, customerId);
+            System.out.println(ps.toString());
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                ProductMovement p = new ProductMovement();
+                p.setProductId(rs.getLong("PRODUCT_ID"));
+                p.setReturnInvoiceId(rs.getLong("RETURN_INVOICE_ID"));
+                p.setReturnQuantity(rs.getDouble("RETURN_QUANTITY"));
+                p.setSalesInvoiceId(rs.getLong("SALES_INVOICE_ID"));
+                p.setSalesQuantity(rs.getDouble("SALES_QUANTITY"));
+                p.setDetails(rs.getString("DETAILS"));
+                p.setDate(rs.getString("DATE"));
+                p.setMovementInfo(rs.getString("MOVEMENT_INFO"));
+                p.setCustomerId(rs.getLong("CUSTOMER_ID"));
+                list.add(p);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.toString());
+        }
+        System.out.println(list);
+        return list;
+    }
     
     
 }

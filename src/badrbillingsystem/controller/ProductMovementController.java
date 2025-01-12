@@ -6,6 +6,7 @@ import badrbillingsystem.models.ProductMovement;
 import badrbillingsystem.repos.customer.CustomerRepo;
 import badrbillingsystem.repos.productmovement.ProductMovementRepo;
 import badrbillingsystem.utils.AlertMaker;
+import badrbillingsystem.utils.DateFormatter;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -26,33 +27,48 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 
 public class ProductMovementController implements Initializable {
+
+    public ProductMovementController(long proudctId) {
+        this.productId = proudctId;
+    }
+    
+    long productId;
    
+    DateFormatter dateFormatter = new DateFormatter();
+    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         fillCustomerComboBox();
-        updateMovementTableData();
+        ActionEvent e = new ActionEvent();
+        updateMovementTableData(e);
         tbProduct.setPlaceholder(new Label("لا توجد بيانات"));
-        cbCustomerName.valueProperty().addListener(new ChangeListener<String>(){
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                String fromDate = dpFromDate.getValue().toString();
-                if(fromDate == null)
-                    fromDate = "";
-                String toDate = dpToDate.getValue().toString();
-                if(toDate == null)
-                    toDate = "";
-                String customerName = cbCustomerName.getSelectionModel().getSelectedItem();
-                CustomerRepo customerRepo =  new CustomerRepo();
-                Customer customer = customerRepo.findByName(customerName);
-                
-                filterTable(fromDate, toDate, customer.getId());
-        AlertMaker.showMessageAlert(fromDate);
-            }
-            
-        });
+//        cbCustomerName.valueProperty().addListener(new ChangeListener<String>(){
+//            @Override
+//            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+//               
+//                String fromDate = "";
+//                String toDate = "";
+//                try{
+//                   fromDate = dateFormatter.format(dpFromDate.getValue());
+//                
+//                   toDate = dateFormatter.format(dpToDate.getValue()); 
+//                } catch(Exception e) {
+//                    e.printStackTrace();
+//                }
+//                
+//                
+//                String customerName = cbCustomerName.getSelectionModel().getSelectedItem();
+//                CustomerRepo customerRepo =  new CustomerRepo();
+//                Customer customer = customerRepo.findByName(customerName);
+//                
+//                filterTable(fromDate, toDate, customer.getId());
+////                AlertMaker.showMessageAlert(fromDate);
+//            }
+//            
+//        });
     }    
     
     
@@ -97,7 +113,7 @@ public class ProductMovementController implements Initializable {
     
     ProductMovementRepo repo = new ProductMovementRepo();
     
-    ObservableList data = FXCollections.observableArrayList(repo.findAllById(1));
+    
 
     @FXML
     void printReport(ActionEvent event) {
@@ -105,14 +121,17 @@ public class ProductMovementController implements Initializable {
         AlertMaker.showMessageAlert(fromDate);
     }
 
-    private void updateMovementTableData() {
+    @FXML
+    private void updateMovementTableData(ActionEvent event) {
         try {
+            cbCustomerName.getSelectionModel().clearSelection();
             colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
 //            colDetails.setCellValueFactory(new PropertyValueFactory<>("details"));
             colIn.setCellValueFactory(new PropertyValueFactory<>("returnQuantity"));
             colInfo.setCellValueFactory(new PropertyValueFactory<>("movementInfo"));
             colOut.setCellValueFactory(new PropertyValueFactory<>("salesQuantity"));
-            
+//            long id = Long.valueOf(txtProductId.getText());
+            ObservableList data = FXCollections.observableArrayList(repo.findAllById(productId));
             tbProduct.setItems(data);
             
         } catch (Exception e) {
@@ -125,7 +144,15 @@ public class ProductMovementController implements Initializable {
     private void filterTable(String fromDate, String toDate , long customerId) {
         try {
             
-            ObservableList<ProductMovement> data = FXCollections.observableArrayList(repo.findAllByKeywords(fromDate, toDate, customerId));
+            ObservableList<ProductMovement> data;
+            if(customerId == 0) {
+                 data = FXCollections.observableArrayList(repo.findAllByDateRange(fromDate, toDate));
+            } else if(customerId > 0 && (fromDate.isEmpty() || toDate.isEmpty())) {
+                 data = FXCollections.observableArrayList(repo.findAllByCustomerId(customerId));
+            } else {
+                data = FXCollections.observableArrayList(repo.findAllByKeywords(fromDate, toDate, customerId));
+            }
+            
             colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
 //            colDetails.setCellValueFactory(new PropertyValueFactory<>("details"));
             colIn.setCellValueFactory(new PropertyValueFactory<>("returnQuantity"));
@@ -155,4 +182,28 @@ public class ProductMovementController implements Initializable {
         }
     }
 
+    
+    @FXML
+    void searchButtonOnAction(ActionEvent event) {
+        try {
+            String fromDate = "";
+                String toDate = "";
+                try{
+                   fromDate = dateFormatter.format(dpFromDate.getValue());
+                
+                   toDate = dateFormatter.format(dpToDate.getValue()); 
+                } catch(Exception e) {
+                    e.printStackTrace();
+                }
+                
+                
+                String customerName = cbCustomerName.getSelectionModel().getSelectedItem();
+                CustomerRepo customerRepo =  new CustomerRepo();
+                Customer customer = customerRepo.findByName(customerName);
+                filterTable(fromDate, toDate, customer.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+            AlertMaker.showErrorALert(e.toString());
+        }
+    }
 }

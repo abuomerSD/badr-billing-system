@@ -9,9 +9,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 
 
@@ -122,6 +124,11 @@ public class HomeController implements Initializable{
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/badrbillingsystem/ui/salesInvoices.fxml"));
             borderPane.setCenter(root);
+//            Scene scene = new Scene(root);
+//            Stage stage = new Stage();
+//            stage.setScene(scene);
+//            stage.setTitle("فواتير المبيعات");
+//            stage.show();
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, e.toString());

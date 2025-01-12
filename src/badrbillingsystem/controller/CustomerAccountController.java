@@ -7,6 +7,7 @@ import badrbillingsystem.repos.customer.CustomerRepo;
 import badrbillingsystem.repos.customeraccount.CustomerAccountRepo;
 import badrbillingsystem.utils.AlertMaker;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -99,7 +100,9 @@ public class CustomerAccountController implements Initializable{
                 }
             }
             
-            txtTotal.setText(String.valueOf(totalBalance) + " " + "ريال سعودي");
+            DecimalFormat df = new DecimalFormat("#,###,###.00");
+            
+            txtTotal.setText(df.format(totalBalance) + " " + "ريال سعودي");
             
             ObservableList<CustomerAccount> data = FXCollections.observableArrayList(list);
             System.out.println(data);

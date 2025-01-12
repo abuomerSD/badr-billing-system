@@ -324,11 +324,11 @@ public class SalesInvoiceController implements Initializable{
             long headerId = headerRepo.save(header);
             String info = "فاتورة مبيعات رقم " + headerId;
             
-            
+            DateFormatter dateFormatter = new DateFormatter();
             for (SalesInvoiceDetails d : data) {
                 ProductMovement movement = new ProductMovement();
                 movement.setCustomerId(customerId);
-                movement.setDate(date.toString());
+                movement.setDate(dateFormatter.format(date));
                 movement.setDetails(d.getDetails());
                 movement.setMovementInfo(info);
                 movement.setProductId(d.getProductId());

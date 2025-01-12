@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="700.0" prefWidth="1100.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="badrbillingsystem.controller.ProductMovementController">
+<AnchorPane id="AnchorPane" prefHeight="700.0" prefWidth="1100.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" >
     <stylesheets>
         <URL value="@/badrbillingsystem/resources/style/style.css" />
     </stylesheets>
@@ -64,6 +64,23 @@
                         <Insets bottom="10.0" right="10.0" top="10.0" />
                      </HBox.margin>
                   </ComboBox>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="61.0" prefWidth="1100.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#searchButtonOnAction" prefHeight="48.0" prefWidth="123.0" styleClass="btn-primary" text="بحث">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#updateMovementTableData" prefHeight="48.0" prefWidth="63.0" styleClass="btn-secondary">
+                     <graphic>
+                        <FontAwesomeIcon fill="WHITE" iconName="REFRESH" size="25" />
+                     </graphic>
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="430.0" prefWidth="900.0">

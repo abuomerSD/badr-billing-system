@@ -32,7 +32,12 @@ public class LoginController implements Initializable{
 
     @FXML
     void exit(ActionEvent event) {
-
+        try {
+            Stage stage = (Stage) txtUsername.getScene().getWindow();
+            stage.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

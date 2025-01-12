@@ -216,8 +216,11 @@ public class ProductsController implements Initializable {
                 return;
             }
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/badrbillingsystem/ui/productMovement.fxml"));
+            
+            ProductMovementController controller = new ProductMovementController(p.getId());
+           loader.setController(controller);
             Parent root = loader.load();
-            ProductMovementController controller = loader.getController();
+            
             controller.txtProductId.setText(String.valueOf(p.getId()));
             controller.txtProductName.setText(p.getName());
             Scene scene = new Scene(root);
