@@ -81,6 +81,8 @@ public class LoginController implements Initializable{
                     stage.show();
                     Stage loginStage = (Stage) txtUsername.getScene().getWindow();
                     loginStage.close();
+                } else {
+                    AlertMaker.showErrorALert("خطأ في إسم المستخدم أو كلمة المرور");
                 }
             }
             

@@ -14,7 +14,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -23,6 +26,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.Stage;
 
 public class CustomersController implements Initializable{
     
@@ -212,5 +216,30 @@ public class CustomersController implements Initializable{
     }
 
     
+    @FXML 
+    private void showCutomerAccount(ActionEvent event){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/badrbillingsystem/ui/customerAccount.fxml"));
+            Customer customer = tbCustomer.getSelectionModel().getSelectedItem();
+            
+            if(customer == null){
+                AlertMaker.showErrorALert("اختر العميل اولا");
+                return;
+            }
+            
+            CustomerAccountController controller = new CustomerAccountController(customer);
+            loader.setController(controller);
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/badrbillingsystem/resources/style/style.css").toExternalForm());
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("كشف حساب العميل");
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            AlertMaker.showErrorALert(e.toString());
+        }
+    }
     
 }

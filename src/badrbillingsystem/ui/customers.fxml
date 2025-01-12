@@ -33,7 +33,7 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField fx:id="txtName" nodeOrientation="RIGHT_TO_LEFT" prefHeight="42.0" prefWidth="233.0" promptText="اسم العميل" styleClass="textfeild-class">
+                        <TextField fx:id="txtName" nodeOrientation="RIGHT_TO_LEFT" prefHeight="42.0" prefWidth="190.0" promptText="اسم العميل" styleClass="textfeild-class">
                            <HBox.margin>
                               <Insets bottom="10.0" right="10.0" top="10.0" />
                            </HBox.margin>
@@ -47,7 +47,7 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField fx:id="txtPhone" prefHeight="42.0" prefWidth="233.0" promptText="رقم الهاتف" styleClass="textfeild-class">
+                        <TextField fx:id="txtPhone" prefHeight="42.0" prefWidth="190.0" promptText="رقم الهاتف" styleClass="textfeild-class">
                            <HBox.margin>
                               <Insets bottom="10.0" right="10.0" top="10.0" />
                            </HBox.margin>
@@ -90,7 +90,7 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </VBox.margin>
                   </HBox>
-                  <TableView fx:id="tbCustomer" editable="true" prefHeight="700.0" prefWidth="422.0" styleClass="tableview">
+                  <TableView fx:id="tbCustomer" editable="true" prefHeight="527.0" prefWidth="546.0" styleClass="tableview">
                     <columns>
                       <TableColumn fx:id="colId" prefWidth="102.0" text="كود العميل" />
                       <TableColumn fx:id="colName" prefWidth="215.0" text="اسم العميل" />
@@ -100,6 +100,15 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </VBox.margin>
                   </TableView>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#showCutomerAccount" prefHeight="54.0" prefWidth="132.0" styleClass="btn-primary" text="كشف حساب">
+                           <graphic>
+                              <FontAwesomeIcon fill="WHITE" iconName="USER" size="25" />
+                           </graphic>
+                        </Button>
+                     </children>
+                  </HBox>
                </children>
                <HBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

@@ -41,6 +41,9 @@ public class HomeController implements Initializable{
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        // admin permissions
+        
         lbUsername.setText(username);
         System.out.println(lbUsername.getText());
         if(lbUsername.getText().equals("admin")){
@@ -50,12 +53,6 @@ public class HomeController implements Initializable{
             btnReturnDocument.setDisable(true);
             btnUsers.setDisable(true);
         }
-
-//        lbUsername.setText(user.getUsername());
-//        if(!user.getUsername().equals("admin")){
-//            btnUsers.setDisable(true);
-//            btnReturnDocument.setDisable(true);
-//        }
     }
     
     @FXML 
