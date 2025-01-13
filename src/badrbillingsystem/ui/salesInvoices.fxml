@@ -202,6 +202,11 @@
                            <children>
                               <HBox alignment="CENTER_LEFT" prefHeight="71.0" prefWidth="900.0">
                                  <children>
+                                    <TextField fx:id="txtFilterSalesInvoicesListById" onKeyReleased="#filterSalesInvoicesListById" prefHeight="40.0" prefWidth="100.0" promptText="رقم الفاتورة">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </TextField>
                                     <ComboBox fx:id="cbFilterListByCutomer" prefHeight="42.0" prefWidth="261.0" promptText="إختر عميل">
                                        <HBox.margin>
                                           <Insets left="10.0" />

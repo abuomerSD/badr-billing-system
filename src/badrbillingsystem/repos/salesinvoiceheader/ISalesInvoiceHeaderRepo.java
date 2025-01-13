@@ -9,6 +9,7 @@ public interface ISalesInvoiceHeaderRepo {
     boolean update(SalesInvoiceHeader newHeader);
     boolean delete(long id);
     SalesInvoiceHeader findById(long id);
+    ArrayList<SalesInvoiceHeader> findAllById(long id);
 //    SalesInvoiceHeader findByName(String name);
     ArrayList<SalesInvoiceHeader> findAll();
     ArrayList<SalesInvoiceHeader> findByCutomerId(long id);

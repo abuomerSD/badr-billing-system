@@ -164,5 +164,34 @@ public class SalesInvoiceHeaderRepo implements ISalesInvoiceHeaderRepo{
         }
         return list;
     }
+
+    @Override
+    public ArrayList<SalesInvoiceHeader> findAllById(long id) {
+        String sql = "SELECT * FROM TB_SALES_INVOICE_HEADER WHERE ID = " + id ;
+        ArrayList<SalesInvoiceHeader> list = new ArrayList<>();
+        try {
+            Connection con = DBConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            CustomerRepo repo = new CustomerRepo();
+            while(rs.next()) {
+                SalesInvoiceHeader header = new SalesInvoiceHeader();
+                header.setCustomerId(rs.getLong("CUSTOMER_ID"));
+                header.setDate(rs.getString("INVOICE_DATE"));
+                header.setDiscount(rs.getDouble("DISCOUNT"));
+                header.setId(rs.getLong("ID"));
+                header.setTax(rs.getDouble("TAX"));
+                header.setTotal(rs.getDouble("TOTAL"));
+                header.setUserId(rs.getLong("USER_ID"));
+                Customer c = repo.findById(header.getCustomerId());
+                header.setCutomerName(c.getName());
+                list.add(header);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.toString());
+        }
+        return list;
+    }
     
 }

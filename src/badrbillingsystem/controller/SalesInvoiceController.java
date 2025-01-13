@@ -54,6 +54,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.util.converter.DoubleStringConverter;
@@ -140,6 +141,9 @@ public class SalesInvoiceController implements Initializable{
 
     @FXML
     private TextField txtDiscount;
+    
+    @FXML
+    private TextField txtFilterSalesInvoicesListById;
 
     @FXML
     private TextField txtTaxInPercentage;
@@ -364,7 +368,7 @@ public class SalesInvoiceController implements Initializable{
             lbInvoiceId.setText(String.valueOf(headerId));
             btnSaveInvoice.setDisable(true);
             btnPrintInvoice.setDisable(false);
-            
+            gridPane.setDisable(true);
             
             
             
@@ -605,6 +609,7 @@ public class SalesInvoiceController implements Initializable{
             btnPrintInvoice.setDisable(true);
             btnSaveInvoice.setDisable(false);
             lbInvoiceId.setText("0");
+            gridPane.setDisable(false);
         } catch (Exception e) {
             e.printStackTrace();
             AlertMaker.showErrorALert(e.toString());
@@ -726,6 +731,43 @@ public class SalesInvoiceController implements Initializable{
 //                return false;
             }
         }
+        } catch (Exception e) {
+            e.printStackTrace();
+            AlertMaker.showErrorALert(e.toString());
+        }
+    }
+     
+    @FXML
+    void filterSalesInvoicesListById(KeyEvent event) {
+        try {
+            
+            if(txtFilterSalesInvoicesListById.getText().isEmpty()){
+                fillInvoicesListTable();
+                return;
+            }
+            
+            colListCustmerName.setCellValueFactory(new PropertyValueFactory<>("cutomerName"));
+            colListDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+            colListDiscount.setCellValueFactory(new PropertyValueFactory<>("discount"));
+            colListId.setCellValueFactory(new PropertyValueFactory<>("id"));
+            colListTax.setCellValueFactory(new PropertyValueFactory<>("tax"));
+            colListTotal.setCellValueFactory(new PropertyValueFactory<>("total"));
+            
+
+            
+            long id = Long.valueOf(txtFilterSalesInvoicesListById.getText());
+            
+            ObservableList<SalesInvoiceHeader> data = FXCollections.observableArrayList(headerRepo.findAllById(id));
+            System.out.println(data);
+            SortedList<SalesInvoiceHeader> sortedList = new SortedList<>(data);
+            
+            sortedList.comparatorProperty().bind(tbInvoicesList.comparatorProperty());
+            
+            tbInvoicesList.setItems(sortedList);
+            
+            colListId.setSortType(TableColumn.SortType.DESCENDING);
+            tbInvoicesList.getSortOrder().addAll(colListId);
+            
         } catch (Exception e) {
             e.printStackTrace();
             AlertMaker.showErrorALert(e.toString());

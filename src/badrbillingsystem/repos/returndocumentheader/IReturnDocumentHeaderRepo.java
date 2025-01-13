@@ -13,4 +13,5 @@ public interface IReturnDocumentHeaderRepo {
     ReturnDocumentHeader findById(long id);
     ArrayList<ReturnDocumentHeader> findAll();
     ArrayList<ReturnDocumentHeader> findByCustomerId(long customerId);
+    ArrayList<ReturnDocumentHeader> findAllById(long id);
 }

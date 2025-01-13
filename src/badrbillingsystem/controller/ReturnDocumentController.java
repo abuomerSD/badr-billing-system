@@ -43,6 +43,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.KeyEvent;
 import javafx.util.converter.DoubleStringConverter;
 
 
@@ -137,6 +138,9 @@ public class ReturnDocumentController implements Initializable{
 
     @FXML
     private TableColumn<ReturnDocumentHeader, Double> colListTotal;
+    
+    @FXML
+    private TextField txtFilterTableById;
     
     DateFormatter dateFormatter = new DateFormatter();
     CustomerRepo customerRepo = new CustomerRepo();
@@ -484,6 +488,37 @@ public class ReturnDocumentController implements Initializable{
             }
             tbReturnDocumentDetails.getItems().remove(detail);
             calculateTotals();
+        } catch (Exception e) {
+            e.printStackTrace();
+            AlertMaker.showErrorALert(e.toString());
+        }
+    }
+    
+    @FXML
+    void filterTableById(KeyEvent event) {
+        try {
+            String idStr = txtFilterTableById.getText();
+            
+            if(idStr.isEmpty()){
+                ObservableList<ReturnDocumentHeader> data = FXCollections.observableArrayList(returnDocumentHeaderRepo.findAll());
+                fillReturnDocumentHeaderTable(data);
+                return;
+            }
+            
+            
+            colListCustomerName.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+            colListDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+            colListDetails.setCellValueFactory(new PropertyValueFactory<>("details"));
+            colListId.setCellValueFactory(new PropertyValueFactory<>("id"));
+            colListInvoiceId.setCellValueFactory(new PropertyValueFactory<>("salesInvoiceId"));
+            colListTotal.setCellValueFactory(new PropertyValueFactory<>("total"));
+            
+            long id = Long.valueOf(idStr);
+            ObservableList<ReturnDocumentHeader> data = FXCollections.observableArrayList(returnDocumentHeaderRepo.findAllById(id));
+            
+            tbReturnDocumentsList.setItems(data);
+            
+            
         } catch (Exception e) {
             e.printStackTrace();
             AlertMaker.showErrorALert(e.toString());
