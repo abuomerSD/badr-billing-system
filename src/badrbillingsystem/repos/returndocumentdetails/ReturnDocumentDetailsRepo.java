@@ -2,7 +2,9 @@
 package badrbillingsystem.repos.returndocumentdetails;
 
 import badrbillingsystem.database.DBConnection;
+import badrbillingsystem.models.Product;
 import badrbillingsystem.models.ReturnDocumentDetails;
+import badrbillingsystem.repos.product.ProductRepo;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -81,12 +83,15 @@ public class ReturnDocumentDetailsRepo implements IReturnDocumentDetailsRepo{
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
+            ProductRepo repo = new ProductRepo();
             while(rs.next()){
                 ReturnDocumentDetails d = new ReturnDocumentDetails();
                 d.setDetails(rs.getString("DETAILS"));
                 d.setHeaderId(rs.getLong("HEADER_ID"));
                 d.setProductId(rs.getLong("PRODUCT_ID"));
                 d.setQuantity(rs.getDouble("QUANTITY"));
+                Product p = repo.findById(d.getProductId());
+                d.setProductName(p.getName());
                 list.add(d);
             }
         } catch (Exception e) {

@@ -86,11 +86,16 @@ public class ReturnDocumentHeaderRepo implements IReturnDocumentHeaderRepo{
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
+            CustomerRepo repo = new CustomerRepo();
             while(rs.next()) {
                 h.setDate(rs.getString("DOCUMENT_DATE"));
                 h.setDetails(rs.getString("DETAILS"));
                 h.setId(rs.getLong("ID"));
                 h.setSalesInvoiceId(rs.getLong("SALES_INVOICE_ID"));
+                h.setTotal(rs.getDouble("TOTAL"));
+                h.setCustomerId(rs.getLong("CUSTOMER_ID"));
+                Customer c = repo.findById(h.getCustomerId());
+                h.setCustomerName(c.getName());
             }
         } catch (Exception e) {
             e.printStackTrace();

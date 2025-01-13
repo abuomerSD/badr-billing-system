@@ -32,7 +32,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -44,6 +47,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.Stage;
 import javafx.util.converter.DoubleStringConverter;
 
 
@@ -179,21 +183,37 @@ public class ReturnDocumentController implements Initializable{
 
     }
 
-    @FXML
-    void printReturnDocument(ActionEvent event) {
-        try {
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-            AlertMaker.showErrorALert(e.toString());
-        }
-
-    }
+//    @FXML
+//    void printReturnDocument(ActionEvent event) {
+//        try {
+//            
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            AlertMaker.showErrorALert(e.toString());
+//        }
+//
+//    }
 
     @FXML
     void printReturnDocumentFromList(ActionEvent event) {
         try {
+            ReturnDocumentHeader header = tbReturnDocumentsList.getSelectionModel().getSelectedItem();
             
+            if(header == null ){
+                AlertMaker.showErrorALert("اختر المردود اولا");
+                return;
+            }
+            long headerId = header.getId();
+            
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/badrbillingsystem/ui/showReturnDocument.fxml"));
+            ShowReturnDocumentController controller = new ShowReturnDocumentController(headerId);
+            loader.setController(controller);
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/badrbillingsystem/resources/style/style.css").toExternalForm());
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
         } catch (Exception e) {
             e.printStackTrace();
             AlertMaker.showErrorALert(e.toString());

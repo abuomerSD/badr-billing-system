@@ -131,14 +131,6 @@
                                           <FontAwesomeIcon fill="WHITE" iconName="SAVE" size="20" />
                                        </graphic>
                                     </Button>
-                                    <Button mnemonicParsing="false" onAction="#printReturnDocument" prefHeight="62.0" prefWidth="145.0" styleClass="btn-primary" text="طباعة">
-                                       <HBox.margin>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                       </HBox.margin>
-                                       <graphic>
-                                          <FontAwesomeIcon fill="WHITE" iconName="PRINT" size="20" />
-                                       </graphic>
-                                    </Button>
                                     <Button mnemonicParsing="false" onAction="#newReturnDocument" prefHeight="62.0" prefWidth="145.0" styleClass="btn-secondary" text="مردود جديد">
                                        <HBox.margin>
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -195,7 +187,7 @@
                               </HBox>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <Button mnemonicParsing="false" onAction="#printReturnDocumentFromList" prefHeight="59.0" prefWidth="166.0" styleClass="btn-primary" text="طباعة">
+                                    <Button mnemonicParsing="false" onAction="#printReturnDocumentFromList" prefHeight="59.0" prefWidth="166.0" styleClass="btn-primary" text="عرض">
                                        <HBox.margin>
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                        </HBox.margin>
