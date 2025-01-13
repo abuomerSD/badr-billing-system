@@ -47,6 +47,8 @@ public class SalesInvoiceReport {
     float specialWidth[] = {275f,20f,275f};
     
     String fiveTabs= "                  ";
+    String fourTabs = "             ";
+    String threeTabs = "         ";
     
     String almaraiFontRegular = "/badrbillingsystem/resources/fonts/Almarai-Bold.ttf";
     String almaraiFontBold = "/badrbillingsystem/resources/fonts/Almarai-ExtraBold.ttf";
@@ -270,7 +272,7 @@ public class SalesInvoiceReport {
             // qr code
             Image qrCode = Image.getInstance(company.getQrCode());
 //            qrCode.setBorder(0);
-            qrCode.setAbsolutePosition(50, 730);
+            qrCode.setAbsolutePosition(70, 730);
             
             document.add(qrCode);
             
@@ -320,7 +322,7 @@ public class SalesInvoiceReport {
             PdfPCell titleCell = getUnborderdCell("فاتورة ضريبية" + " " + "Tax Invoice", almaraiBold);
             titleCell.setPadding(5);
             
-            PdfPCell invoiceIdCell = getborderdCell("رقم الفاتورة" + "  " + "           " + header.getId() + fiveTabs +"Invoice", almarai);
+            PdfPCell invoiceIdCell = getborderdCell("رقم الفاتورة" + "  " + "           " + header.getId() + threeTabs +"Invoice", almarai);
 
             
             date.addCell(invoiceIdCell);

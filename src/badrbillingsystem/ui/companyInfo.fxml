@@ -155,7 +155,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                      <image>
-                        <Image url="@../resources/images/LOGO-removebg-preview.png" />
+                        <Image url="@../resources/images/smalllogo.png" />
                      </image>
                   </ImageView>
                   <Button mnemonicParsing="false" onAction="#chooseLogo" prefHeight="50.0" prefWidth="70.0" styleClass="btn-secondary">
@@ -197,7 +197,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                      <image>
-                        <Image url="@../resources/images/QR-removebg-preview.png" />
+                        <Image url="@../resources/images/smallqr.png" />
                      </image>
                   </ImageView>
                   <Button mnemonicParsing="false" onAction="#chooseQRCode" prefHeight="50.0" prefWidth="70.0" styleClass="btn-secondary">
