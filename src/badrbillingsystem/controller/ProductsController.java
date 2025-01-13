@@ -2,17 +2,19 @@
 package badrbillingsystem.controller;
 
 import badrbillingsystem.models.Product;
+import badrbillingsystem.models.ProductMovement;
 import badrbillingsystem.repos.product.ProductRepo;
+import badrbillingsystem.repos.productmovement.ProductMovementRepo;
 import badrbillingsystem.utils.AlertMaker;
 import badrbillingsystem.utils.Constants;
 import badrbillingsystem.utils.ImageResizer;
 import badrbillingsystem.utils.NotificationMaker;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.UUID;
@@ -142,6 +144,15 @@ public class ProductsController implements Initializable {
             Optional<ButtonType> result = AlertMaker.showConfirmationAlert("هل تريد حذف المنتج؟");
             if(result.get() != ButtonType.OK)
                 return;
+            
+            ProductMovementRepo movementRepo = new ProductMovementRepo();
+            
+            ArrayList<ProductMovement> list = movementRepo.findAllById(p.getId());
+            
+            if(list.size() > 0) {
+                AlertMaker.showErrorALert("لا يمكن حذف صنف لديه حركة في المبيعات");
+                return;
+            }
             
             if(repo.delete(p.getId())){
                 updateProductTableData();
