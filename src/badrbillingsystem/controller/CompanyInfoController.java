@@ -134,7 +134,7 @@ public class CompanyInfoController implements Initializable{
             System.out.println(logoOutPath);
             System.out.println(qrCodeOutPath);
             
-            ImageResizer.resizeImage(originalQrCode, resizedQrCode, qrCodeExtention, Constants.LOGO_WIDTH, Constants.LOGO_HEIGHT);
+            ImageResizer.resizeImage(originalQrCode, resizedQrCode, qrCodeExtention, Constants.QRCODE_WIDTH, Constants.QRCODE_HEIGHT);
             i.setQrCode(qrCodeOutPath);
             i.setTaxNumber(txtTaxNumber.getText());
             

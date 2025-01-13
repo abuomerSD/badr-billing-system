@@ -257,14 +257,14 @@ public class SalesInvoiceReport {
 //            logo.setBorder(-1);
 //            logo.setWidthPercentage(1);
             logo.setAbsolutePosition(200, 730);
-            logo.setCompressionLevel(2);
-            logo.setScaleToFitHeight(false);
+//            logo.setCompressionLevel(2);
+//            logo.setScaleToFitHeight(false);
             logo.setDpi(100, 100);
             
             document.add(logo);
 //            System.out.println(logo.getBorder());
-            logo.scaleToFit(20,20);
-            logo.setPaddingTop(30);
+//            logo.scaleToFit(20,20);
+//            logo.setPaddingTop(30);
             System.out.println(document.getPageSize());
             
             // qr code

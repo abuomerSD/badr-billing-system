@@ -2,7 +2,9 @@
 package badrbillingsystem.controller;
 
 import badrbillingsystem.models.User;
+import badrbillingsystem.utils.AlertMaker;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -146,6 +149,31 @@ public class HomeController implements Initializable{
             JOptionPane.showMessageDialog(null, e.toString());
         }
         
+    }
+    
+    @FXML
+    void logout(ActionEvent ev) {
+        try {
+            
+            Optional<ButtonType> r = AlertMaker.showConfirmationAlert("هل تريد تسجيل الخروج؟");
+            
+            if(r.get() != ButtonType.OK) {
+                return;
+            }
+            
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/badrbillingsystem/ui/login.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("تسجيل الدخول");
+            stage.show();
+            Stage oldStage = (Stage) borderPane.getScene().getWindow();
+            oldStage.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            AlertMaker.showErrorALert(e.toString());
+        }
     }
     
 }

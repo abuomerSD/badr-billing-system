@@ -307,6 +307,7 @@ public class ReturnDocumentController implements Initializable{
             ObservableList<ReturnDocumentHeader> documentsOL = FXCollections.observableArrayList(documents);
             fillReturnDocumentHeaderTable(documentsOL);
             NotificationMaker.showInformation("تم إضافة مستند مردود المبيعات بنجاح");
+            tbReturnDocumentDetails.setDisable(true);
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -492,6 +493,7 @@ public class ReturnDocumentController implements Initializable{
             txtDiscount.setText("0.0");
             txtTax.setText("0.0");
             txtTotal.setText("0.0");
+            tbReturnDocumentDetails.setDisable(false);
         } catch (Exception e) {
             e.printStackTrace();
             AlertMaker.showErrorALert(e.toString());

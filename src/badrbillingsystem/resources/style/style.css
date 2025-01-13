@@ -24,6 +24,21 @@
     -fx-cursor: hand;
 }
 
+.sidebar-logout-button {
+    -fx-font-family: 'almarai';
+    -fx-background-color: #3A3960;
+    -fx-font-size: 14;
+    -fx-text-fill: white;
+}
+
+.sidebar-logout-button:hover {
+    -fx-font-family: 'almarai';
+    -fx-background-color: #5E686D;
+    -fx-font-size: 14;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
 .sidebar {
     -fx-background-color: #3A3960;
     -fx-font-family: 'almarai';
