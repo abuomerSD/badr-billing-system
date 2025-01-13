@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="700.0" prefWidth="1100.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" >
+<AnchorPane id="AnchorPane" prefHeight="700.0" prefWidth="1100.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
     <stylesheets>
         <URL value="@/badrbillingsystem/resources/style/style.css" />
     </stylesheets>
@@ -99,18 +99,22 @@
                </children></HBox>
             <HBox alignment="CENTER" prefHeight="81.0" prefWidth="900.0">
                <children>
-                  <Label prefHeight="42.0" prefWidth="140.0" text="إجمالي المسحوبات :">
+                  <Label prefHeight="42.0" prefWidth="140.0" text="إجمالي المسحوب">
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </HBox.margin></Label>
-                  <Label fx:id="lbTotalOut" prefHeight="46.0" prefWidth="140.0" text="Label">
+                  <Label fx:id="lbTotalOut" prefHeight="46.0" prefWidth="140.0" text="0.0">
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </HBox.margin></Label>
-                  <Label prefHeight="44.0" prefWidth="140.0" text="Label">
+                  <Label prefHeight="44.0" prefWidth="140.0" text="إجمالي المردود">
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </HBox.margin></Label>
+                  <Label fx:id="lbTotalIn" prefHeight="42.0" prefWidth="140.0" text="0.0" />
+                  <Label prefHeight="42.0" prefWidth="140.0" text="الاجمالي" />
+                  <Label fx:id="lbTotal" prefHeight="42.0" prefWidth="140.0" text="0.0" />
+                  <Label prefHeight="42.0" prefWidth="140.0" text="إجمالي المسحوبات :" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="90.0" prefWidth="900.0">

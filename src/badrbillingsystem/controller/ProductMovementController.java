@@ -8,10 +8,9 @@ import badrbillingsystem.repos.productmovement.ProductMovementRepo;
 import badrbillingsystem.utils.AlertMaker;
 import badrbillingsystem.utils.DateFormatter;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -73,6 +72,12 @@ public class ProductMovementController implements Initializable {
     
     
     @FXML
+    Label lbTotalIn;
+    
+    @FXML
+    Label lbTotal;
+    
+    @FXML
     public TextField txtProductId;
 
     @FXML
@@ -112,7 +117,7 @@ public class ProductMovementController implements Initializable {
     private Label lbTotalOut;
     
     ProductMovementRepo repo = new ProductMovementRepo();
-    
+    DecimalFormat decimalFormat = new DecimalFormat("#,###,###.##");
     
 
     @FXML
@@ -133,6 +138,7 @@ public class ProductMovementController implements Initializable {
 //            long id = Long.valueOf(txtProductId.getText());
             ObservableList data = FXCollections.observableArrayList(repo.findAllById(productId));
             tbProduct.setItems(data);
+            calculateTotals(data);
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -141,16 +147,16 @@ public class ProductMovementController implements Initializable {
     }
     
     @FXML
-    private void filterTable(String fromDate, String toDate , long customerId) {
+    private void filterTable(long productId, String fromDate, String toDate , long customerId) {
         try {
             
             ObservableList<ProductMovement> data;
             if(customerId == 0) {
-                 data = FXCollections.observableArrayList(repo.findAllByDateRange(fromDate, toDate));
+                 data = FXCollections.observableArrayList(repo.findAllByDateRange(fromDate, toDate, productId));
             } else if(customerId > 0 && (fromDate.isEmpty() || toDate.isEmpty())) {
-                 data = FXCollections.observableArrayList(repo.findAllByCustomerId(customerId));
+                 data = FXCollections.observableArrayList(repo.findAllByCustomerId(customerId, productId));
             } else {
-                data = FXCollections.observableArrayList(repo.findAllByKeywords(fromDate, toDate, customerId));
+                data = FXCollections.observableArrayList(repo.findAllByKeywords(productId ,fromDate, toDate, customerId));
             }
             
             colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
@@ -160,6 +166,10 @@ public class ProductMovementController implements Initializable {
             colOut.setCellValueFactory(new PropertyValueFactory<>("salesQuantity"));
             
             tbProduct.setItems(data);
+            
+            // set totals labels
+            
+            calculateTotals(data);
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -187,7 +197,7 @@ public class ProductMovementController implements Initializable {
     void searchButtonOnAction(ActionEvent event) {
         try {
             String fromDate = "";
-                String toDate = "";
+            String toDate = "";
                 try{
                    fromDate = dateFormatter.format(dpFromDate.getValue());
                 
@@ -196,14 +206,37 @@ public class ProductMovementController implements Initializable {
                     e.printStackTrace();
                 }
                 
+                long productId = Long.valueOf(txtProductId.getText());
                 
                 String customerName = cbCustomerName.getSelectionModel().getSelectedItem();
                 CustomerRepo customerRepo =  new CustomerRepo();
                 Customer customer = customerRepo.findByName(customerName);
-                filterTable(fromDate, toDate, customer.getId());
+                filterTable(productId, fromDate, toDate, customer.getId());
         } catch (Exception e) {
             e.printStackTrace();
             AlertMaker.showErrorALert(e.toString());
+        }
+    }
+    
+    
+    void calculateTotals(ObservableList<ProductMovement> data){
+        try {
+            long totalIn = 0;
+            long totalOut = 0;
+            long total = 0;
+                    
+            for (ProductMovement movement : data) {
+                totalIn += movement.getReturnQuantity();
+                totalOut += movement.getSalesQuantity();
+            }
+            
+            total = totalOut - totalIn;
+            
+            lbTotal.setText(decimalFormat.format(total));
+            lbTotalIn.setText(decimalFormat.format(totalIn));
+            lbTotalOut.setText(decimalFormat.format(totalOut));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

@@ -12,6 +12,8 @@ public interface IProductMovementRepo {
     boolean deleteBySalesInvoiceId(long productId, long invoiceId);
     boolean deleteByReturnInvoiceId(long productId, long invoiceId);
     ArrayList<ProductMovement> findAllById(long id); 
-    ArrayList<ProductMovement> findAllByKeywords(String fromDate, String toDate, long customerId);
-    ArrayList<ProductMovement> findAllByDateRange(String fromDate, String toDate);
+//    ArrayList<ProductMovement> findAllByKeywords(String fromDate, String toDate, long customerId);
+    ArrayList<ProductMovement> findAllByDateRange(String fromDate, String toDate, long productId);
+    ArrayList<ProductMovement> findAllByKeywords(long productId, String fromDate, String toDate, long customerId);
+    ArrayList<ProductMovement> findAllByCustomerId(long customerId, long productId);
 }
