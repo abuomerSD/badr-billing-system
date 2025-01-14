@@ -86,8 +86,12 @@ public class SalesInvoiceReport {
            double invoiceDiscount = header.getDiscount();
            
            double oldTotalWithoutTaxAndDiscount = (invoiceTotal + tax) - invoiceDiscount;
+           double oldTotalWithoutTaxAndDiscount1 = (invoiceTotal - tax) + invoiceDiscount;
            
-           double taxPercentage = tax / oldTotalWithoutTaxAndDiscount;
+//           double taxPercentage = tax / oldTotalWithoutTaxAndDiscount;
+           double taxPercentage = tax / oldTotalWithoutTaxAndDiscount1;
+//           double taxPercentage = (tax / invoiceTotal - invoiceDiscount) ;
+
             addPageHeader(document, id, header, details, c, pageNumber);
            int productsPerPage = 17;
            int rowNumber = 1;
@@ -105,13 +109,16 @@ public class SalesInvoiceReport {
 //                PdfPTable productsDetailsInnerTable = new PdfPTable(fullPageWidth);
                 PdfPTable productsDetailsInnerTable = new PdfPTable(productsTableWidth);
                 
-                PdfPCell pdTotalCell = getUnborderdCell(decimalFormat.format(detail.getTotal()), almarai);
-                pdTotalCell.setHorizontalAlignment(1);
-                PdfPCell pdQuantityCell = getUnborderdCell(decimalFormat.format(detail.getQuantity()), almarai);
-                pdQuantityCell.setHorizontalAlignment(1);
                 double pPrice = detail.getPrice();
                 double ptax = pPrice * taxPercentage;
                 double pPriceWithTax = ptax+ pPrice;
+                double pTotal = pPriceWithTax * detail.getQuantity();
+                
+                PdfPCell pdTotalCell = getUnborderdCell(decimalFormat.format(pTotal), almarai);
+                pdTotalCell.setHorizontalAlignment(1);
+                PdfPCell pdQuantityCell = getUnborderdCell(decimalFormat.format(detail.getQuantity()), almarai);
+                pdQuantityCell.setHorizontalAlignment(1);
+                
                 PdfPCell pdPriceWithTaxCell = getUnborderdCell(decimalFormat.format(pPriceWithTax), almarai);
                 pdPriceWithTaxCell.setHorizontalAlignment(1);
                 PdfPCell pdTaxCell = getUnborderdCell(decimalFormat.format(ptax), almarai);
