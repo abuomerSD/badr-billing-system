@@ -66,7 +66,7 @@ public class SalesInvoiceController implements Initializable{
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        fillProductsGrid();
+        fillProductsGrid("");
         tbInvocieDetails.setPlaceholder(new Label("لا توجد بيانات"));
         setInvoiceDate();
         fillCustomersComboBox();
@@ -115,7 +115,7 @@ public class SalesInvoiceController implements Initializable{
     private TextField txtCutomerPhone;
 
     @FXML
-    private TextField txtSearchCustomer;
+    private TextField txtSearchProduct;
 
     @FXML
     private GridPane gridPane;
@@ -398,10 +398,26 @@ public class SalesInvoiceController implements Initializable{
     }
     
     ProductRepo productRepo = new ProductRepo();
-    private void fillProductsGrid() {
+    private void fillProductsGrid(String keywords) {
         try {
             
-            ArrayList<Product> products = productRepo.findAll();
+            ArrayList<Product> products = new ArrayList<>();
+            
+            if(keywords.isEmpty()){
+                
+                gridPane.getChildren().clear();
+                products.clear();
+                
+                
+                products = productRepo.findAll();
+            }
+            else {
+
+                gridPane.getChildren().clear();
+                products.clear();
+                
+                products = productRepo.findBySearchWords(keywords);
+            }
             
             int column = 0;
             int row = 0;
@@ -617,7 +633,7 @@ public class SalesInvoiceController implements Initializable{
         try {
             txtCutomerPhone.setText("");
             txtDiscount.setText("0.0");
-            txtSearchCustomer.setText("");
+            txtSearchProduct.setText("");
             txtSubTotal.setText("0.0");
             txtTaxInNumber.setText("0.0");
             txtTaxInPercentage.setText("0.0");
@@ -791,6 +807,13 @@ public class SalesInvoiceController implements Initializable{
             e.printStackTrace();
             AlertMaker.showErrorALert(e.toString());
         }
+    }
+    
+    
+    @FXML
+    void filterProductsGrid(KeyEvent ev){
+        String keywords = txtSearchProduct.getText();
+        fillProductsGrid(keywords);
     }
 
 }
