@@ -273,6 +273,10 @@ public class SalesInvoiceController implements Initializable{
             customerAccountRepo.deleteBySalesInvoiceId(headerId, header.getCustomerId());
             NotificationMaker.showInformation("تم حذف الفاتورة بنجاح");
             fillInvoicesListTable();
+            
+            // delete invoice pdf
+            File invoiceFile = new File(Constants.SALES_INVOICE_SUFFIX + headerId + Constants.SALES_INVOICE_EXTENTION);
+            invoiceFile.delete();
         } catch (Exception e) {
             e.printStackTrace();
             AlertMaker.showErrorALert(e.toString());
