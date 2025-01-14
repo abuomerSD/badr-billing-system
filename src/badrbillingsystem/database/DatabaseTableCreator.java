@@ -233,10 +233,10 @@ public class DatabaseTableCreator {
             info.setAddress("المدينة المنورة الحرة الشرقية - طريق الملك عبد العزيز");
             info.setBranch("الفرع الرئيسي");
             info.setInstructions("البضاعة المباعة لا ترد و لا تستبدل الا بحضور الفاتورة الاصل. * العدد اليدوية لا ترد و لا تستبدل * الدينموهات و الغطاسات و اوتوماتيك دينمو ضمان الشركة و ليس المحل * الدريلات و الصواريخ و الخلاطات و الشطافات ضمان الشركة * التوصيلات الكهربائية و اللمبات و مراوح الشفط ضمان الشركة");
-            info.setLogo("src/badrbillingsystem/resources/images/smalllogo.png");
+            info.setLogo("resources/images/smalllogo.png");
             info.setName("مؤسسة بن سعد للتجارة");
             info.setPhone("0539068795");
-            info.setQrCode("src/badrbillingsystem/resources/images/smallqr.png");
+            info.setQrCode("resources/images/smallqr.png");
             info.setTaxNumber("300414463400003");
             
             ArrayList<CompanyInfo> list = repo.findAll();

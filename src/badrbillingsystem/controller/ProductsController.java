@@ -11,6 +11,7 @@ import badrbillingsystem.utils.ImageResizer;
 import badrbillingsystem.utils.NotificationMaker;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -18,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -107,7 +110,7 @@ public class ProductsController implements Initializable {
     
     ObservableList<Product> data ;
     ProductRepo repo = new ProductRepo();
-    String imagePath = "src/badrbillingsystem/resources/images/default.jpg";
+    String imagePath = "resources/images/default.jpg";
 
     @FXML
     void OpenFileChooser(ActionEvent event) {

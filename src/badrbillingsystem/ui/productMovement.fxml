@@ -118,7 +118,7 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="90.0" prefWidth="900.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#printReport" prefHeight="67.0" prefWidth="164.0" styleClass="btn-primary" text="طباعة">
+                  <Button mnemonicParsing="false" onAction="#printReport" prefHeight="67.0" prefWidth="164.0" styleClass="btn-primary" text="طباعة" visible="false">
                      <graphic>
                         <FontAwesomeIcon fill="WHITE" iconName="PRINT" size="25" />
                      </graphic>
