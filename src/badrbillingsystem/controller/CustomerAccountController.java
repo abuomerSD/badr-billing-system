@@ -122,6 +122,7 @@ public class CustomerAccountController implements Initializable{
             DateFormatter dateFormatter = new DateFormatter();
             
             String fromDate = dateFormatter.format(dpFromDate.getValue());
+//            String fromDate = String.valueOf(dpFromDate.getValue());
             String toDate = dateFormatter.format(dpToDate.getValue());
             
             if(fromDate.isEmpty() || toDate.isEmpty()) {

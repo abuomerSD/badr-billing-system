@@ -162,13 +162,14 @@ public class CustomerAccountRepo implements ICustomerAccountRepo{
     @Override
     public ArrayList<CustomerAccount> findByDates(String fromDate, String toDate) {
         String sql = "SELECT * FROM TB_CUTOMER_ACCOUNT WHERE TRANSACTION_DATE BETWEEN ? AND ?";
+        String sql2 = "SELECT * FROM TB_CUTOMER_ACCOUNT WHERE (TRANSACTION_DATE >= date(?)) AND (TRANSACTION_DATE <= date(?))";
         ArrayList<CustomerAccount> list = new ArrayList<>();
         try {
             Connection con = DBConnection.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, fromDate);
             ps.setString(2, toDate);
-            
+            System.out.println(ps.toString());
             ResultSet rs = ps.executeQuery();
             double totalBalance = 0;
             while(rs.next()) {
