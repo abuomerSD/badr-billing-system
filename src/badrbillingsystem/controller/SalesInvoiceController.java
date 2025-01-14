@@ -5,6 +5,7 @@ import badrbillingsystem.models.Customer;
 import badrbillingsystem.models.CustomerAccount;
 import badrbillingsystem.models.Product;
 import badrbillingsystem.models.ProductMovement;
+import badrbillingsystem.models.ReturnDocumentHeader;
 import badrbillingsystem.models.SalesInvoiceDetails;
 import badrbillingsystem.models.SalesInvoiceHeader;
 import badrbillingsystem.reports.SalesInvoiceReport;
@@ -12,6 +13,7 @@ import badrbillingsystem.repos.customer.CustomerRepo;
 import badrbillingsystem.repos.customeraccount.CustomerAccountRepo;
 import badrbillingsystem.repos.product.ProductRepo;
 import badrbillingsystem.repos.productmovement.ProductMovementRepo;
+import badrbillingsystem.repos.returndocumentheader.ReturnDocumentHeaderRepo;
 import badrbillingsystem.repos.salesinvoicedetails.SalesInvoiceDetailsRepo;
 import badrbillingsystem.repos.salesinvoiceheader.SalesInvoiceHeaderRepo;
 import badrbillingsystem.utils.AlertMaker;
@@ -247,6 +249,17 @@ public class SalesInvoiceController implements Initializable{
             if (r.get() != ButtonType.OK) {
                 return;
             }
+            
+            ReturnDocumentHeaderRepo rDocRepo = new ReturnDocumentHeaderRepo();
+            ArrayList<ReturnDocumentHeader> list = rDocRepo.findAll();
+            
+            for (ReturnDocumentHeader rDoc : list) {
+                if(headerId  == rDoc.getSalesInvoiceId()) {
+                    AlertMaker.showErrorALert("هناك مردود مبيعات لهذه الفاتورة  . قم بحذفه اولا");
+                    return;
+                }
+            }
+            
             headerRepo.delete(headerId);
             
             ArrayList<SalesInvoiceDetails> details = detailsRepo.findAllByHeaderId(headerId);
@@ -302,6 +315,8 @@ public class SalesInvoiceController implements Initializable{
                 AlertMaker.showErrorALert("اختر عميل اولا");
                 return;
             }
+            
+            
             
             for (SalesInvoiceDetails d : data) {
                 if (d.getQuantity() == 0) {
