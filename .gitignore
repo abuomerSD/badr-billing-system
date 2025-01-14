@@ -22,4 +22,5 @@ nb-configuration.xml
 .DS_Store
 
 out/
+docs/
 *.pdf
