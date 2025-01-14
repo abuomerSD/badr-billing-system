@@ -184,7 +184,7 @@ public class ReturnDocumentController implements Initializable{
             for (ReturnDocumentDetails d : list) {
                 long productId = d.getProductId();
                 returnDocumentDetailsRepo.delete(headerId, productId);
-                productMovementRepo.deleteByReturnInvoiceId(headerId, productId);
+                productMovementRepo.deleteByReturnInvoiceId(productId, headerId);
             }
             
             customerAccountRepo.deleteByReturnDocumentId(headerId, header.getCustomerId());

@@ -111,6 +111,11 @@ public class UsersController  implements Initializable{
             u.setUsername(username);
             u.setPassword(password);
             
+            if(password.length() < 4) {
+                AlertMaker.showErrorALert("ادخل كلمة مرور اكبر من ٣ حروف او ارقام");
+                return;
+            }
+            
             if(repo.save(u)) {
                 clearTextFields();
                 fillUsersTable();
@@ -151,6 +156,11 @@ public class UsersController  implements Initializable{
             
             if(result.get() != ButtonType.OK)
                 return;
+            
+            if(password.length() < 4) {
+                AlertMaker.showErrorALert("ادخل كلمة مرور اكبر من ٣ حروف او ارقام");
+                return;
+            }
             
             if(repo.update(u)) {
                 clearTextFields();
