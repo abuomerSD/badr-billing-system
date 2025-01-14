@@ -114,7 +114,6 @@
                   <Label fx:id="lbTotalIn" prefHeight="42.0" prefWidth="140.0" text="0.0" />
                   <Label prefHeight="42.0" prefWidth="140.0" text="الاجمالي" />
                   <Label fx:id="lbTotal" prefHeight="42.0" prefWidth="140.0" text="0.0" />
-                  <Label prefHeight="42.0" prefWidth="140.0" text="إجمالي المسحوبات :" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="90.0" prefWidth="900.0">

@@ -36,6 +36,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -146,6 +147,9 @@ public class ReturnDocumentController implements Initializable{
     @FXML
     private TextField txtFilterTableById;
     
+    @FXML
+    private Button btnSave;
+    
     DateFormatter dateFormatter = new DateFormatter();
     CustomerRepo customerRepo = new CustomerRepo();
     ReturnDocumentHeaderRepo returnDocumentHeaderRepo = new ReturnDocumentHeaderRepo();
@@ -161,6 +165,33 @@ public class ReturnDocumentController implements Initializable{
     @FXML
     void deleteReturnDocumentFromList(ActionEvent event) {
         try {
+            ReturnDocumentHeader header = tbReturnDocumentsList.getSelectionModel().getSelectedItem();
+            if(header == null){
+                AlertMaker.showErrorALert("اختر مردود اولا");
+                return;
+            }
+            
+            Optional<ButtonType> r = AlertMaker.showConfirmationAlert("هل تريد حذف المردود؟");
+            
+            if(r.get() != ButtonType.OK) {
+                return;
+            }
+            
+            long headerId = header.getId();
+            returnDocumentHeaderRepo.delete(headerId);
+            ArrayList<ReturnDocumentDetails> list = returnDocumentDetailsRepo.findAllByHeaderId(headerId);
+            
+            for (ReturnDocumentDetails d : list) {
+                long productId = d.getProductId();
+                returnDocumentDetailsRepo.delete(headerId, productId);
+                productMovementRepo.deleteByReturnInvoiceId(headerId, productId);
+            }
+            
+            customerAccountRepo.deleteByReturnDocumentId(headerId, header.getCustomerId());
+            
+            ObservableList<ReturnDocumentHeader> data = FXCollections.observableArrayList(returnDocumentHeaderRepo.findAll());
+            fillReturnDocumentHeaderTable(data);
+            
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -308,6 +339,10 @@ public class ReturnDocumentController implements Initializable{
             fillReturnDocumentHeaderTable(documentsOL);
             NotificationMaker.showInformation("تم إضافة مستند مردود المبيعات بنجاح");
             tbReturnDocumentDetails.setDisable(true);
+            btnSave.setDisable(true);
+            txtSalesInvoiceId.setDisable(true);
+            txtDetails.setDisable(true);
+            dpDate.setDisable(true);
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -494,6 +529,10 @@ public class ReturnDocumentController implements Initializable{
             txtTax.setText("0.0");
             txtTotal.setText("0.0");
             tbReturnDocumentDetails.setDisable(false);
+            btnSave.setDisable(false);
+            txtSalesInvoiceId.setDisable(false);
+            txtDetails.setDisable(false);
+            dpDate.setDisable(false);
         } catch (Exception e) {
             e.printStackTrace();
             AlertMaker.showErrorALert(e.toString());

@@ -6,6 +6,7 @@ import badrbillingsystem.models.CustomerAccount;
 import badrbillingsystem.repos.customer.CustomerRepo;
 import badrbillingsystem.repos.customeraccount.CustomerAccountRepo;
 import badrbillingsystem.utils.AlertMaker;
+import badrbillingsystem.utils.DateFormatter;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -117,8 +118,11 @@ public class CustomerAccountController implements Initializable{
     @FXML 
     void filterTableByDate(ActionEvent event){
         try {
-            String fromDate = dpFromDate.getValue().toString();
-            String toDate = dpToDate.getValue().toString();
+            
+            DateFormatter dateFormatter = new DateFormatter();
+            
+            String fromDate = dateFormatter.format(dpFromDate.getValue());
+            String toDate = dateFormatter.format(dpToDate.getValue());
             
             if(fromDate.isEmpty() || toDate.isEmpty()) {
                 AlertMaker.showErrorALert("اختر التواريخ اولا");
@@ -130,6 +134,18 @@ public class CustomerAccountController implements Initializable{
             
             ArrayList<CustomerAccount> list = customerAccountRepo.findByDates(fromDate, toDate);
             ObservableList<CustomerAccount> data = FXCollections.observableArrayList(list);
+            
+            
+            double total = 0;
+            double totalIn = 0;
+            double totalOut = 0;
+            for (CustomerAccount customerAccount : data) {
+                totalOut = customerAccount.getOutgoing();
+                totalIn = customerAccount.getIncoming();
+                total = total + (totalOut - totalIn);
+            }
+            
+            txtTotal.setText(String.valueOf(total) + " ريال سعودي");
             
             colBalance.setCellValueFactory(new PropertyValueFactory<>("balance"));
             colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
