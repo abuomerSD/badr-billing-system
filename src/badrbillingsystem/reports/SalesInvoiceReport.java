@@ -240,6 +240,8 @@ public class SalesInvoiceReport {
             
 //            PdfPTable companyInfoTable = new PdfPTable(testWidth);
             PdfPTable companyInfoTable = new PdfPTable(oneColWidth);
+            companyInfoTable.getDefaultCell().setBorder(PdfPCell.NO_BORDER);
+            
             PdfPCell companyInfo = getUnborderdCell("       " + company.getName() + "\n\n"
                     + "مواد بناء - سباكة - مواد كهرباء - نجارة" + "\n\n"
                     +"                  " +company.getPhone()+ "        " + "\n\n"
@@ -260,15 +262,42 @@ public class SalesInvoiceReport {
             
 //            companyInfoTable.addCell(companyInfo);
             companyInfoTable.addCell(taxNumberCell);
+//            companyInfoTable.addCell(taxNumberCell1);
+
+            PdfPTable tb1 = new PdfPTable(oneColWidth);
+            tb1.addCell(taxNumberCell1);
+            PdfPTable tb2 = new PdfPTable(oneColWidth);
+            tb2.addCell(taxNumberCell2);
+            PdfPTable tb3 = new PdfPTable(oneColWidth);
+            tb3.addCell(taxNumberCell3);
+            PdfPTable tb4 = new PdfPTable(oneColWidth);
+            tb4.addCell(taxNumberCell4);
+            PdfPTable tb5 = new PdfPTable(oneColWidth);
+            tb5.addCell(taxNumberCell);
+//            PdfPTable tb6 = new PdfPTable(oneColWidth);
+
+            document.add(tb1);
+            document.add(tb2);
+            document.add(tb3);
+            document.add(tb4);
+//            document.add(tb5);
             
+            PdfPTable tb6 = new PdfPTable(threeColWidth);
+            PdfPCell emptycell1 = getUnborderdCell("", almarai);
+            emptycell1.setBorder(0);
+            tb6.addCell(emptycell1);
+            tb6.addCell(emptycell1);
+            tb6.addCell(taxNumberCell);
+            
+            document.add(tb6);
             // logo
             Image logo = Image.getInstance(company.getLogo());
 //            logo.setBorder(-1);
 //            logo.setWidthPercentage(1);
-            logo.setAbsolutePosition(200, 730);
+            logo.setAbsolutePosition(220, 730);
 //            logo.setCompressionLevel(2);
 //            logo.setScaleToFitHeight(false);
-            logo.setDpi(100, 100);
+//            logo.setDpi(100, 100);
             
             document.add(logo);
 //            System.out.println(logo.getBorder());
@@ -279,19 +308,21 @@ public class SalesInvoiceReport {
             // qr code
             Image qrCode = Image.getInstance(company.getQrCode());
 //            qrCode.setBorder(0);
-            qrCode.setAbsolutePosition(70, 730);
+            qrCode.setAbsolutePosition(90, 730);
             
             document.add(qrCode);
-            
+            companyInfoTable.getDefaultCell().setBorder(PdfPCell.NO_BORDER);
             // add to table
             tbCompanyInfoAndLogos.addCell(getUnborderdCell("", almarai));
             tbCompanyInfoAndLogos.addCell(getUnborderdCell("", almarai));
             tbCompanyInfoAndLogos.addCell(companyInfoTable);
             
+            tbCompanyInfoAndLogos.getDefaultCell().setBorder(PdfPCell.NO_BORDER);
+            
             Paragraph p = new Paragraph("اختبار", almarai);
 //            p.set
             
-            document.add(tbCompanyInfoAndLogos);
+//            document.add(tbCompanyInfoAndLogos);
             
             
             // line break
