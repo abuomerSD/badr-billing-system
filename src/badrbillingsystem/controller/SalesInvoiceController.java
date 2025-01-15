@@ -66,6 +66,7 @@ public class SalesInvoiceController implements Initializable{
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        deleteAllOldInvoicesPdfFiles();
         fillProductsGrid("");
         tbInvocieDetails.setPlaceholder(new Label("لا توجد بيانات"));
         setInvoiceDate();
@@ -636,7 +637,7 @@ public class SalesInvoiceController implements Initializable{
             txtSearchProduct.setText("");
             txtSubTotal.setText("0.0");
             txtTaxInNumber.setText("0.0");
-            txtTaxInPercentage.setText("0.0");
+            txtTaxInPercentage.setText("15");
             txtTotal.setText("0.0");
             data.clear();
             cbCustomerName.getSelectionModel().clearSelection();
@@ -645,6 +646,7 @@ public class SalesInvoiceController implements Initializable{
             btnSaveInvoice.setDisable(false);
             lbInvoiceId.setText("0");
             gridPane.setDisable(false);
+            calculateTotals();
         } catch (Exception e) {
             e.printStackTrace();
             AlertMaker.showErrorALert(e.toString());
@@ -676,7 +678,7 @@ public class SalesInvoiceController implements Initializable{
             colListId.setSortType(TableColumn.SortType.DESCENDING);
             tbInvoicesList.getSortOrder().addAll(colListId);
             
-            
+            deleteAllOldInvoicesPdfFiles();
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -693,7 +695,7 @@ public class SalesInvoiceController implements Initializable{
             
             if(c == null)
             {
-                filterInvoicesListTable();
+                fillInvoicesListTable();
                 return;
             }
                 
@@ -814,6 +816,20 @@ public class SalesInvoiceController implements Initializable{
     void filterProductsGrid(KeyEvent ev){
         String keywords = txtSearchProduct.getText();
         fillProductsGrid(keywords);
+    }
+
+    private void deleteAllOldInvoicesPdfFiles() {
+        try {
+            String pdfsPath = "out/docs/";
+            
+            File pdfsFolder = new File(pdfsPath);
+            
+            for(File file : pdfsFolder.listFiles()){
+                file.delete();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -19,7 +19,7 @@ public class DatabaseTableCreator {
         createCustomerAccountTable();
         createProductsTable();
         createUsersTable();
-        insertAdminUser();
+        
         createCompanyInfoTable();
         createSalesInvoiceHeaderTable();
         createSalesInvoiceDetailsTable();
@@ -27,6 +27,7 @@ public class DatabaseTableCreator {
         createReturnDocumentHeaderTable();
         createReturnDocumentDetailsTable();
         insertDefaultCompanyInfo();
+        insertAdminUser();
     }
     
     private static void createCustomersTable(){
@@ -60,7 +61,7 @@ public class DatabaseTableCreator {
             st.execute(sql);
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, e.toString());
+//            JOptionPane.showMessageDialog(null, e.toString());
         }
         
     }
@@ -78,7 +79,7 @@ public class DatabaseTableCreator {
             st.execute(sql);
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, e.toString());
+//            JOptionPane.showMessageDialog(null, e.toString());
         }
     }
 
@@ -97,7 +98,7 @@ public class DatabaseTableCreator {
             repo.save(u);
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, e.toString());
+//            JOptionPane.showMessageDialog(null, e.toString());
         }
     }
 
@@ -119,7 +120,7 @@ public class DatabaseTableCreator {
             st.execute(sql);
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, e.toString());
+//            JOptionPane.showMessageDialog(null, e.toString());
         }
     }
 
@@ -141,7 +142,7 @@ public class DatabaseTableCreator {
             st.execute(sql);
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, e.toString());
+//            JOptionPane.showMessageDialog(null, e.toString());
         }
     }
 
@@ -161,7 +162,7 @@ public class DatabaseTableCreator {
             st.execute(sql);
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, e.toString());
+//            JOptionPane.showMessageDialog(null, e.toString());
         }
     }
 
@@ -184,7 +185,7 @@ public class DatabaseTableCreator {
             st.execute(sql);
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, e.toString());
+//            JOptionPane.showMessageDialog(null, e.toString());
         }
     }
 
@@ -204,7 +205,7 @@ public class DatabaseTableCreator {
             st.execute(sql);
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, e.toString());
+//            JOptionPane.showMessageDialog(null, e.toString());
         }
     }
 
@@ -222,7 +223,7 @@ public class DatabaseTableCreator {
             st.execute(sql);
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, e.toString());
+//            JOptionPane.showMessageDialog(null, e.toString());
         }
     }
 
@@ -247,7 +248,7 @@ public class DatabaseTableCreator {
             
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, e.toString());
+//            JOptionPane.showMessageDialog(null, e.toString());
         }
     }
 
@@ -268,7 +269,7 @@ public class DatabaseTableCreator {
             st.execute(sql);
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, e.toString());
+//            JOptionPane.showMessageDialog(null, e.toString());
         }
     }
 }
