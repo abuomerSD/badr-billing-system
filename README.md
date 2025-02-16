@@ -8,7 +8,7 @@ A desktop application was developed using JavaFX and SQLite to manage products a
 - iTextPDF for generating and printing high-quality sales invoices in PDF format
 
 ### Images:
-![image1](/images/Screen Shot 2025-01-15 at 9.38.17 AM)
+![image1](./images/Screen Shot 2025-01-15 at 9.38.17 AM)
 ![image1](/images/Screen Shot 2025-01-15 at 9.38.34 AM)
 ![image1](/images/Screen Shot 2025-01-15 at 9.41.14 AM)
 ![image1](/images/Screen Shot 2025-01-15 at 9.41.28 AM)
